@@ -1,0 +1,63 @@
+.row-my
+{
+    justify-content: center;
+display: flex;
+height: 65vh;
+align-items: center;
+}
+
+
+.col-md-my{
+    display: flex;
+justify-content: center;
+}
+
+.card-my{
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #636b6f6b;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+.card-header-my{
+    text-align: center;
+font-size: 40px;
+
+
+color: white;
+margin: 10px;
+}
+
+
+.card-body-my{
+    margin: 10px;
+}
+
+.input-dev{
+    margin: 7px 0px;
+width: 65%;
+}
+
+.login-my{
+    display: flex;
+justify-content: space-between;
+width: 100%;
+}
+
+.icon-eye{
+    font-size: 19px;
+position: absolute;
+top: 9px;
+right: 23px;
+cursor: pointer;
+}
+
+.input-cen{
+    display: flex;
+align-items: center;
+}
+
+
+.icon-eye-active{
+    color:#3097d1 ;
+}

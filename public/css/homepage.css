@@ -1,0 +1,49 @@
+.box-post {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #3e3c3c47;
+    width: 100%;
+  }
+
+  .box-post .box-title {
+    display: flex;
+    align-items: center;
+  }
+
+  .box-footer {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 85%;
+    margin-top: 20px;
+  }
+
+  .box-title .box-image {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 20px;
+  }
+
+  .box-image img {
+    width: 40px;
+  }
+
+  .box-body a {
+    display: inline-flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: 5px;
+    width: 100%;
+    color: #636b6f;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+  .box-body a {
+    color: #636b6f;
+    cursor: pointer;
+  }
