@@ -2,14 +2,16 @@
 <div id="nav-top">
     <div class="container">
         <!-- social -->
-       
+        <ul class="nav-social">
+            <h1><li><a href="#">Premium</i></a></li></h1>
+        </ul>
         <!-- /social -->
 
-        <!-- logo -->
+        {{-- <!-- logo -->
         <div class="nav-logo">
             <a href="/" class="logo">Premium</a>
         </div>
-        <!-- /logo -->
+        <!-- /logo --> --}}
 
         <!-- search & aside toggle -->
         <div class="nav-btns">

@@ -425,6 +425,7 @@ textarea.input {
   position: relative;
   text-align: center;
   float: none;
+  top: 20px;
 }
 
 .nav-menu>li {
@@ -434,10 +435,10 @@ textarea.input {
 
 .nav-menu>li>a {
   display: block;
-  padding: 25px 15px;
+  padding: 25px 20px;
   line-height: 20px;
   font-weight: 700;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 
 /*----------------------------*\
