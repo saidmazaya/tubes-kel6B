@@ -12,7 +12,7 @@
 
         <!-- logo -->
         <div class="nav-logo">
-            <a href="index.html" class="logo"><img src="./img/logo.png" alt=""></a>
+            <a href="/" class="logo">Premium</a>
         </div>
         <!-- /logo -->
 
