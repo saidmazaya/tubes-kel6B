@@ -1,5 +1,5 @@
 <!-- Main Nav -->
-<div id="nav-bottom">
+<div id="nav-bottom mr-auto">
     <div class="container">
         <!-- nav -->
         <ul class="nav-menu">
