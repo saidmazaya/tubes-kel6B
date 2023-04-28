@@ -10,6 +10,8 @@
 namespace PHPUnit\Logging\TestDox;
 
 use function assert;
+use function ksort;
+use function usort;
 use PHPUnit\Event\Code\TestMethod;
 use PHPUnit\Event\Code\Throwable;
 use PHPUnit\Event\EventFacadeIsSealedException;
@@ -58,9 +60,9 @@ final class TestResultCollector
      * @throws EventFacadeIsSealedException
      * @throws UnknownSubscriberTypeException
      */
-    public function __construct()
+    public function __construct(Facade $facade)
     {
-        $this->registerSubscribers();
+        $this->registerSubscribers($facade);
     }
 
     /**
@@ -71,8 +73,18 @@ final class TestResultCollector
         $result = [];
 
         foreach ($this->tests as $prettifiedClassName => $tests) {
+            usort(
+                $tests,
+                static function (TestDoxTestMethod $a, TestDoxTestMethod $b): int
+                {
+                    return $a->test()->line() <=> $b->test()->line();
+                }
+            );
+
             $result[$prettifiedClassName] = TestResultCollection::fromArray($tests);
         }
+
+        ksort($result);
 
         return $result;
     }
@@ -186,9 +198,9 @@ final class TestResultCollector
      * @throws EventFacadeIsSealedException
      * @throws UnknownSubscriberTypeException
      */
-    private function registerSubscribers(): void
+    private function registerSubscribers(Facade $facade): void
     {
-        Facade::registerSubscribers(
+        $facade->registerSubscribers(
             new TestConsideredRiskySubscriber($this),
             new TestCreatedMockObjectForAbstractClassSubscriber($this),
             new TestCreatedMockObjectForTraitSubscriber($this),

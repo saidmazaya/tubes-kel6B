@@ -33,10 +33,9 @@ final class DataProviderTestSuite extends TestSuite
 
         foreach ($this->tests() as $test) {
             if (!$test instanceof TestCase) {
-                // @codeCoverageIgnoreStart
                 continue;
-                // @codeCoverageIgnoreStart
             }
+
             $test->setDependencies($dependencies);
         }
     }
@@ -64,7 +63,7 @@ final class DataProviderTestSuite extends TestSuite
     }
 
     /**
-     * Returns the size of the each test created using the data provider(s).
+     * Returns the size of each test created using the data provider(s).
      */
     public function size(): TestSize
     {

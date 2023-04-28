@@ -17,7 +17,9 @@ use function realpath;
 use function sprintf;
 use function trim;
 use function unlink;
+use PHPUnit\Event\EventFacadeIsSealedException;
 use PHPUnit\Event\Facade as EventFacade;
+use PHPUnit\Event\UnknownSubscriberTypeException;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Logging\EventLogger;
 use PHPUnit\Logging\JUnit\JunitXmlLogger;
@@ -25,6 +27,7 @@ use PHPUnit\Logging\TeamCity\TeamCityLogger;
 use PHPUnit\Logging\TestDox\HtmlRenderer as TestDoxHtmlRenderer;
 use PHPUnit\Logging\TestDox\PlainTextRenderer as TestDoxTextRenderer;
 use PHPUnit\Logging\TestDox\TestResultCollector as TestDoxResultCollector;
+use PHPUnit\Metadata\Api\CodeCoverage as CodeCoverageMetadataApi;
 use PHPUnit\Runner\CodeCoverage;
 use PHPUnit\Runner\Extension\ExtensionBootstrapper;
 use PHPUnit\Runner\Extension\Facade as ExtensionFacade;
@@ -101,7 +104,11 @@ final class Application
             $this->executeCommandsThatRequireCliConfigurationAndTestSuite($cliConfiguration, $testSuite);
             $this->executeHelpCommandWhenThereIsNothingElseToDo($configuration, $testSuite);
 
-            $pharExtensions = null;
+            $pharExtensions                          = null;
+            $extensionRequiresCodeCoverageCollection = false;
+            $extensionReplacesOutput                 = false;
+            $extensionReplacesProgressOutput         = false;
+            $extensionReplacesResultOutput           = false;
 
             if (!$configuration->noExtensions()) {
                 if ($configuration->hasPharExtensionDirectory()) {
@@ -110,18 +117,38 @@ final class Application
                     );
                 }
 
-                $this->bootstrapExtensions($configuration);
+                $bootstrappedExtensions                  = $this->bootstrapExtensions($configuration);
+                $extensionRequiresCodeCoverageCollection = $bootstrappedExtensions['requiresCodeCoverageCollection'];
+                $extensionReplacesOutput                 = $bootstrappedExtensions['replacesOutput'];
+                $extensionReplacesProgressOutput         = $bootstrappedExtensions['replacesProgressOutput'];
+                $extensionReplacesResultOutput           = $bootstrappedExtensions['replacesResultOutput'];
             }
 
-            CodeCoverage::instance()->init($configuration, CodeCoverageFilterRegistry::instance());
+            CodeCoverage::instance()->init(
+                $configuration,
+                CodeCoverageFilterRegistry::instance(),
+                $extensionRequiresCodeCoverageCollection
+            );
 
-            $printer = OutputFacade::init($configuration);
+            if (CodeCoverage::instance()->isActive()) {
+                CodeCoverage::instance()->ignoreLines(
+                    (new CodeCoverageMetadataApi)->linesToBeIgnored($testSuite)
+                );
+            }
 
-            $this->writeRuntimeInformation($printer, $configuration);
-            $this->writePharExtensionInformation($printer, $pharExtensions);
-            $this->writeRandomSeedInformation($printer, $configuration);
+            $printer = OutputFacade::init(
+                $configuration,
+                $extensionReplacesProgressOutput,
+                $extensionReplacesResultOutput
+            );
 
-            $printer->print(PHP_EOL);
+            if (!$extensionReplacesOutput) {
+                $this->writeRuntimeInformation($printer, $configuration);
+                $this->writePharExtensionInformation($printer, $pharExtensions);
+                $this->writeRandomSeedInformation($printer, $configuration);
+
+                $printer->print(PHP_EOL);
+            }
 
             $this->registerLogfileWriters($configuration);
 
@@ -131,7 +158,7 @@ final class Application
 
             $resultCache = $this->initializeTestResultCache($configuration);
 
-            EventFacade::seal();
+            EventFacade::instance()->seal();
 
             $timer = new Timer;
             $timer->start();
@@ -168,15 +195,20 @@ final class Application
 
             $result = TestResultFacade::result();
 
-            OutputFacade::printResult($result, $testDoxResult, $duration);
+            if (!$extensionReplacesResultOutput) {
+                OutputFacade::printResult($result, $testDoxResult, $duration);
+            }
+
             CodeCoverage::instance()->generateReports($printer, $configuration);
 
             $shellExitCode = (new ShellExitCodeCalculator)->calculate(
+                $configuration->failOnDeprecation(),
                 $configuration->failOnEmptyTestSuite(),
-                $configuration->failOnRisky(),
-                $configuration->failOnWarning(),
                 $configuration->failOnIncomplete(),
+                $configuration->failOnNotice(),
+                $configuration->failOnRisky(),
                 $configuration->failOnSkipped(),
+                $configuration->failOnWarning(),
                 $result
             );
 
@@ -306,11 +338,16 @@ final class Application
         }
     }
 
-    private function bootstrapExtensions(Configuration $configuration): void
+    /**
+     * @psalm-return array{requiresCodeCoverageCollection: bool, replacesOutput: bool, replacesProgressOutput: bool, replacesResultOutput: bool}
+     */
+    private function bootstrapExtensions(Configuration $configuration): array
     {
+        $facade = new ExtensionFacade;
+
         $extensionBootstrapper = new ExtensionBootstrapper(
             $configuration,
-            new ExtensionFacade
+            $facade
         );
 
         foreach ($configuration->extensionBootstrappers() as $bootstrapper) {
@@ -328,6 +365,13 @@ final class Application
                 );
             }
         }
+
+        return [
+            'requiresCodeCoverageCollection' => $facade->requiresCodeCoverageCollection(),
+            'replacesOutput'                 => $facade->replacesOutput(),
+            'replacesProgressOutput'         => $facade->replacesProgressOutput(),
+            'replacesResultOutput'           => $facade->replacesResultOutput(),
+        ];
     }
 
     private function executeCommandsThatOnlyRequireCliConfiguration(CliConfiguration $cliConfiguration, string|false $configurationFile): void
@@ -468,6 +512,10 @@ final class Application
         }
     }
 
+    /**
+     * @throws EventFacadeIsSealedException
+     * @throws UnknownSubscriberTypeException
+     */
     private function registerLogfileWriters(Configuration $configuration): void
     {
         if ($configuration->hasLogEventsText()) {
@@ -475,7 +523,7 @@ final class Application
                 unlink($configuration->logEventsText());
             }
 
-            EventFacade::registerTracer(
+            EventFacade::instance()->registerTracer(
                 new EventLogger(
                     $configuration->logEventsText(),
                     false
@@ -488,7 +536,7 @@ final class Application
                 unlink($configuration->logEventsVerboseText());
             }
 
-            EventFacade::registerTracer(
+            EventFacade::instance()->registerTracer(
                 new EventLogger(
                     $configuration->logEventsVerboseText(),
                     true
@@ -499,6 +547,7 @@ final class Application
         if ($configuration->hasLogfileJunit()) {
             new JunitXmlLogger(
                 OutputFacade::printerFor($configuration->logfileJunit()),
+                EventFacade::instance()
             );
         }
 
@@ -506,28 +555,37 @@ final class Application
             new TeamCityLogger(
                 DefaultPrinter::from(
                     $configuration->logfileTeamcity()
-                )
+                ),
+                EventFacade::instance()
             );
         }
     }
 
+    /**
+     * @throws EventFacadeIsSealedException
+     * @throws UnknownSubscriberTypeException
+     */
     private function testDoxResultCollector(Configuration $configuration): ?TestDoxResultCollector
     {
         if ($configuration->hasLogfileTestdoxHtml() ||
             $configuration->hasLogfileTestdoxText() ||
             $configuration->outputIsTestDox()) {
-            return new TestDoxResultCollector;
+            return new TestDoxResultCollector(EventFacade::instance());
         }
 
         return null;
     }
 
+    /**
+     * @throws EventFacadeIsSealedException
+     * @throws UnknownSubscriberTypeException
+     */
     private function initializeTestResultCache(Configuration $configuration): ResultCache
     {
         if ($configuration->cacheResult()) {
             $cache = new DefaultResultCache($configuration->testResultCacheFile());
 
-            new ResultCacheHandler($cache);
+            new ResultCacheHandler($cache, EventFacade::instance());
 
             return $cache;
         }

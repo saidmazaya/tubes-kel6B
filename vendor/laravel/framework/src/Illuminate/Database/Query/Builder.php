@@ -1253,7 +1253,7 @@ class Builder implements BuilderContract
         $type = 'between';
 
         if ($values instanceof CarbonPeriod) {
-            $values = $values->toArray();
+            $values = [$values->start, $values->end];
         }
 
         $this->wheres[] = compact('type', 'column', 'values', 'boolean', 'not');
@@ -1689,7 +1689,7 @@ class Builder implements BuilderContract
             // compile the whole thing in the grammar and insert it into the SQL.
             $callback($query);
         } else {
-            $query = $callback;
+            $query = $callback instanceof EloquentBuilder ? $callback->toBase() : $callback;
         }
 
         return $this->addWhereExistsQuery($query, $boolean, $not);
@@ -2232,7 +2232,7 @@ class Builder implements BuilderContract
         $type = 'between';
 
         if ($values instanceof CarbonPeriod) {
-            $values = $values->toArray();
+            $values = [$values->start, $values->end];
         }
 
         $this->havings[] = compact('type', 'column', 'values', 'boolean', 'not');
@@ -2730,11 +2730,11 @@ class Builder implements BuilderContract
      * @param  \Closure|int|null  $total
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null, $total = null)
+    public function paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null)
     {
         $page = $page ?: Paginator::resolveCurrentPage($pageName);
 
-        $total = value($total) ?? $this->getCountForPagination();
+        $total = func_num_args() === 5 ? value(func_get_arg(4)) : $this->getCountForPagination();
 
         $perPage = $perPage instanceof Closure ? $perPage($total) : $perPage;
 
@@ -3310,6 +3310,7 @@ class Builder implements BuilderContract
         } else {
             foreach ($values as $key => $value) {
                 ksort($value);
+
                 $values[$key] = $value;
             }
         }
@@ -3885,7 +3886,7 @@ class Builder implements BuilderContract
      *
      * @throws \BadMethodCallException
      */
-    public function __call($method, array $parameters)
+    public function __call($method, $parameters)
     {
         if (static::hasMacro($method)) {
             return $this->macroCall($method, $parameters);
