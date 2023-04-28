@@ -3,18 +3,15 @@
     <div class="container">
         <!-- social -->
         <ul class="nav-social">
-            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+            <h1><li><a href="#">Premium</i></a></li></h1>
         </ul>
         <!-- /social -->
 
-        <!-- logo -->
+        {{-- <!-- logo -->
         <div class="nav-logo">
             <a href="/" class="logo">Premium</a>
         </div>
-        <!-- /logo -->
+        <!-- /logo --> --}}
 
         <!-- search & aside toggle -->
         <div class="nav-btns">

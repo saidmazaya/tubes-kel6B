@@ -32,7 +32,7 @@
 
 <body>
     {{-- Header --}}
-	@include('components.main.header');
+	@include('components.home.header');
 	{{-- End Header --}}
 
     {{-- Section --}}

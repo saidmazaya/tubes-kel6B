@@ -1,4 +1,4 @@
-@extends('layout.main')
+@extends('layout.home')
 @section('content')
 		<!-- SECTION -->
 		<div class="section">
@@ -12,7 +12,7 @@
 							<a class="post-img" href="blog-post.html"><img src="./img/hot-post-2.jpg" alt=""></a>
 							<div class="post-body">
 								<div class="post-category">
-									<a href="category.html">Stay Curious</a>
+									<a href="category.html">Lifestyle</a>
 								</div>
 								<h3 class="post-title title-lg"><a href="blog-post.html">Postea senserit id eos, vivendo periculis ei qui</a></h3>
 								<ul class="post-meta">
