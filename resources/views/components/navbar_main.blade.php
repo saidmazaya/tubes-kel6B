@@ -1,3 +1,5 @@
+
+
 <nav class="navbar">
     <div class="navbar-left">
         <form class="search-form" action="#">
@@ -13,7 +15,7 @@
                 <img src="" alt="Profile Image">
             </a>
             <div class="dropdown-menu">
-                <a href="#"><i class="fas fa-user"></i> Profile</a>
+                <a href="profile"><i class="fas fa-user"></i> Profile</a>
                 <a href="#"><i class="fas fa-book"></i> Library</a>
                 <a href="#"><i class="fas fa-book-open"></i> stories</a>
                 <a href="#"><i class="fas fa-sign-out-alt"></i> Sign Out</a>

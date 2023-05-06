@@ -42,3 +42,19 @@ function updatePublishButton() {
 
 titleInput.addEventListener('input', updatePublishButton);
 descriptionInput.addEventListener('input', updatePublishButton);
+
+
+// log in
+function showLogin() {
+  document.getElementById("login-container").style.display = "block";
+}
+
+
+$(document).ready(function() {
+  $('.nav-link').on('shown.bs.tab', function() {
+    var $elem = $(this);
+    var $parent = $elem.parent();
+    $parent.addClass('show');
+    $parent.siblings().removeClass('show');
+  });
+});

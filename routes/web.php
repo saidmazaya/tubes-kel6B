@@ -35,3 +35,15 @@ Route::get('notif', function () {
     return view('main.notif');
 });
 
+
+Route::get('profile', function () {
+    return view('profile');
+});
+
+Route::get('article', function () {
+    return view('article');
+});
+
+Route::get('editprofile', function () {
+    return view('editprofile');
+});
