@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('content');
             $table->string('image')->nullable();
             $table->integer('duration');
-            $table->string('link');
             $table->unsignedBigInteger('author_id');
             $table->foreign('author_id')->references('id')->on('users')->onDelete('restrict');
             $table->unsignedBigInteger('tag_id');

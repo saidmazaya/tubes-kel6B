@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->text('content');
             $table->enum('status', ['Pending', 'Published']);
-            $table->string('link');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->unsignedBigInteger('article_id');
