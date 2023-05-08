@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,14 +37,8 @@ Route::get('notif', function () {
     return view('main.notif');
 });
 
-
-Route::get('profile', function () {
-    return view('profile');
-});
-
-Route::get('article', function () {
-    return view('article');
-});
+Route::resource('/profile', UserController::class);
+Route::resource('/article', ArticleController::class);
 
 Route::get('editprofile', function () {
     return view('editprofile');
