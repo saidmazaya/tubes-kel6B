@@ -11,17 +11,18 @@
                     <nav class="navbar navbar-expand-lg">
                         <ul class="nav navbar-expand-lg" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link" style="color: gray" id="home-tab" data-toggle="tab" href="home" role="tab"
+                                <a class="nav-link" style="color: rgb(0, 0, 0)" id="home-tab" data-toggle="tab" href="home" role="tab"
                                     aria-controls="home" aria-selected="true">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="list-tab" data-toggle="tab" href="#list" role="tab"
-                                    aria-controls="list" aria-selected="false">List</a>
+                                <a class="nav-link" style="color: rgb(0, 0, 0)" id="home-tab" data-toggle="tab" href="home" role="tab"
+                                    aria-controls="list" aria-selected="true">List</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab"
-                                    aria-controls="about" aria-selected="false">About</a>
+                                <a class="nav-link" style="color: rgb(0, 0, 0)" id="home-tab" data-toggle="tab" href="home" role="tab"
+                                    aria-controls="about" aria-selected="true">About</a>
                             </li>
+                    
                         </ul>
                     </nav>
                    

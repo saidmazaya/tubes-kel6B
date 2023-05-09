@@ -40,10 +40,14 @@ Route::get('profile', function () {
     return view('profile');
 });
 
-Route::get('article', function () {
-    return view('article');
+Route::get('index', function () {
+    return view('main.index');
 });
 
 Route::get('editprofile', function () {
     return view('editprofile');
+});
+
+Route::get('library', function () {
+    return view('library');
 });
