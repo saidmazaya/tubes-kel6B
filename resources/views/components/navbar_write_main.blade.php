@@ -10,7 +10,8 @@
                 <img src="" alt="Profile Image">
             </a>
             <div class="dropdown-menu">
-                <a href="#"><i class="fas fa-book"></i> Library</a>
+                
+                <a href="library"><i class="fas fa-book"></i> Library</a>
                 <a href="#"><i class="fas fa-book-open"></i> stories</a>
             </div>
         </div>

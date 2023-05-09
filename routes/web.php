@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,10 +21,6 @@ Route::get('write', function () {
     return view('main.write');
 });
 
-Route::get('/admin', function () {
-    return view('admin.index');
-});
-
 Route::get('ourstory', function () {
     return view('home.ourstory');
 });
@@ -41,9 +35,19 @@ Route::get('notif', function () {
     return view('main.notif');
 });
 
-Route::resource('/profile', UserController::class);
-Route::resource('/article', ArticleController::class);
+
+Route::get('profile', function () {
+    return view('profile');
+});
+
+Route::get('index', function () {
+    return view('main.index');
+});
 
 Route::get('editprofile', function () {
     return view('editprofile');
+});
+
+Route::get('library', function () {
+    return view('library');
 });
