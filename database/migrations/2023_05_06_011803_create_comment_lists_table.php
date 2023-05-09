@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('comment_lists', function (Blueprint $table) {
             $table->id();
             $table->text('content');
-            $table->enum('status', ['Published', 'Pending'])->default('Pending');
+            $table->enum('status', ['Published', 'Pending', 'Rejected'])->default('Pending');
             $table->string('link');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');

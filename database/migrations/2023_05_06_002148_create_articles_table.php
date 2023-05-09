@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreign('author_id')->references('id')->on('users')->onDelete('restrict');
             $table->unsignedBigInteger('tag_id');
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('restrict');
-            $table->enum('status', ['Draft', 'Pending', 'Published'])->default('Draft');
+            $table->enum('status', ['Draft', 'Pending', 'Published', 'Rejected'])->default('Draft');
             $table->timestamps();
         });
     }

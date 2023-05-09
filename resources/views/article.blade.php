@@ -9,7 +9,7 @@ integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJ
             <div class="card-body p-4">
               <h3 class="mb-3">{{ $item->title }}</h3>
               <p class="small mb-0"><i class="far fa-star fa-lg"></i> <span class="mx-2">|</span> Created by
-                <a href="profile/{{ $item->user->username }}"><strong>{{ $item->user->username }}</strong></a> on {{ $item->created_at }}</p>
+                <a href="profile/{{ $item->user->username }}"><strong>{{ $item->user->username }}</strong></a> on {{\Carbon\Carbon::parse($item->created_at)->format('F d') }}</p>
               <hr class="my-4">
               <div class="d-flex justify-content-start align-items-center">
                 @foreach ($item->tags as $tags)                 

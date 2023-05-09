@@ -23,6 +23,10 @@ Route::get('write', function () {
     return view('main.write');
 });
 
+Route::get('/admin', function () {
+    return view('admin.index');
+});
+
 Route::get('ourstory', function () {
     return view('home.ourstory');
 });
