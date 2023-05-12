@@ -12,7 +12,7 @@
             <div class="dropdown-menu">
                 
                 <a href="library"><i class="fas fa-book"></i> Library</a>
-                <a href="#"><i class="fas fa-book-open"></i> stories</a>
+                <a href="stories"><i class="fas fa-book-open"></i> stories</a>
             </div>
         </div>
     </div>
