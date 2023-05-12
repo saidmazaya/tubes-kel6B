@@ -1,3 +1,5 @@
+
+
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -55,7 +57,7 @@
                     <h6><a href="#">4 Followers</a></h6>
                     <div class="d-flex flex-row align-items-center justify-content-between mt-3">
                         <div>
-                            <a href="#" class="text-dark mb-4">Edit Profile</a>
+                            <a href="editprofile" class="text-dark mb-4">Edit Profile</a>
                             <div class="profile-head mt-4">
                                 <div>
                                     <h6>Following</h6>

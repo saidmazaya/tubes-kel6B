@@ -190,32 +190,6 @@
   cursor: pointer;
 }
 
-/* Style for the Google login */
-.google-login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.google-login img {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-}
-
-.google-login button {
-  background-color: #db4437;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.google-login button:hover {
-  background-color: #cc3f36;
-}
 
 
 
@@ -362,7 +336,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1;
+  z-index: 2;
 }
 
 #login-container form {
@@ -376,11 +350,6 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-#login-container label {
-  display: block;
-  font-size: 16px;
-  margin-bottom: 5px;
-}
 
 #login-container input[type="email"] {
   display: block;

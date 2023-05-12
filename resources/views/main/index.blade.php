@@ -4,8 +4,40 @@
 
 @section('content')
 <div class="container">
+  {{-- <div class="row g-5">
+    <div class="col-md-8">
+        <div class="row mb-2 flex-column mt-5">
+          <div class="col-md-12">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div style="overflow-x: scroll; white-space: nowrap;">
+          <div style="display: inline-block; padding: 10px; margin-right: 20px;">Item 1</div>
+          <div style="display: inline-block; padding: 10px; margin-right: 20px;">Item 2</div>
+          <div style="display: inline-block; padding: 10px; margin-right: 20px;">Item 3</div>
+          <div style="display: inline-block; padding: 10px; margin-right: 20px;">Item 4</div>
+          <div style="display: inline-block; padding: 10px; margin-right: 20px;">Item 5</div>
+          <div style="display: inline-block; padding: 10px; margin-right: 20px;">Item 6</div>
+          <div style="display: inline-block; padding: 10px; margin-right: 20px;">Item 7</div>
+          <div style="display: inline-block; padding: 10px; margin-right: 20px;">Item 8</div>
+          <div style="display: inline-block; padding: 10px; margin-right: 20px;">Item 9</div>
+          <div style="display: inline-block; padding: 10px; margin-right: 20px;">Item 10</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></div>
+</div>
+</div> --}}
 
-  <div class="nav-scroller py-1 mb-2">
+
+  
+
+  
+  
+
+
+  <div id="nav-scroller py-1 mb-2-nav-scroll">
     <nav class="nav nav-link d-flex justify-content-between">
       <a class="p-2 nav-link link-dark" href="#">World</a>
       <a class="p-2 nav-link link-dark" href="#">U.S.</a>
@@ -112,8 +144,7 @@
   </div>
 </main>
 <footer class="blog-footer">
-  <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a
-      href="https://twitter.com/mdo">@mdo</a>.</p>
+ 
   <p>
     <a href="#">Back to top</a>
   </p>
@@ -123,3 +154,4 @@
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 @endpush
+

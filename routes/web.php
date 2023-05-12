@@ -27,9 +27,7 @@ Route::get('ourstory', function () {
 Route::get('homewrite', function () {
     return view('home.homewrite');
 });
-Route::get('menuutama', function () {
-    return view('main.menuutama');
-});
+
 
 Route::get('notif', function () {
     return view('main.notif');

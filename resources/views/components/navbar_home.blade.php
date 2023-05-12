@@ -14,6 +14,7 @@
                     <a class="nav-link text-white" href="homewrite">Write</a>
                 </li>
                 <li class="nav-item">
+                    
                     <button class="signin-button" style="border-radius: 30px "  onclick="openModal()" href="signin">Sign In</button>
                     <div class="modal">
                         <div class="modal-content">
@@ -23,13 +24,14 @@
                         <input type="text" class="form-control form-control-lg bg-light fs-6 mb-3">
                         <label for="Password">Password:</label>
                         <input type="text" class="form-control form-control-lg bg-light fs-6 mb-3">
-                        <button type="submit" class="login-button mb-2">Sign In</button>
+                        <button type="submit" class="login-button mb-2 ">Sign In</button>
                         </div>
-                    </div>
+                    </div>      
                 </li>
-                <button class="start-button" style="border-radius: 30px" onclick="showLogin()">Get Started</button>
+                
+                <button class="start-button " style="border-radius: 30px" onclick="showLogin()">Get Started</button>
                 <div id="login-container">
-                    <form class="w-50 ">
+                    <form>
                         <h2>Welcome!</h2>
                         <h5 class="mb-4">Let's Join Premium</h5>
                         <label for="email">Email:</label>                      

@@ -24,15 +24,3 @@
         </div>
     </div>
 </nav>
-
-<div class="container">
-    <div class="nav-scroller py-1 mb-2">
-        <nav class="nav nav-link d-flex ">
-          <a class="p-2 nav-link link-dark" href="#">World</a>
-          <a class="p-2 nav-link link-dark" href="#">U.S.</a>
-          <a class="p-2 nav-link link-dark" href="#">Technology</a>
-          <a class="p-2 nav-link link-dark" href="#">Design</a>
-          <a class="p-2 nav-link link-dark" href="#">Culture</a>
-        </nav>
-    </div>
-</div>
