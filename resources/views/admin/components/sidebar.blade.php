@@ -2,21 +2,21 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item">
-            <a class="nav-link" href="/admin">
-                <i class="mdi mdi-grid-large menu-icon"></i>
+            <a class="nav-link" href="/dashboard">
+                <i class="menu-icon fa-solid fa-table-cells-large"></i>
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
         <li class="nav-item nav-category">Data Management</li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                <i class="menu-icon mdi mdi-adjust"></i>
+            <a class="nav-link" href="{{ route('article.index') }}" aria-expanded="false" aria-controls="ui-basic">
+                <i class="menu-icon fa-regular fa-newspaper"></i>
                 <span class="menu-title">Articles</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#comment-basic" aria-expanded="false" aria-controls="comment-basic">
-                <i class="menu-icon mdi mdi-adjust"></i>
+                <i class="menu-icon fa-regular fa-comment"></i>
                 <span class="menu-title">Comments</span>
                 <i class="menu-arrow"></i>
             </a>
@@ -29,20 +29,20 @@
         </li>
         <li class="nav-item nav-category">Forms and Datas</li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-                <i class="menu-icon mdi mdi-card-text-outline"></i>
+            <a class="nav-link" href="#" aria-expanded="false" aria-controls="form-elements">
+                <i class="menu-icon fa-solid fa-folder-plus"></i>
                 <span class="menu-title">Add Article</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
-                <i class="menu-icon mdi mdi-chart-line"></i>
+            <a class="nav-link" href="{{ route('tag.index') }}" aria-expanded="false" aria-controls="charts">
+                <i class="menu-icon fa-solid fa-tag"></i>
                 <span class="menu-title">Add Tags</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-                <i class="menu-icon mdi mdi-account"></i>
+            <a class="nav-link" href="{{ route('account.index') }}" aria-expanded="false" aria-controls="tables">
+                <i class="menu-icon fa-solid fa-user"></i>
                 <span class="menu-title">Accounts Tables</span>
             </a>
         </li>

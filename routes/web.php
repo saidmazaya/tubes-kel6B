@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TagAdminController;
+use App\Http\Controllers\UserAdminController;
+use App\Http\Controllers\ArticleAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,40 +17,47 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home.dashboard_home');
+    return view('index');
 });
-
-Route::get('write', function () {
+Route::get('/blog', function () {
+    return view('blog');
+});
+Route::get('/ourstory', function () {
+    return view('ourstory');
+});
+Route::get('/write', function () {
+    return view('write');
+});
+Route::get('/signin', function () {
+    return view('signin');
+});
+Route::get('/signup', function () {
+    return view('signup');
+});
+Route::get('/menuutama', function () {
+    return view('menuutama');
+});
+Route::get('/blog-single', function () {
+    return view('blog-single');
+});
+Route::get('/nulis', function () {
     return view('main.write');
 });
-
-Route::get('ourstory', function () {
-    return view('home.ourstory');
-});
-Route::get('homewrite', function () {
-    return view('home.homewrite');
-});
-Route::get('menuutama', function () {
-    return view('main.menuutama');
-});
-
-Route::get('notif', function () {
+Route::get('/notif', function () {
     return view('main.notif');
 });
 
-
-Route::get('profile', function () {
-    return view('profile');
+Route::get('/dashboard', function () {
+    return view('admin.index');
 });
 
-Route::get('index', function () {
-    return view('main.index');
-});
+// Route::middleware(['auth'])->group(function () {
+    
+// });
+Route::resource('/admin/account', UserAdminController::class);
 
-Route::get('editprofile', function () {
-    return view('editprofile');
-});
+Route::resource('/admin/tag', TagAdminController::class);
 
-Route::get('library', function () {
-    return view('library');
-});
+Route::resource('/admin/article', ArticleAdminController::class);
+
+Route::put('/articles/{id}/update-status', [ArticleAdminController::class, 'updateStatus'])->name('article.update-status');

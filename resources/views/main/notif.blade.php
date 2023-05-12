@@ -1,7 +1,3 @@
-@extends('layout.main-navbar')
-@section('title', 'Notification')
-
-@section('content')
 
 <div class="col-md-9 mt-4 ml-2" style="margin-left: 30px">
   <div class="col-md-9 mt-4">
@@ -27,4 +23,5 @@
       </div>
     </div>
     <hr>
-    @endsection
+
+      

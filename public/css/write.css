@@ -1,0 +1,375 @@
+/* Style the navbar brand */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  
+  /* Style the navbar links */
+  .navbar-nav .nav-link {
+    margin-right: 1rem;
+  }
+
+  
+  
+
+
+/* Style the jumbotron */
+.jumbotron {
+    background-color: #98b4d2;
+    padding: 6rem;
+  }
+  
+  /* Style  jumbotron title */
+  .jumbotron h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  /* Style  jumbotron description */
+  .jumbotron p {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Style  jumbotron button */
+  .jumbotron a.btn-primary {
+    font-size: 1.5rem;
+  }
+
+  
+  
+  .discover-container {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .topics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  }
+  
+  .topics a {
+  display: inline-block;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  }
+  
+  .topics a:hover {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .article-content {
+    flex: 1;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .discover-container {
+      width: 100%;
+    }
+  }
+
+
+
+  .trending {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .trending-item {
+    font-size: 14px; /* ukuran font yang diinginkan */
+    width: calc(33.33% - 10px);
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .trending-item {
+      font-size: 12px; /* ukuran font pada layar kecil */
+      width: 100%;
+    }
+  }
+  
+  
+
+
+.header {
+  text-align: center;
+  margin-top: 90px;
+}
+
+.header h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.header hr {
+  border: none;
+  border-top: 2px solid #333;
+  margin: 0 auto;
+  width: 50%;
+  margin-bottom: 30px;
+}
+
+.header p {
+  font-size: 18px;
+  line-height: 1.5;
+  text-align: justify;
+  margin-bottom: 30px;
+  padding: 50px;
+}
+
+
+
+
+/* Style for the sign in button */
+.signin-button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Style for the modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Style for the modal content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+/* Style for the close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
+
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f5f5f5;
+  height: 60px;
+  padding: 0 20px;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+.search-form input[type="text"] {
+  width: 250px;
+  height: 30px;
+  border: none;
+  border-radius: 15px;
+  padding: 0 15px;
+  font-size: 16px;
+}
+
+.search-form button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.navbar-icon {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 50%;
+  background-color: #fff;
+  margin-left: 10px;
+}
+
+.navbar-icon i {
+  font-size: 20px;
+  color: #888;
+}
+
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.dropdown-toggle img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  min-width: 160px;
+  z-index: 1;
+  display: none;
+}
+
+.dropdown-menu a {
+  color: #333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+
+/* notif*/
+body {
+  font-family: Arial, sans-serif;
+}
+
+.notification-options {
+  text-align: center;
+}
+
+.notification-options .btn-group-toggle {
+  display: inline-flex;
+}
+
+.card {
+  border: none;
+}
+
+.media {
+  align-items: center;
+}
+
+
+/* publish*/
+.navbar-button {
+  background-color: #002d02;
+  color: white;
+  border: none;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.navbar-button.disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
+
+/* log in css */
+#login-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+#login-container form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+#login-container input[type="email"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+}
+
+#login-container button.login-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 40px;
+  background-color: #000000;
+  color: #fff;
+}
+
+
