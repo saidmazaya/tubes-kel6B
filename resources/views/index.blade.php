@@ -1,83 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layout.home')
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+@section('title', 'Home')
 
-  <title>Premium</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+@section('content')
+<section id="hero">
+  <div class="hero-container">
+    <h3>Welcome to <strong>Premium</strong></h3>
+    <h1>Stay curious.</h1>
+    <h2>Discover stories, thinking, and expertise from writers on any topic.</h2>
+    <a href="signup" class="btn-get-started scrollto">Start Reading</a>
+  </div>
+</section><!-- End Hero -->
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-
-</head>
-
-<body>
-
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top ">
-    <div class="container d-flex align-items-center justify-content-between">
-
-      <h1 class="logo"><a href="">Premium</a></h1>
-     
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto" href="home">Home</a></li>
-          <li><a class="nav-link scrollto" href="ourstory">Our Story</a></li>
-          <li><a class="nav-link scrollto" href="write">Write</a></li>
-          <li><a class="nav-link scrollto" href="signin">Sign In</a></li>
-          <li><a class="nav-link scrollto" href="signup">Get Started</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
-
-    </div>
-  </header><!-- End Header -->
-
-  <!-- ======= Hero Section ======= -->
-  <section id="hero">
-    <div class="hero-container">
-      <h3>Welcome to <strong>Premium</strong></h3>
-      <h1>Stay curious.</h1>
-      <h2>Discover stories, thinking, and expertise from writers on any topic.</h2>
-      <a href="signup" class="btn-get-started scrollto">Start Reading</a>
-    </div>
-  </section><!-- End Hero -->
-
-  <main id="main">
-
-    
-
+<main id="main">
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
   <main id="main">
 
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
-    
+
     </section><!-- End Breadcrumbs -->
 
     <!-- ======= Blog Section ======= -->
@@ -102,7 +43,7 @@
                 <ul>
                   <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">John Doe</a></li>
                   <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01">Jan 1, 2020</time></a></li>
-                  <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="blog-single.html">12 Comments</a></li>
+                  <li class="d-flex align-items-center"><i class='bx bx-bookmark'></i> </li>
                 </ul>
               </div>
 
@@ -139,7 +80,8 @@
               <div class="entry-content">
                 <p>
                   Incidunt voluptate sit temporibus aperiam. Quia vitae aut sint ullam quis illum voluptatum et. Quo libero rerum voluptatem pariatur nam.
-                  Ad impedit qui officiis est in non aliquid veniam laborum. Id ipsum qui aut. Sit aliquam et quia molestias laboriosam. Tempora nam odit omnis eum corrupti qui aliquid excepturi molestiae. Facilis et sint quos sed voluptas. Maxime sed tempore enim omnis non alias odio quos distinctio.
+                  Ad impedit qui officiis est in non aliquid veniam laborum. Id ipsum qui aut. Sit aliquam et quia molestias laboriosam. Tempora nam odit omnis eum corrupti qui aliquid excepturi molestiae. Facilis et sint quos sed voluptas. Maxime
+                  sed tempore enim omnis non alias odio quos distinctio.
                 </p>
                 <div class="read-more">
                   <a href="blog-single.html">Read More</a>
@@ -199,7 +141,8 @@
               <div class="entry-content">
                 <p>
                   Aspernatur rerum perferendis et sint. Voluptates cupiditate voluptas atque quae. Rem veritatis rerum enim et autem. Saepe atque cum eligendi eaque iste omnis a qui.
-                  Quia sed sunt. Ea asperiores expedita et et delectus voluptates rerum. Id saepe ut itaque quod qui voluptas nobis porro rerum. Quam quia nesciunt qui aut est non omnis. Inventore occaecati et quaerat magni itaque nam voluptas. Voluptatem ducimus sint id earum ut nesciunt sed corrupti nemo.
+                  Quia sed sunt. Ea asperiores expedita et et delectus voluptates rerum. Id saepe ut itaque quod qui voluptas nobis porro rerum. Quam quia nesciunt qui aut est non omnis. Inventore occaecati et quaerat magni itaque nam voluptas.
+                  Voluptatem ducimus sint id earum ut nesciunt sed corrupti nemo.
                 </p>
                 <div class="read-more">
                   <a href="blog-single.html">Read More</a>
@@ -222,7 +165,7 @@
 
             <div class="sidebar">
 
-             
+
 
               <h3 class="sidebar-title">Categories</h3>
               <div class="sidebar-item categories">
@@ -297,11 +240,4 @@
     </section><!-- End Blog Section -->
 
   </main><!-- End #main -->
-
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
-</body>
-
-</html>
+  @endsection
