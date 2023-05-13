@@ -31,13 +31,13 @@
         <li class="nav-item">
             <a class="nav-link" href="#" aria-expanded="false" aria-controls="form-elements">
                 <i class="menu-icon fa-solid fa-folder-plus"></i>
-                <span class="menu-title">Add Article</span>
+                <span class="menu-title">Articles Admin</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('tag.index') }}" aria-expanded="false" aria-controls="charts">
                 <i class="menu-icon fa-solid fa-tag"></i>
-                <span class="menu-title">Add Tags</span>
+                <span class="menu-title">Tags</span>
             </a>
         </li>
         <li class="nav-item">

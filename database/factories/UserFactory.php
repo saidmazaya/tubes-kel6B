@@ -26,7 +26,7 @@ class UserFactory extends Factory
             'password' => bcrypt($faker->password()),
             'email' => $faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'role' =>  rand(1,2),
+            'role_id' =>  rand(1,2),
             'remember_token' => Str::random(10),
         ];
     }

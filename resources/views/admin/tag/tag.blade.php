@@ -75,40 +75,7 @@
 @endsection
 @push('js')
 <script>
-    // Event listener for the delete button
-const deleteButtons = document.querySelectorAll('.delete-button');
-
-deleteButtons.forEach((button) => {
-    button.addEventListener('click', function () {
-        const form = this.parentNode;
-        const tagId = form.getAttribute('data-tag-id');
-        const relatedArticles = parseInt(form.getAttribute('data-related-articles'));
-
-        let confirmationMessage = 'Apakah Anda yakin ingin menghapus tag ini?';
-
-        if (relatedArticles > 0) {
-            confirmationMessage += ' Ada artikel yang menggunakan tag ini.';
-        }
-
-        Swal.fire({
-            title: 'Confirmation',
-            text: confirmationMessage,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, Hapus',
-            cancelButtonText: 'Batal',
-            customClass: {
-                icon: '.swal2-icon.swal2-warning', // Nama kelas CSS yang Anda tentukan
-        },
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            }
-        });
-    });
-});
-
-// Event listener for the delete button
+//     // Event listener for the delete button
 // const deleteButtons = document.querySelectorAll('.delete-button');
 
 // deleteButtons.forEach((button) => {
@@ -117,31 +84,64 @@ deleteButtons.forEach((button) => {
 //         const tagId = form.getAttribute('data-tag-id');
 //         const relatedArticles = parseInt(form.getAttribute('data-related-articles'));
 
+//         let confirmationMessage = 'Apakah Anda yakin ingin menghapus tag ini?';
+
 //         if (relatedArticles > 0) {
-//             Swal.fire({
-//                 title: 'Peringatan',
-//                 text: 'Tag ini tidak dapat dihapus karena ada artikel yang menggunakannya.',
-//                 icon: 'warning',
-//                 confirmButtonText: 'OK'
-//             });
-//         } else {
-//             Swal.fire({
-//                 title: 'Konfirmasi',
-//                 text: 'Apakah Anda yakin ingin menghapus tag ini?',
-//                 icon: 'warning',
-//                 showCancelButton: true,
-//                 confirmButtonText: 'Ya, Hapus',
-//                 cancelButtonText: 'Batal',
-//                 customClass: {
-//                     icon: '.swal2-icon.swal2-warning' // Nama kelas CSS yang Anda tentukan
-//                 },
-//             }).then((result) => {
-//                 if (result.isConfirmed) {
-//                     form.submit();
-//                 }
-//             });
+//             confirmationMessage += ' Ada artikel yang menggunakan tag ini.';
 //         }
+
+//         Swal.fire({
+//             title: 'Confirmation',
+//             text: confirmationMessage,
+//             icon: 'warning',
+//             showCancelButton: true,
+//             confirmButtonText: 'Ya, Hapus',
+//             cancelButtonText: 'Batal',
+//             customClass: {
+//                 icon: '.swal2-icon.swal2-warning', // Nama kelas CSS yang Anda tentukan
+//         },
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 form.submit();
+//             }
+//         });
 //     });
 // });
+
+// Event listener for the delete button
+const deleteButtons = document.querySelectorAll('.delete-button');
+
+deleteButtons.forEach((button) => {
+    button.addEventListener('click', function () {
+        const form = this.parentNode;
+        const tagId = form.getAttribute('data-tag-id');
+        const relatedArticles = parseInt(form.getAttribute('data-related-articles'));
+
+        if (relatedArticles > 0) {
+            Swal.fire({
+                title: 'Peringatan',
+                text: 'Tag ini tidak dapat dihapus karena ada artikel yang menggunakannya.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+        } else {
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menghapus tag ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal',
+                customClass: {
+                    icon: '.swal2-icon.swal2-warning' // Nama kelas CSS yang Anda tentukan
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        }
+    });
+});
 </script>
 @endpush

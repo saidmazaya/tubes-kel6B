@@ -20,7 +20,7 @@ class UserAdminController extends Controller
                     ->orWhere('username', 'LIKE', '%' . $keyword . '%')
                     ->orWhere('email', 'LIKE', '%' . $keyword . '%');
             })
-            ->where('role', '!=', 1)
+            ->where('role_id', '!=', 1)
             ->paginate(10);
         return view('admin.account', compact('user', 'keyword'));
     }

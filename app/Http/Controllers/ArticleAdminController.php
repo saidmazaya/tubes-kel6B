@@ -48,9 +48,11 @@ class ArticleAdminController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $article = Article::with(['user', 'tags'])
+        ->findOrFail($id);
+        return view('admin.article.article-detail', compact('article'));
     }
 
     /**

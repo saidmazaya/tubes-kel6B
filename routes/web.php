@@ -47,9 +47,22 @@ Route::get('/notif', function () {
     return view('main.notif');
 });
 
+Route::get('/profile', function () {
+    return view('profile');
+});
+
+Route::get('/library', function () {
+    return view('library');
+});
+
+Route::get('/stories', function () {
+    return view('stories');
+});
+
 Route::get('/dashboard', function () {
     return view('admin.index');
 });
+
 
 // Route::middleware(['auth'])->group(function () {
     

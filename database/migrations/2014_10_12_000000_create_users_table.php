@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('bio')->nullable();
             $table->text('about')->nullable();
-            $table->integer('role');
             $table->rememberToken();
             $table->timestamps();
         });
