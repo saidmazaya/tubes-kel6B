@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagAdminController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\ArticleAdminController;
+use App\Http\Controllers\ArticleAdminEditController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,3 +75,5 @@ Route::resource('/admin/tag', TagAdminController::class);
 Route::resource('/admin/article', ArticleAdminController::class);
 
 Route::put('/articles/{id}/update-status', [ArticleAdminController::class, 'updateStatus'])->name('article.update-status');
+
+Route::resource('/admin/administrator', ArticleAdminEditController::class);

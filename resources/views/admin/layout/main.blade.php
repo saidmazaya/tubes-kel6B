@@ -22,7 +22,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="/images/favicon.png" />
+    <link rel="shortcut icon" href="/images/premium-logo.jpg" />
     <style>
         .swal2-icon.swal2-warning {
             margin-top: 50px !important;

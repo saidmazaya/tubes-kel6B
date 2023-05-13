@@ -19,7 +19,7 @@
                                         <div class="col-lg-12 entries">
                                             <article class="entry entry-single">
                                                 @if ($article->image != NULL)
-                                                <div class="entry-img">
+                                                <div class="entry-img d-flex justify-content-center align-items-center">
                                                     <img src="{{ asset('storage/photo/'.$article->image)}}" alt="" class="img-fluid">
                                                 </div>
                                                 @endif

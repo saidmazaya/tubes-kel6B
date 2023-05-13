@@ -24,9 +24,12 @@ class ArticleAdminController extends Controller
                         $query->where('name', 'LIKE', '%' . $keyword . '%');
                     });
             })
+            ->whereHas('user', function ($query) {
+                $query->where('role_id', '!=', 1);
+            })
             // ->where('status', '!=', 'Draft')
             ->paginate(10);
-        return view('admin.article.article', compact('article'));
+        return view('admin.article.article', compact('article', 'keyword'));
     }
 
     /**
