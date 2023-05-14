@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
+use App\Models\User;
 use App\Models\Article;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -65,6 +66,8 @@ class ArticleAdminEditController extends Controller
         }
 
         $request['image'] = $newName;
+        $user = User::findOrFail($request->author_id);
+        $request['slug'] = '@' . $user->username . '_' . Str::slug($request->title, '-') . '-' . rand(1000000, 9999999);
         $article = Article::create($request->all());
 
         return redirect(route('administrator.index'))->with('message', 'Artikel Berhasil Ditambahkan');
@@ -73,20 +76,20 @@ class ArticleAdminEditController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($slug)
     {
         $article = Article::with(['user', 'tags'])
-            ->findOrFail($id);
+            ->where('slug', $slug)->first();
         return view('admin.article.article-admin-detail', compact('article'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($slug)
     {
         $article = Article::with(['user', 'tags'])
-            ->findOrFail($id);
+            ->where('slug', $slug)->first();
         $tag = Tag::where('id', '!=', $article->tag_id)->select('id', 'name')->get();
         return view('admin.article.article-admin-edit', compact('article', 'tag'));
     }
@@ -101,10 +104,10 @@ class ArticleAdminEditController extends Controller
 
         if ($request->file('photo')) {
             $oldPhotoPath = $article->image; // Path foto lama yang disimpan dalam database
-    
+
             if ($oldPhotoPath != '') {
                 // Hapus foto lama dari sistem file menggunakan Storage::delete()
-                Storage::disk('public')->delete('photo/'.$oldPhotoPath);
+                Storage::disk('public')->delete('photo/' . $oldPhotoPath);
             }
 
             // Simpan Foto Baru
@@ -112,8 +115,14 @@ class ArticleAdminEditController extends Controller
             $today = now()->format('dmY_His');
             $newName = 'Admin' . '-' . $today . '-' . now()->timestamp . '-' . Str::random(10) . '.' . $extension;
             $request->file('photo')->storeAs('photo', $newName);
-    
+
             $request['image'] = $newName;
+        }
+
+        if ($request->title !== $article->title) {
+            // Jika nama diubah, perbarui juga slug
+            $user = User::findOrFail($request->author_id);
+            $request['slug'] = '@' . $user->username . '_' . Str::slug($request->title, '-') . '-' . rand(1000000, 9999999);
         }
 
         $article->update($request->all());
