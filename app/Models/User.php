@@ -51,4 +51,24 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
+
+    public function commentArticle()
+    {
+        return $this->hasMany(CommentArticle::class, 'user_id', 'id');
+    }
+
+    public function commentList()
+    {
+        return $this->hasMany(CommentList::class, 'user_id', 'id');
+    }
+
+    public function list()
+    {
+        return $this->hasMany(ArticleList::class, 'user_id');
+    }
+
+    public function listOwner()
+    {
+        return $this->hasMany(ArticleList::class, 'owner_id');
+    }
 }

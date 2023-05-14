@@ -19,6 +19,7 @@ class Article extends Model
         'author_id',
         'tag_id',
         'status',
+        'slug',
     ];
 
     public function user()
@@ -28,5 +29,15 @@ class Article extends Model
     public function tags()
     {
         return $this->belongsTo(Tag::class, 'tag_id', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(CommentArticle::class, 'article_id', 'id');
+    }
+
+    public function articleList()
+    {
+        return $this->belongsTo(ArticleList::class, 'article_id', 'id');
     }
 }
