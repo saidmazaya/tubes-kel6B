@@ -22,19 +22,24 @@
                   <div class="col-sm-12">
                     <div class="statistics-details d-flex align-items-center justify-content-between">
                       <div>
-                        <p class="statistics-title">Bounce Rate</p>
-                        <h3 class="rate-percentage">32.53%</h3>
-                        <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-0.5%</span></p>
+                        <p class="statistics-title">Total User</p>
+                        @php
+                        $articleCount = DB::table('articles')->count();
+                        $articleAdminCount = DB::table('users')
+                        ->join('articles', 'users.id', '=', 'articles.author_id')
+                        ->where('users.role_id', 1)
+                        ->count();
+                        $userCount = DB::table('users')->count();
+                        @endphp
+                        <h3 class="rate-percentage">{{ $userCount }}</h3>
                       </div>
                       <div>
-                        <p class="statistics-title">Page Views</p>
-                        <h3 class="rate-percentage">7,682</h3>
-                        <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+0.1%</span></p>
+                        <p class="statistics-title">Total Article</p>
+                        <h3 class="rate-percentage">{{ $articleCount }}</h3>
                       </div>
                       <div>
-                        <p class="statistics-title">New Sessions</p>
-                        <h3 class="rate-percentage">68.8</h3>
-                        <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>68.8</span></p>
+                        <p class="statistics-title">Total Admin Article</p>
+                        <h3 class="rate-percentage">{{ $articleAdminCount }}</h3>
                       </div>
                       <div class="d-none d-md-block">
                         <p class="statistics-title">Avg. Time on Site</p>
