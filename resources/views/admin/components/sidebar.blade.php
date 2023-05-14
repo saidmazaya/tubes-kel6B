@@ -22,8 +22,8 @@
             </a>
             <div class="collapse" id="comment-basic">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Articles</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">List</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('comment.index') }}">Articles</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('list.index') }}">List</a></li>
                 </ul>
             </div>
         </li>

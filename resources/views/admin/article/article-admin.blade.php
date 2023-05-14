@@ -54,8 +54,8 @@
                                             <td>-</td>
                                             @endif
                                             <td>
-                                                <a href="{{ route('administrator.show', $data->id) }}" class="btn-sm text-decoration-none btn-info"><i class="fa-solid fa-circle-info"></i></a>
-                                                | <a href="{{ route('administrator.edit', $data->id) }}" class="btn-sm text-decoration-none btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
+                                                <a href="{{ route('administrator.show', $data->slug) }}" class="btn-sm text-decoration-none btn-info"><i class="fa-solid fa-circle-info"></i></a>
+                                                | <a href="{{ route('administrator.edit', $data->slug) }}" class="btn-sm text-decoration-none btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
                                                 | <form class="d-inline" action="{{ route('administrator.destroy', $data->id) }}" method="POST" id="deleteForm{{ $data->id }}">
                                                     @csrf
                                                     @method('delete')

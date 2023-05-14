@@ -13,6 +13,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Article Details</h4>
+                            <a href="{{ route('article.index') }}" class="btn btn-outline-info"><i class="fa-solid fa-arrow-left"></i>&nbsp;&nbsp;Back</a>
                             <section id="blog" class="blog">
                                 <div class="container" data-aos="fade-up">
                                     <div class="row d-flex justify-content-center align-items-center">
@@ -24,7 +25,7 @@
                                                 </div>
                                                 @endif
                                                 <h2 class="entry-title">
-                                                    <a href="#">{{ $article->title }}</a>
+                                                    <a href="{{ $article->slug }}">{{ $article->title }}</a>
                                                 </h2>
                                                 <div class="entry-meta">
                                                     <ul>

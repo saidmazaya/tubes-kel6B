@@ -77,7 +77,7 @@
                                     <select name="tag_id" id="tag" class="form-select">
                                         <option value="">Select One</option>
                                         @foreach ($tag as $data)
-                                            <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                        <option value="{{ $data->id }}">{{ $data->name }}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('tag_id'))
@@ -101,9 +101,13 @@
 </div>
 @endsection
 @push('js')
-<script src="https://cdn.ckeditor.com/4.20.1/standard/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.20.1/full/ckeditor.js"></script>
 <script>
-    CKEDITOR.replace('content');
-    CKEDITOR.replace('description');
+    CKEDITOR.replace( 'content', {
+    customConfig: '/js/ckeditor-config.js'
+});
+    CKEDITOR.replace('description', {
+    customConfig: '/js/ckeditor-config.js'
+});
 </script>
 @endpush

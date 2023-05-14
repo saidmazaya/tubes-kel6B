@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('title', 'Articles Detail')
+@section('title', 'Comment List Detail')
 
 @section('content')
 
@@ -12,44 +12,28 @@
                 <div class="col-lg-10 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Article Details</h4>
-                            <a href="{{ route('administrator.index') }}" class="btn btn-outline-info"><i class="fa-solid fa-arrow-left"></i>&nbsp;&nbsp;Back</a>
+                            <h4 class="card-title">Comment List Details</h4>
+                            <a href="{{ route('list.index') }}" class="btn btn-outline-info"><i class="fa-solid fa-arrow-left"></i>&nbsp;&nbsp;Back</a>
                             <section id="blog" class="blog">
                                 <div class="container" data-aos="fade-up">
                                     <div class="row d-flex justify-content-center align-items-center">
                                         <div class="col-lg-12 entries">
                                             <article class="entry entry-single">
-                                                @if ($article->image != NULL)
-                                                <div class="entry-img d-flex justify-content-center align-items-center">
-                                                    <img src="{{ asset('storage/photo/'.$article->image)}}" alt="" class="img-fluid">
-                                                </div>
-                                                @endif
                                                 <h2 class="entry-title">
-                                                    <a href="#">{{ $article->title }}</a>
+                                                    <a href="#">{{ $commentList->articleList->name }}</a>
                                                 </h2>
                                                 <div class="entry-meta">
                                                     <ul>
-                                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">{{ $article->user->name }}</a></li>
-                                                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><time datetime="2020-01-01">{{ $article->created_at->format('M d, Y') }}</time></a></li>
-                                                        <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a href="#">{{ $article->duration.' Minutes' }}</a></li>
+                                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">{{ $commentList->user->name }}</a></li>
+                                                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><time datetime="2020-01-01">{{ $commentList->created_at->format('M d, Y') }}</time></a></li>
                                                         <li class="d-flex align-items-center"><i class="fa fa-hands-clapping"></i> <a href="#">Clap</a></li>
                                                         <i class="bi bi-hand-clap"></i>
                                                     </ul>
                                                 </div>
 
                                                 <div class="entry-content">
-                                                    <p>{!! $article->content !!}</p>
-                                                </div>
-
-                                                <div class="entry-footer">
-                                                    <i class="bi bi-tags"></i>
-                                                    @if ($article->tags != NULL)
-                                                    <ul class="tags">
-                                                        <li><a href="#">{{ $article->tags->name }}</a></li>
-                                                    </ul>
-                                                    @else
-                                                    -
-                                                    @endif
+                                                    <h4>Comment : </h4>
+                                                    <p>{!! $commentList->content !!}</p>
                                                 </div>
                                             </article><!-- End blog entry -->
                                         </div>

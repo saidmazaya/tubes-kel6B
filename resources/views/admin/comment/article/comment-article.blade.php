@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('title', 'Articles Table')
+@section('title', 'Comment Articles Table')
 
 @section('content')
 <div class="container-fluid page-body-wrapper">
@@ -11,7 +11,7 @@
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Article Tables</h4>
+                            <h4 class="card-title">Comment Article Tables</h4>
                             @if (session('message'))
                             <div class="alert alert-success" role="alert">
                                 {{ session('message') }}
@@ -27,41 +27,37 @@
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
-                                    @if ($article->isEmpty())
+                                    @if ($commentArticle->isEmpty())
                                     <div class="alert alert-danger">Pencarian {{ $keyword }} tidak ditemukan </div>
                                     @else
                                     <thead class="table table-dark">
                                         <tr>
                                             <th>No.</th>
-                                            <th style="width: 25%">Title</th>
-                                            <th style="width: 25%">Author</th>
-                                            <th>Tag</th>
+                                            <th style="width: 25%">Content</th>
+                                            <th style="width: 25%">User</th>
+                                            <th>Article</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($article as $data)
+                                        @foreach ($commentArticle as $data)
                                         <tr>
-                                            <td>{{ $loop->iteration + $article->firstItem() - 1 }}</td>
-                                            <td>{{ $data->title }}</td>
+                                            <td>{{ $loop->iteration + $commentArticle->firstItem() - 1 }}</td>
+                                            <td>{{ Str::limit($data->content, 30, '...') }}</td>
                                             <td>{{ $data->user->name }}</td>
-                                            @if ($data->tags)
-                                            <td>{{ $data->tags->name }}</td>
-                                            @else
-                                            <td>-</td>
-                                            @endif
+                                            <td>{{ Str::limit($data->articles->title, 30, '...') }}</td>
                                             <td>{{ $data->status }}</td>
                                             <td>
-                                                <a href="{{ route('article.show', $data->slug) }}" class="btn-sm text-decoration-none btn-info"><i class="fa-solid fa-circle-info"></i></a>
-                                                | <form id="publish-form-{{ $data->id }}" action="{{ route('article.update-status', $data->id) }}" data-status="Published" method="POST" style="display: inline;">
+                                                <a href="{{ route('comment.show', $data->id) }}" class="btn-sm text-decoration-none btn-info"><i class="fa-solid fa-circle-info"></i></a>
+                                                | <form id="publish-form-{{ $data->id }}" action="{{ route('comment.update-status', $data->id) }}" data-status="Published" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('PUT')
                                                     <input type="hidden" name="status" value="Published">
                                                     <input type="hidden" name="id" value="{{ $data->id }}">
                                                     <button type="button" class="btn-sm text-decoration-none btn-success publish-button" data-article-id="{{ $data->id }}"><i class="fa-solid fa-check"></i></button>
                                                 </form>
-                                                | <form id="reject-form-{{ $data->id }}" action="{{ route('article.update-status', $data->id) }}" data-status="Rejected" method="POST" style="display: inline;">
+                                                | <form id="reject-form-{{ $data->id }}" action="{{ route('comment.update-status', $data->id) }}" data-status="Rejected" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('PUT')
                                                     <input type="hidden" name="status" value="Rejected">
@@ -75,7 +71,7 @@
                                     @endif
                                 </table>
                             </div>
-                            {{ $article->withQueryString()->links() }}
+                            {{ $commentArticle->withQueryString()->links() }}
                         </div>
                     </div>
                 </div>
@@ -89,7 +85,7 @@
     function publishConfirmation(articleId) {
         Swal.fire({
             title: 'Confirmation',
-            text: 'Are you sure you want to publish this article?',
+            text: 'Are you sure you want to publish this comment?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes, Publish',
@@ -108,7 +104,7 @@
     function rejectConfirmation(articleId) {
         Swal.fire({
             title: 'Confirmation',
-            text: 'Are you sure you want to reject this article?',
+            text: 'Are you sure you want to reject this comment?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes, Reject',
