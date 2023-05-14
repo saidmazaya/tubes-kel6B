@@ -14,13 +14,11 @@ return new class extends Migration
         Schema::create('comment_articles', function (Blueprint $table) {
             $table->id();
             $table->text('content');
-            $table->enum('status', ['Pending', 'Published', 'Rejected', 'Deleted']);
+            $table->enum('status', ['Pending', 'Published', 'Rejected', 'Deleted'])->default('Pending');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->unsignedBigInteger('article_id');
-            $table->foreign('article_id')->references('id')->on('articles')->onDelete('restrict');
-            $table->unsignedBigInteger('clap_article_id');
-            $table->foreign('clap_article_id')->references('id')->on('clap_articles')->onDelete('restrict');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
             $table->timestamps();
         });
     }

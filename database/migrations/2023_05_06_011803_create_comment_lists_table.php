@@ -15,13 +15,10 @@ return new class extends Migration
             $table->id();
             $table->text('content');
             $table->enum('status', ['Published', 'Pending', 'Rejected', 'Deleted'])->default('Pending');
-            $table->string('link');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->unsignedBigInteger('article_list_id');
-            $table->foreign('article_list_id')->references('id')->on('article_lists')->onDelete('restrict');
-            $table->unsignedBigInteger('clap_list_id');
-            $table->foreign('clap_list_id')->references('id')->on('clap_lists')->onDelete('restrict');
+            $table->foreign('article_list_id')->references('id')->on('article_lists')->onDelete('cascade');
             $table->timestamps();
         });
     }

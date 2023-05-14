@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->unsignedBigInteger('comment_article_id');
-            $table->foreign('comment_article_id')->references('id')->on('comment_articles')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('comment_article_id')->references('id')->on('comment_articles')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
