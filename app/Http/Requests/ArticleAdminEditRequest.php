@@ -28,7 +28,8 @@ class ArticleAdminEditRequest extends FormRequest
             'photo' => 'image|max:5000',
             'duration' => 'integer|min:1|required',
             'author_id' => 'required',
-            'status' => 'required'
+            'status' => 'required',
+            'slug' => 'unique',
         ];
     }
 
