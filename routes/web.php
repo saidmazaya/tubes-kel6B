@@ -5,6 +5,8 @@ use App\Http\Controllers\TagAdminController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\ArticleAdminController;
 use App\Http\Controllers\ArticleAdminEditController;
+use App\Http\Controllers\CommentListAdminController;
+use App\Http\Controllers\CommentArticleAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,3 +79,11 @@ Route::resource('/admin/article', ArticleAdminController::class);
 Route::put('/articles/{id}/update-status', [ArticleAdminController::class, 'updateStatus'])->name('article.update-status');
 
 Route::resource('/admin/administrator', ArticleAdminEditController::class);
+
+Route::resource('/admin/comment', CommentArticleAdminController::class);
+
+Route::put('/comment/{id}/update-status', [CommentArticleAdminController::class, 'updateStatus'])->name('comment.update-status');
+
+Route::resource('/admin/list', CommentListAdminController::class);
+
+Route::put('/comment-list/{id}/update-status', [CommentListAdminController::class, 'updateStatus'])->name('list.update-status');
