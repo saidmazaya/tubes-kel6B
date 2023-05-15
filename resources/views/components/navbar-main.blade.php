@@ -9,13 +9,13 @@
             
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto" href="/nulis"><i class='bx bx-edit bx-sm mb-2'></i></a></li>
+                    <li><a class="nav-link scrollto" href="/write-article"><i class='bx bx-edit bx-sm mb-2'></i></a></li>
                     <li><a class="nav-link scrollto" href="/notif"><i class="bx bx-bell bx-sm mb-2"></i></a></li>
                     <li class="dropdown"><a href="#" class="nav-link scrollto mb-1"><img src="path_to_profile_image" class="profile" alt="Profile"><i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="/profile">Profile</a></li>
+                            <li><a href="/profile/{{ Auth::user()->username }}">Profile</a></li>
                             <li><a href="/library">Library</a></li>
-                            <li><a href="/stories">Stories</a></li>
+                            <li><a href="/stories/draft/{{ Auth::user()->username }}">Stories</a></li>
                             <li><a href="/signout">Sign Out</a></li>
                         </ul>
                     </li>

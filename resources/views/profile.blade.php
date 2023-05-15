@@ -44,7 +44,7 @@
 
             <div class="col-md-4">
                 <div class="image-container">
-                    <img src="img/gb.jpg" alt="" class="rounded-image">
+                    <img src="/img/gb.jpg" alt="" class="rounded-image">
                 </div>
                 <div class="profile-head">
                     <h5>{{ Auth::user()->name }}</h5>

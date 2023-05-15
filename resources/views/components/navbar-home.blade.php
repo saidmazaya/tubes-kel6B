@@ -6,7 +6,7 @@
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li><a class="nav-link scrollto" href="/home">Home</a></li>
+                <li><a class="nav-link scrollto" href="/">Home</a></li>
                 <li><a class="nav-link scrollto" href="/ourstory">Our Story</a></li>
                 <li><a class="nav-link scrollto" href="/write">Write</a></li>
                 <li><a class="nav-link scrollto" href="{{ route('signin') }}">Sign In</a></li>

@@ -10,8 +10,7 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="/assets/img/favicon.png" rel="icon">
-    <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/images/premium-mini.png" rel="icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -45,10 +44,10 @@
                         <li><a class="nav-link scrollto" href="notif"><i class="bx bx-bell bx-sm mb-2"></i></a></li>
                         <li class="dropdown"><a href="#" class="nav-link scrollto mb-1"><img src="path_to_profile_image" class="profile" alt="Profile"><i class="bi bi-chevron-down"></i></a>
                             <ul>
-                                <li><a href="#">Profile</a></li>
-                                <li><a href="#">Library</a></li>
-                                <li><a href="#">Stories</a></li>
-                                <li><a href="#">Sign Out</a></li>
+                                <li><a href="/profile/{{ Auth::user()->username }}">Profile</a></li>
+                                <li><a href="/library">Library</a></li>
+                                <li><a href="/stories/draft/{{ Auth::user()->username }}">Stories</a></li>
+                                <li><a href="/signout">Sign Out</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -57,27 +56,112 @@
             </div>
         </div>
     </header><!-- End Header -->
-    <div class="container mt-3">
+    <div class="container mt-3 d-flex justify-content-center align-items-center">
 
         <div class="col-md-8 col-sm-12 bg-white p-4" style="margin-top: 100px">
-            <form method="POST" action="" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('write-article.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group mb-3">
-                    <input type="file" class="form-control-file" name="gambar">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title">
+                    @if ($errors->has('title'))
+                    <div class="alert alert-danger mt-2">
+                        @foreach ($errors->get('title') as $error)
+                        <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                    @endif
                 </div>
                 <div class="form-group mb-3">
-                    <label class="form-label">Judul Artikel</label>
-                    <input type="text" class="form-control" name="judul" placeholder="Judul artikel">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" id="description" cols="10" rows="3" class="form-control"></textarea>
+                    @if ($errors->has('description'))
+                    <div class="alert alert-danger mt-2">
+                        @foreach ($errors->get('description') as $error)
+                        <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                    @endif
                 </div>
                 <div class="form-group mb-3">
-                    <label class="form-label">Isi Artikel</label>
-                    <textarea class="form-control" name="deskripsi" rows="10"></textarea>
+                    <label for="content" class="form-label">Content</label>
+                    <textarea name="content" id="content" cols="30" rows="10" class="form-control"></textarea>
+                    @if ($errors->has('content'))
+                    <div class="alert alert-danger mt-2">
+                        @foreach ($errors->get('content') as $error)
+                        <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                    @endif
                 </div>
+                <div class="form-group mb-3">
+                    <label for="photo" class="form-label">Photo</label>
+                    <div class="input-group">
+                        <input type="file" class="form-control form-control-sm" id="photo" name="photo">
+                    </div>
+                    @if ($errors->has('photo'))
+                    <div class="alert alert-danger mt-2">
+                        @foreach ($errors->get('photo') as $error)
+                        <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                    @endif
+                </div>
+                <div class="form-group mb-3">
+                    <label for="duration" class="form-label">Duration (In Minutes)</label>
+                    <input type="number" class="form-control" id="duration" name="duration">
+                    @if ($errors->has('duration'))
+                    <div class="alert alert-danger mt-2">
+                        @foreach ($errors->get('duration') as $error)
+                        <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                    @endif
+                </div>
+                <input type="hidden" name="author_id" value="{{ Auth::user()->id }}">
+                <div class="form-group mb-3">
+                    <label for="tag" class="form-label">Tag</label>
+                    <select name="tag_id" id="tag" class="form-select">
+                        <option value="">Select One</option>
+                        @foreach ($tag as $data)
+                        <option value="{{ $data->id }}">{{ $data->name }}</option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('tag_id'))
+                    <div class="alert alert-danger mt-2">
+                        @foreach ($errors->get('tag_id') as $error)
+                        <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                    @endif
+                </div>
+                <div class="form-group mb-3">
+                    <label for="status" class="form-label">Status (Publish or Draft)</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="">Select One</option>
+                        <option value="Draft">Draft</option>
+                        <option value="Pending">Publish</option>
+                    </select>
+                    @if ($errors->has('status'))
+                    <div class="alert alert-danger mt-2">
+                        @foreach ($errors->get('status') as $error)
+                        <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                    @endif
+                </div>
+                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                <a href="/menuutama" class="btn btn-outline-secondary">Cancel</a>
             </form>
         </div>
     </div>
     <script src="assets/js/main.js"></script>
-    @stack('js')
+    <script src="https://cdn.ckeditor.com/4.20.1/full/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace( 'content', {
+    customConfig: '/js/ckeditor-config.js'
+});
+    </script>
 </body>
 
 </html>

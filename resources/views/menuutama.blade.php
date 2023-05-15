@@ -16,6 +16,11 @@
     <div class="container" data-aos="fade-up">
 
       <div class="row ">
+        @if (session('message'))
+        <div class="alert alert-success" role="alert">
+          {{ session('message') }}
+        </div>
+        @endif
 
         <div class="col-lg-8 entries">
 

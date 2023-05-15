@@ -37,7 +37,7 @@
       <div class="col-lg-3 col-md-4 col-6 col-6">
         <div class="icon-box">
           <i class="bx bxs-pencil" style="color: #1c71f1;"></i>
-          <h3><a href="signin">Start Writing</a></h3>
+          <h3><a href="/write-article">Start Writing</a></h3>
         </div>
       </div>
 
