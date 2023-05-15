@@ -47,7 +47,7 @@
                     <img src="img/gb.jpg" alt="" class="rounded-image">
                 </div>
                 <div class="profile-head">
-                    <h5>Aini</h5>
+                    <h5>{{ Auth::user()->name }}</h5>
                     <h6><a href="#">4 Followers</a></h6>
                     <div class="d-flex flex-row align-items-center justify-content-between mt-3">
                         <div>

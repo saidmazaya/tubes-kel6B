@@ -16,7 +16,7 @@
                             <li><a href="/profile">Profile</a></li>
                             <li><a href="/library">Library</a></li>
                             <li><a href="/stories">Stories</a></li>
-                            <li><a href="#">Sign Out</a></li>
+                            <li><a href="/signout">Sign Out</a></li>
                         </ul>
                     </li>
                 </ul>

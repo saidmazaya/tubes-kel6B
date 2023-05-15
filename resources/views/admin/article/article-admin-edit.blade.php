@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="description" cols="30" rows="10" class="form-control">{{ $article->description }}</textarea>
+                                    <textarea name="description" id="description" cols="30" rows="10" class="form-control-lg form-control">{{ $article->description }}</textarea>
                                     @if ($errors->has('description'))
                                     <div class="alert alert-danger mt-2">
                                         @foreach ($errors->get('description') as $error)
@@ -119,8 +119,8 @@
     CKEDITOR.replace( 'content', {
     customConfig: '/js/ckeditor-config.js'
 });
-    CKEDITOR.replace('description', {
-    customConfig: '/js/ckeditor-config.js'
-});
+//     CKEDITOR.replace('description', {
+//     customConfig: '/js/ckeditor-config.js'
+// });
 </script>
 @endpush
