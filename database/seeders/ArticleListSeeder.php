@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\ArticleList;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ArticleListSeeder extends Seeder
 {
@@ -13,6 +14,9 @@ class ArticleListSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        DB::table('comment_lists')->truncate();
+
         ArticleList::factory()->count(20)->create();
     }
 }
