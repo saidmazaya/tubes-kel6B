@@ -25,7 +25,7 @@
                                                 </div>
                                                 @endif
                                                 <h2 class="entry-title">
-                                                    <a href="{{ $article->slug }}">{{ $article->title }}</a>
+                                                    <a href="{{ route('article.detail', $article->slug) }}">{{ $article->title }}</a>
                                                 </h2>
                                                 <div class="entry-meta">
                                                     <ul>
