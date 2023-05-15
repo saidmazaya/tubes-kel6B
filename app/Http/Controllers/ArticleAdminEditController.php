@@ -67,7 +67,7 @@ class ArticleAdminEditController extends Controller
 
         $request['image'] = $newName;
         $user = User::findOrFail($request->author_id);
-        $request['slug'] = '@' . $user->username . '_' . Str::slug($request->title, '-') . '-' . rand(1000000, 9999999);
+        $request['slug'] = $user->username . '_' . Str::slug($request->title, '-') . '-' . rand(1000000, 9999999);
         $article = Article::create($request->all());
 
         return redirect(route('administrator.index'))->with('message', 'Artikel Berhasil Ditambahkan');
@@ -122,7 +122,7 @@ class ArticleAdminEditController extends Controller
         if ($request->title !== $article->title) {
             // Jika nama diubah, perbarui juga slug
             $user = User::findOrFail($request->author_id);
-            $request['slug'] = '@' . $user->username . '_' . Str::slug($request->title, '-') . '-' . rand(1000000, 9999999);
+            $request['slug'] = $user->username . '_' . Str::slug($request->title, '-') . '-' . rand(1000000, 9999999);
         }
 
         $article->update($request->all());
