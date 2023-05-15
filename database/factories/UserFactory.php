@@ -21,12 +21,12 @@ class UserFactory extends Factory
         $faker = faker::create();
         $username = $faker->userName();
         return [
-            'username' => $username,
+            'username' => '@'.$username,
             'name' => $faker->name(),
             'password' => bcrypt($faker->password()),
             'email' => $faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'role_id' =>  rand(1,2),
+            'role_id' =>  2,
             'remember_token' => Str::random(10),
         ];
     }

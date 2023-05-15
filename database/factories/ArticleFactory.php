@@ -32,7 +32,7 @@ class ArticleFactory extends Factory
             'description' => $faker->paragraph(1),
             'content' => $faker->text(),
             'duration' => rand(5,20),
-            'slug' => '@'. $user->username. '_' . Str::slug($title, '-'). '-' . rand(1000000, 9999999),
+            'slug' => $user->username. '_' . Str::slug($title, '-'). '-' . rand(1000000, 9999999),
             'author_id' => $user->id,
             'tag_id' => $tag->id,
         ];
