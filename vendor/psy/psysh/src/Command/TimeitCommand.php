@@ -28,8 +28,6 @@ class TimeitCommand extends Command
     const RESULT_MSG = '<info>Command took %.6f seconds to complete.</info>';
     const AVG_RESULT_MSG = '<info>Command took %.6f seconds on average (%.6f median; %.6f total) to complete.</info>';
 
-    // All times stored as nanoseconds!
-    private static $useHrtime;
     private static $start = null;
     private static $times = [];
 
@@ -42,9 +40,6 @@ class TimeitCommand extends Command
      */
     public function __construct($name = null)
     {
-        // @todo Remove microtime use after we drop support for PHP < 7.3
-        self::$useHrtime = \function_exists('hrtime');
-
         $parserFactory = new ParserFactory();
         $this->parser = $parserFactory->createParser();
 
@@ -105,13 +100,13 @@ HELP
         self::$times = [];
 
         if ($num === 1) {
-            $output->writeln(\sprintf(self::RESULT_MSG, $times[0] / 1e+9));
+            $output->writeln(\sprintf(self::RESULT_MSG, $times[0]));
         } else {
             $total = \array_sum($times);
             \rsort($times);
             $median = $times[\round($num / 2)];
 
-            $output->writeln(\sprintf(self::AVG_RESULT_MSG, ($total / $num) / 1e+9, $median / 1e+9, $total / 1e+9));
+            $output->writeln(\sprintf(self::AVG_RESULT_MSG, $total / $num, $median, $total));
         }
 
         return 0;
@@ -126,7 +121,7 @@ HELP
      */
     public static function markStart()
     {
-        self::$start = self::$useHrtime ? \hrtime(true) : (\microtime(true) * 1e+6);
+        self::$start = \microtime(true);
     }
 
     /**
@@ -145,7 +140,7 @@ HELP
      */
     public static function markEnd($ret = null)
     {
-        self::$times[] = (self::$useHrtime ? \hrtime(true) : (\microtime(true) * 1e+6)) - self::$start;
+        self::$times[] = \microtime(true) - self::$start;
         self::$start = null;
 
         return $ret;

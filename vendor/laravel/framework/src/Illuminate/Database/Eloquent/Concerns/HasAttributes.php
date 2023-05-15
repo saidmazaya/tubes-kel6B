@@ -32,7 +32,6 @@ use Illuminate\Support\Collection as BaseCollection;
 use Illuminate\Support\Exceptions\MathException;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use LogicException;
@@ -105,7 +104,6 @@ trait HasAttributes
         'encrypted:json',
         'encrypted:object',
         'float',
-        'hashed',
         'immutable_date',
         'immutable_datetime',
         'immutable_custom_datetime',
@@ -864,8 +862,6 @@ trait HasAttributes
             $convertedCastType = 'immutable_custom_datetime';
         } elseif ($this->isDecimalCast($castType)) {
             $convertedCastType = 'decimal';
-        } elseif (class_exists($castType)) {
-            $convertedCastType = $castType;
         } else {
             $convertedCastType = trim(strtolower($castType));
         }
@@ -987,10 +983,6 @@ trait HasAttributes
 
         if (! is_null($value) && $this->isEncryptedCastable($key)) {
             $value = $this->castAttributeAsEncryptedString($key, $value);
-        }
-
-        if (! is_null($value) && $this->hasCast($key, 'hashed')) {
-            $value = $this->castAttributeAsHashedString($key, $value);
         }
 
         $this->attributes[$key] = $value;
@@ -1299,18 +1291,6 @@ trait HasAttributes
     public static function encryptUsing($encrypter)
     {
         static::$encrypter = $encrypter;
-    }
-
-    /**
-     * Cast the given attribute to a hashed string.
-     *
-     * @param  string  $key
-     * @param  mixed  $value
-     * @return string
-     */
-    protected function castAttributeAsHashedString($key, $value)
-    {
-        return Hash::needsRehash($value) ? Hash::make($value) : $value;
     }
 
     /**

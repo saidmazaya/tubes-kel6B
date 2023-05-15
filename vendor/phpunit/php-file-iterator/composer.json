@@ -16,8 +16,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/sebastianbergmann/php-file-iterator/issues",
-        "security": "https://github.com/sebastianbergmann/php-file-iterator/security/policy"
+        "issues": "https://github.com/sebastianbergmann/php-file-iterator/issues"
     },
     "config": {
         "platform": {

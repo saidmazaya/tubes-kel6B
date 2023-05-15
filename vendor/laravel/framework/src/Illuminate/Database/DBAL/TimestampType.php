@@ -92,8 +92,6 @@ class TimestampType extends Type implements PhpDateTimeMappingType
 
     /**
      * {@inheritdoc}
-     *
-     * @return string
      */
     public function getName()
     {

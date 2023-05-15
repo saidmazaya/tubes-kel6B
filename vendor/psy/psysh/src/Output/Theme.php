@@ -72,7 +72,7 @@ class Theme
         'inline_html' => ['cyan'],
     ];
 
-    const ERROR_STYLES = ['info', 'warning', 'error', 'whisper', 'class'];
+    const ERROR_STYLES = ['info', 'warning', 'error', 'whisper'];
 
     private $compact = false;
 

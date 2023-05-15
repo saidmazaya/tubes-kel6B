@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TagAdminController;
+use App\Http\Controllers\UserAdminController;
+use App\Http\Controllers\ArticleAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', function () {
     return view('index');
 });
@@ -43,3 +47,38 @@ Route::get('/notif', function () {
     return view('main.notif');
 });
 
+Route::get('/profile', function () {
+    return view('profile');
+});
+
+Route::get('/library', function () {
+    return view('library');
+});
+
+Route::get('/stories', function () {
+    return view('stories');
+});
+
+Route::get('/dashboard', function () {
+    return view('admin.index');
+});
+
+Route::get('/userfollow', function () {
+    return view('user-follow');
+});
+
+Route::get('/edit', function () {
+    return view('editprofile');
+});
+
+
+// Route::middleware(['auth'])->group(function () {
+    
+// });
+Route::resource('/admin/account', UserAdminController::class);
+
+Route::resource('/admin/tag', TagAdminController::class);
+
+Route::resource('/admin/article', ArticleAdminController::class);
+
+Route::put('/articles/{id}/update-status', [ArticleAdminController::class, 'updateStatus'])->name('article.update-status');

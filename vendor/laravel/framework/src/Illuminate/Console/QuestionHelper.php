@@ -14,8 +14,6 @@ class QuestionHelper extends SymfonyQuestionHelper
 {
     /**
      * {@inheritdoc}
-     *
-     * @return void
      */
     protected function writePrompt(OutputInterface $output, Question $question)
     {
