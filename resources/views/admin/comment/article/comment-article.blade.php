@@ -57,6 +57,8 @@
                                                     <input type="hidden" name="id" value="{{ $data->id }}">
                                                     <button type="button" class="btn-sm text-decoration-none btn-success publish-button" data-article-id="{{ $data->id }}"><i class="fa-solid fa-check"></i></button>
                                                 </form>
+                                                @if ($data->status == 'Published')
+                                                @else
                                                 | <form id="reject-form-{{ $data->id }}" action="{{ route('comment.update-status', $data->id) }}" data-status="Rejected" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('PUT')
@@ -64,6 +66,7 @@
                                                     <input type="hidden" name="id" value="{{ $data->id }}">
                                                     <button type="button" class="btn-sm text-decoration-none btn-danger reject-button" data-article-id="{{ $data->id }}"><i class="fa-solid fa-x"></i></button>
                                                 </form>
+                                                @endif
                                             </td>
                                         </tr>
                                         @endforeach

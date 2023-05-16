@@ -27,6 +27,7 @@ class CommentListAdminController extends Controller
             ->whereHas('user', function ($query) {
                 $query->where('role_id', '!=', 1);
             })
+            ->where('status', '!=', 'Rejected')
             ->orderBy('id', 'asc')
             ->paginate(10);
         return view('admin.comment.list.comment-list', compact('commentList', 'keyword'));
@@ -54,7 +55,7 @@ class CommentListAdminController extends Controller
     public function show($id)
     {
         $commentList = CommentList::with(['user', 'articleList'])
-        ->findOrFail($id);
+            ->findOrFail($id);
         return view('admin.comment.list.comment-list-detail', compact('commentList'));
     }
 

@@ -33,7 +33,7 @@ class Article extends Model
 
     public function comments()
     {
-        return $this->hasMany(CommentArticle::class, 'article_id', 'id');
+        return $this->hasMany(CommentArticle::class, 'article_id', 'id')->whereNull('parent_id');
     }
 
     public function articleList()

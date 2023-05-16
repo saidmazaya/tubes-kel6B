@@ -16,10 +16,25 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $article = Article::get();
-        return view('article', compact('article'));
+        $keyword = $request->keyword;
+        $article = Article::with(['tags', 'user'])
+            ->where(function ($query) use ($keyword) {
+                $query->where('title', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('status', 'LIKE', '%' . $keyword . '%')
+                    ->orWhereHas('user', function ($query) use ($keyword) {
+                        $query->where('name', 'LIKE', '%' . $keyword . '%');
+                    })
+                    ->orWhereHas('tags', function ($query) use ($keyword) {
+                        $query->where('name', 'LIKE', '%' . $keyword . '%');
+                    });
+            })
+            ->where('status', 'Published')
+            ->orderBy('id', 'asc')
+            ->paginate(10);
+        $tag = Tag::all();
+        return view('menuutama', compact('article', 'keyword', 'tag'));
     }
 
     /**
@@ -68,7 +83,7 @@ class ArticleController extends Controller
      */
     public function show($slug)
     {
-        $article = Article::with(['user', 'tags'])
+        $article = Article::with(['user', 'tags', 'comments.replies', 'comments.replies.replies'])
             ->where('slug', $slug)->first();
         return view('article-detail', compact('article'));
     }
@@ -125,7 +140,11 @@ class ArticleController extends Controller
 
         $article->update($request->all());
 
-        return redirect('/menuutama')->with('message', 'Perubahan Data Artikel Berhasil');
+        if ($request->status == 'Draft') {
+            return redirect(route('stories.draft', Auth::user()->username))->with('message', 'Perubahan Data Artikel Berhasil');
+        } else {
+            return redirect(route('stories.published', Auth::user()->username))->with('message', 'Perubahan Data Artikel Berhasil, Mohon tunggu persetujuan admin');
+        }
     }
 
     /**
@@ -144,6 +163,9 @@ class ArticleController extends Controller
             ->where('author_id', $users)
             ->where('status', 'Draft')
             ->get();
+        if ($user->id !== auth()->user()->id) {
+            abort(403, 'Unauthorized');
+        }
         return view('stories-draft', compact('article'));
     }
 
@@ -158,5 +180,32 @@ class ArticleController extends Controller
         $article->delete();
 
         return redirect(route('stories.draft', Auth::user()->username))->with('message', 'Draft Article berhasil dihapus.');
+    }
+
+    public function published($username)
+    {
+        $user = User::where('username', $username)->first();
+        $users = $user->id;
+        $article = Article::with(['user', 'tags'])
+            ->where('author_id', $users)
+            ->where('status', 'Published')
+            ->get();
+        if ($user->id !== auth()->user()->id) {
+            abort(403, 'Unauthorized');
+        }
+        return view('stories-published', compact('article'));
+    }
+
+    public function destroyPublished($id)
+    {
+        $article = Article::findOrFail($id);
+
+        if ($article->author_id !== auth()->user()->id) {
+            abort(403, 'Unauthorized');
+        }
+
+        $article->delete();
+
+        return redirect(route('stories.published', Auth::user()->username))->with('message', 'Article berhasil dihapus.');
     }
 }

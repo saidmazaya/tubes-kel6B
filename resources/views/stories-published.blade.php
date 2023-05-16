@@ -37,7 +37,7 @@
                 {{ session('message') }}
             </div>
             @endif
-            @include('stories.draft')
+            @include('stories.published')
         </div>
     </div>
 </div>
@@ -106,7 +106,7 @@
     function deleteConfirmation(articleId) {
         Swal.fire({
             title: 'Confirmation',
-            text: 'Are you sure you want to delete this Draft Article?',
+            text: 'Are you sure you want to delete this Article?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes, delete',

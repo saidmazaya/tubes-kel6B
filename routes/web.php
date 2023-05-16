@@ -45,9 +45,7 @@ Route::get('/write', function () {
     return view('write');
 });
 
-Route::get('/menuutama', function () {
-    return view('menuutama');
-})->middleware('auth');
+Route::get('/menuutama', [ArticleController::class, 'index'])->middleware('auth');
 
 Route::get('/write-article', [ArticleController::class, 'create'])->name('write-article')->middleware('auth');
 Route::post('/write-article-store', [ArticleController::class, 'store'])->name('write-article.store')->middleware('auth');
@@ -55,6 +53,7 @@ Route::get('/write-article/{id}/edit', [ArticleController::class, 'edit'])->name
 Route::put('/write-article-update/{id}', [ArticleController::class, 'update'])->name('write-article.update')->middleware('auth');
 Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article.detail');
 Route::delete('/article-delete/{id}', [ArticleController::class, 'destroyDraft'])->name('article.destroy-draft')->middleware('auth');
+Route::delete('/article-delete-published/{id}', [ArticleController::class, 'destroyPublished'])->name('article.destroy-published')->middleware('auth');
 
 Route::get('/notif', function () {
     return view('main.notif');
@@ -69,6 +68,7 @@ Route::get('/library', function () {
 })->middleware('auth');
 
 Route::get('/stories/draft/{id}', [ArticleController::class, 'draft'])->name('stories.draft')->middleware('auth');
+Route::get('/stories/public/{id}', [ArticleController::class, 'published'])->name('stories.published')->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('admin.index');

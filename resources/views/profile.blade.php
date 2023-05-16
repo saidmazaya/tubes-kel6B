@@ -44,7 +44,11 @@
 
             <div class="col-md-4">
                 <div class="image-container">
-                    <img src="/img/gb.jpg" alt="" class="rounded-image">
+                    @if (Auth::user()->image != null)
+                    <img src="{{ asset('storage/photo/'.Auth::user()->image)}}" alt="" class="rounded-image">
+                    @else
+                    <img src="/images/default-user-image.png" alt="" class="rounded-image">
+                    @endif
                 </div>
                 <div class="profile-head">
                     <h5>{{ Auth::user()->name }}</h5>
@@ -82,9 +86,10 @@
 @push('css')
 <style>
     #containernav {
-        height: 60px;   
+        height: 60px;
         max-width: 1350px;
     }
+
     #formNav {
         margin-bottom: 10px;
     }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('comment_articles', function (Blueprint $table) {
             $table->id();
             $table->text('content');
-            $table->enum('status', ['Pending', 'Published', 'Rejected', 'Deleted'])->default('Pending');
+            $table->enum('status', ['Pending', 'Published', 'Rejected'])->default('Pending');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->unsignedBigInteger('article_id');

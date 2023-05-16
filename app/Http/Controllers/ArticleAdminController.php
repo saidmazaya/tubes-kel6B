@@ -27,7 +27,7 @@ class ArticleAdminController extends Controller
             ->whereHas('user', function ($query) {
                 $query->where('role_id', '!=', 1);
             })
-            ->where('status', '!=', 'Draft')
+            ->whereNotIn('status', ['Draft', 'Rejected'])
             ->orderBy('id', 'asc')
             ->paginate(10);
         return view('admin.article.article', compact('article', 'keyword'));
@@ -55,7 +55,7 @@ class ArticleAdminController extends Controller
     public function show($slug)
     {
         $article = Article::with(['user', 'tags'])
-        ->where('slug', $slug)->first();
+            ->where('slug', $slug)->first();
         return view('admin.article.article-detail', compact('article'));
     }
 

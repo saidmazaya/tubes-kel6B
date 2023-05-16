@@ -27,6 +27,7 @@ class CommentArticleAdminController extends Controller
             ->whereHas('user', function ($query) {
                 $query->where('role_id', '!=', 1);
             })
+            ->where('status', '!=', 'Rejected')
             ->orderBy('id', 'asc')
             ->paginate(10);
         return view('admin.comment.article.comment-article', compact('commentArticle', 'keyword'));

@@ -40,9 +40,13 @@
 
                 <nav id="navbar" class="navbar">
                     <ul>
-                        <li><a href="" class="btn btn-success mb-2">Publish</a></li>
+                        <li><a class="nav-link scrollto" href="/menuutama"><i class='bx bx-home-alt-2 bx-sm mb-2'></i></a></li>
                         <li><a class="nav-link scrollto" href="notif"><i class="bx bx-bell bx-sm mb-2"></i></a></li>
-                        <li class="dropdown"><a href="#" class="nav-link scrollto mb-1"><img src="path_to_profile_image" class="profile" alt="Profile"><i class="bi bi-chevron-down"></i></a>
+                        @if (Auth::user()->image != null)
+                        <li class="dropdown"><a href="#" class="nav-link scrollto mb-1"><img src="{{ asset('storage/photo/'.Auth::user()->image)}}" width="40" class="rounded img-fluid" alt="Profile"><i class="bi bi-chevron-down"></i></a>
+                            @else
+                        <li class="dropdown"><a href="#" class="nav-link scrollto mb-1"><img src="/images/default-user-image.png" width="40" class="rounded img-fluid" alt="Profile"><i class="bi bi-chevron-down"></i></a>
+                            @endif
                             <ul>
                                 <li><a href="/profile/{{ Auth::user()->username }}">Profile</a></li>
                                 <li><a href="/library">Library</a></li>

@@ -29,8 +29,8 @@
                                                 </h2>
                                                 <div class="entry-meta">
                                                     <ul>
-                                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">{{ $article->user->name }}</a></li>
-                                                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><time datetime="2020-01-01">{{ $article->created_at->format('M d, Y') }}</time></a></li>
+                                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a class="nav-link disabled" href="#">{{ $article->user->name }}</a></li>
+                                                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a class="nav-link disabled" href="#"><time datetime="2020-01-01">{{ $article->created_at->format('M d, Y') }}</time></a></li>
                                                         <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a href="#">{{ $article->duration.' Minutes' }}</a></li>
                                                         <li class="d-flex align-items-center"><i class="fa fa-hands-clapping"></i> <a href="#">Clap</a></li>
                                                         <i class="bi bi-hand-clap"></i>
