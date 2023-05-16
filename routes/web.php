@@ -6,6 +6,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\TagAdminController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\ArticleAdminController;
+use App\Http\Controllers\CommentArticleController;
 use App\Http\Controllers\ArticleAdminEditController;
 use App\Http\Controllers\CommentListAdminController;
 use App\Http\Controllers\CommentArticleAdminController;
@@ -45,7 +46,7 @@ Route::get('/write', function () {
     return view('write');
 });
 
-Route::get('/menuutama', [ArticleController::class, 'index'])->middleware('auth');
+Route::get('/menuutama', [ArticleController::class, 'index']);
 
 Route::get('/write-article', [ArticleController::class, 'create'])->name('write-article')->middleware('auth');
 Route::post('/write-article-store', [ArticleController::class, 'store'])->name('write-article.store')->middleware('auth');
@@ -54,6 +55,10 @@ Route::put('/write-article-update/{id}', [ArticleController::class, 'update'])->
 Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article.detail');
 Route::delete('/article-delete/{id}', [ArticleController::class, 'destroyDraft'])->name('article.destroy-draft')->middleware('auth');
 Route::delete('/article-delete-published/{id}', [ArticleController::class, 'destroyPublished'])->name('article.destroy-published')->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::resource('/komentar', CommentArticleController::class);
+});
 
 Route::get('/notif', function () {
     return view('main.notif');

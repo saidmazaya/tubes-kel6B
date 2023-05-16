@@ -59,113 +59,299 @@
           </article><!-- End blog entry -->
 
           <div class="blog-comments">
+            @if (session('message'))
+            <div class="alert alert-success" role="alert">
+              {{ session('message') }}
+            </div>
+            @endif
+            <div class="reply-form">
+              <h4>Leave a Reply</h4>
+              @if (Auth::check())
+              <form action="{{ route('komentar.store') }}" method="POST">
+                @csrf
+                <div class="row">
+                  <div class="col form-group">
+                    <textarea name="content" class="form-control" id="content" placeholder="Your Comment"></textarea>
+                  </div>
+                </div>
+                <input type="hidden" name="status" value="Published">
+                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                <input type="hidden" name="article_id" value="{{ $article->id }}">
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+              </form>
+              @else
+              <a href="/signin">
+                <div class="row">
+                  <div class="col form-group">
+                    <p name="comment" class="form-control" placeholder="Your Comment">What Are Your Thoughts?</p>
+                  </div>
+                </div>
+              </a>
+              @endif
+            </div>
+            @if ($publishedComments->count() > 0)
+            @php
+            function countReplies($comment) {
+            $count = 0;
+            foreach ($comment->replies as $reply) {
+            $count += countReplies($reply);
+            }
+            return $count;
+            }
 
-            <h4 class="comments-count">8 Comments</h4>
-
+            $totalComments = $publishedComments->count();
+            $totalReplies = 0;
+            foreach ($publishedComments as $comment) {
+            $totalReplies += countReplies($comment);
+            }
+            $totalCommentsWithReplies = $totalComments + $totalReplies;
+            @endphp
+            <h4 class="comments-count mt-3">{{ $totalCommentsWithReplies }} Comments</h4>
             @foreach ($article->comments as $data)
+
+            {{-- Level 1 --}}
             <div id="comment-2" class="comment">
               <div class="d-flex">
-                <div class="comment-img"><img src="/assets/img/blog/comments-2.jpg" alt=""></div>
+                @if ($data->user->image != NULL)
+                <div class="comment-img"><img src="{{ asset('storage/photo/'.$data->user->image)}}" alt=""></div>
+                @else
+                <div class="comment-img"><img src="/images/logo-user.png" alt=""></div>
+                @endif
                 <div>
-                  <h5><a href="">{{ $data->user->name }}</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i>
-                      Reply</a></h5>
-                  <time datetime="2020-01-01">{{ $data->created_at->format('M d, Y') }}</time>
+                  <h5><a href="">{{ $data->user->name }}</a> <a style="cursor: pointer;" class="reply reply-button" data-comment-id="{{ $data->id }}"><i class="bi bi-reply-fill"></i>
+                      Reply</a> @if (Auth::user()->id == $data->user->id)
+                    &nbsp;&nbsp;<a style="cursor: pointer;" class="reply edit-button" data-comment-id="{{ $data->id }}">Edit</a>
+                    @else
+                    @endif
+                    @if (Auth::user()->id == $data->user->id)
+                    &nbsp;&nbsp;<form class="d-inline" action="{{ route('komentar.destroy', $data->id) }}" method="POST" id="deleteForm{{ $data->id }}">
+                      @csrf
+                      @method('delete')
+                      <a type="button" class="btn-sm btn-danger delete-button" onclick="deleteConfirmation({{ $data->id }})">Delete</a>
+                    </form>
+                    @else
+                    @endif</h5>
+                  </h5>
+                  <time datetime="{{ $data->created_at }}">{{ $data->created_at->diffForHumans() }}</time>
                   <p>
-                    {{ $data->content }}
+                    {!! $data->content !!}
                   </p>
                 </div>
               </div>
+              <!-- Form Reply -->
+              <div class="reply-form" id="reply-form-{{ $data->id }}" style="display: none;">
+                <form action="{{ route('komentar.store') }}" method="POST">
+                  @csrf
+                  <input type="hidden" name="parent_id" value="{{ $data->id }}">
+                  <input type="hidden" name="status" value="Published">
+                  <input type="hidden" name="article_id" value="{{ $article->id }}">
+                  <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                  <div class="row">
+                    <div class="col form-group">
+                      <textarea name="content" id="content" class="form-control" placeholder="Your Reply"></textarea>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Post Reply</button>
+                </form>
+              </div>
+              {{-- Form Edit --}}
+              <div class="reply-form" id="edit-form-{{ $data->id }}" style="display: none;">
+                <form action="{{ route('komentar.update', $data->id) }}" method="POST">
+                  @csrf
+                  @method('PUT')
+                  {{-- <input type="hidden" name="parent_id" value="{{ $data->id }}">
+                  <input type="hidden" name="status" value="Published">
+                  <input type="hidden" name="article_id" value="{{ $article->id }}">
+                  <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
+                  <div class="row">
+                    <div class="col form-group">
+                      <textarea name="content" class="form-control">{!! $data->content !!}</textarea>
+                      <button type="submit" class="btn btn-primary mt-3">Update Comment</button>
+                      {{-- <button type="button" class="btn btn-secondary mt-3 edit-button" data-comment-id="{{ $data->id }}">Cancel</button> --}}
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+
+              {{-- Level 2 --}}
               @if ($data && count($data->replies) > 0)
               @foreach ($data->replies as $data)
               <div id="comment-reply-1" class="comment comment-reply">
                 <div class="d-flex">
-                  <div class="comment-img"><img src="/assets/img/blog/comments-3.jpg" alt=""></div>
+                  @if ($data->user->image != NULL)
+                  <div class="comment-img"><img src="{{ asset('storage/photo/'.$data->user->image)}}" alt=""></div>
+                  @else
+                  <div class="comment-img"><img src="/images/logo-user.png" alt=""></div>
+                  @endif
                   <div>
-                    <h5><a href="">{{ $data->user->name }}</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a></h5>
-                    <time datetime="2020-01-01">{{ $data->created_at->format('M d, Y') }}</time>
+                    <h5><a href="">{{ $data->user->name }}</a> <a style="cursor: pointer;" class="reply reply-button" data-comment-id="{{ $data->id }}"><i class="bi bi-reply-fill"></i>
+                        Reply</a> @if (Auth::user()->id == $data->user->id)
+                      &nbsp;&nbsp;<a style="cursor: pointer;" class="reply edit-button" data-comment-id="{{ $data->id }}">Edit</a>
+                      @else
+                      @endif</h5>
+                    <time datetime="{{ $data->created_at }}">{{ $data->created_at->diffForHumans() }}</time>
                     <p>
-                      {{ $data->content }}
+                      {!! $data->content !!}
                     </p>
                   </div>
                 </div>
-              </div>
+                <!-- Form Reply -->
+                <div class="reply-form" id="reply-form-{{ $data->id }}" style="display: none;">
+                  <form action="{{ route('komentar.store') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="parent_id" value="{{ $data->id }}">
+                    <input type="hidden" name="status" value="Published">
+                    <input type="hidden" name="article_id" value="{{ $article->id }}">
+                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                    <div class="row">
+                      <div class="col form-group">
+                        <textarea name="content" id="content" class="form-control" placeholder="Your Reply"></textarea>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Post Reply</button>
+                  </form>
+                </div>
+                {{-- Form Edit --}}
+                <div class="reply-form" id="edit-form-{{ $data->id }}" style="display: none;">
+                  <form action="{{ route('komentar.update', $data->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    {{-- <input type="hidden" name="parent_id" value="{{ $data->id }}">
+                    <input type="hidden" name="status" value="Published">
+                    <input type="hidden" name="article_id" value="{{ $article->id }}">
+                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
+                    <div class="row">
+                      <div class="col form-group">
+                        <textarea name="content" class="form-control">{!! $data->content !!}</textarea>
+                        <button type="submit" class="btn btn-primary mt-3">Update Comment</button>
+                        {{-- <button type="button" class="btn btn-secondary mt-3 edit-button" data-comment-id="{{ $data->id }}">Cancel</button> --}}
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+
+                {{-- Level 3 --}}
+                @if ($data && count($data->replies) > 0)
+                @foreach ($data->replies as $data)
+                <div id="comment-reply-2" class="comment comment-reply">
+                  <div class="d-flex">
+                    @if ($data->user->image != NULL)
+                    <div class="comment-img"><img src="{{ asset('storage/photo/'.$data->user->image)}}" alt=""></div>
+                    @else
+                    <div class="comment-img"><img src="/images/logo-user.png" alt=""></div>
+                    @endif
+                    <div>
+                      <h5><a href="">{{ $data->user->name }}</a> <a style="cursor: pointer;" class="reply reply-button" data-comment-id="{{ $data->id }}"><i class="bi bi-reply-fill"></i>
+                          Reply</a>
+                        @if (Auth::user()->id == $data->user->id)
+                        &nbsp;&nbsp;<a style="cursor: pointer;" class="reply edit-button" data-comment-id="{{ $data->id }}">Edit</a>
+                        @else
+                        @endif
+                      </h5>
+                      <time datetime="{{ $data->created_at }}">{{ $data->created_at->diffForHumans() }}</time>
+                      <p>
+                        {!! $data->content !!}
+                      </p>
+                    </div>
+                  </div>
+                  <!-- Form Reply -->
+                  <div class="reply-form" id="reply-form-{{ $data->id }}" style="display: none">
+                    <form action="{{ route('komentar.store') }}" method="POST">
+                      @csrf
+                      <input type="hidden" name="parent_id" value="{{ $data->id }}">
+                      <input type="hidden" name="status" value="Published">
+                      <input type="hidden" name="article_id" value="{{ $article->id }}">
+                      <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                      <div class="row">
+                        <div class="col form-group">
+                          <textarea name="content" id="content" class="form-control" placeholder="Your Reply"></textarea>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Post Reply</button>
+                    </form>
+                  </div>
+                  {{-- Form Edit --}}
+                  <div class="reply-form" id="edit-form-{{ $data->id }}" style="display: none;">
+                    <form action="{{ route('komentar.update', $data->id) }}" method="POST">
+                      @csrf
+                      @method('PUT')
+                      {{-- <input type="hidden" name="parent_id" value="{{ $data->id }}">
+                      <input type="hidden" name="status" value="Published">
+                      <input type="hidden" name="article_id" value="{{ $article->id }}">
+                      <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
+                      <div class="row">
+                        <div class="col form-group">
+                          <textarea name="content" class="form-control">{!! $data->content !!}</textarea>
+                          <button type="submit" class="btn btn-primary mt-3">Update Comment</button>
+                          {{-- <button type="button" class="btn btn-secondary mt-3 edit-button" data-comment-id="{{ $data->id }}">Cancel</button> --}}
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+
+                  {{-- Level 4 --}}
+                  @if ($data && count($data->replies) > 0)
+                  @foreach ($data->replies as $data)
+                  <div id="comment-reply-2" class="comment comment-reply">
+                    <div class="d-flex">
+                      @if ($data->user->image != NULL)
+                      <div class="comment-img"><img src="{{ asset('storage/photo/'.$data->user->image)}}" alt=""></div>
+                      @else
+                      <div class="comment-img"><img src="/images/logo-user.png" alt=""></div>
+                      @endif
+                      <div>
+                        <h5><a href="">{{ $data->user->name }} @if (Auth::user()->id == $data->user->id)
+                            &nbsp;&nbsp;<a style="cursor: pointer;" class="reply edit-button" data-comment-id="{{ $data->id }}">Edit</a>
+                            @else
+                            @endif</a>
+                          <time datetime="2020-01-01">{{ $data->created_at->diffForHumans() }}</time>
+                          <p>
+                            {!! $data->content !!}
+                          </p>
+                      </div>
+                    </div>
+                  </div><!-- End comment reply #2-->
+                  {{-- Form Edit --}}
+                  <div class="reply-form" id="edit-form-{{ $data->id }}" style="display: none;">
+                    <form action="{{ route('komentar.update', $data->id) }}" method="POST">
+                      @csrf
+                      @method('PUT')
+                      {{-- <input type="hidden" name="parent_id" value="{{ $data->id }}">
+                      <input type="hidden" name="status" value="Published">
+                      <input type="hidden" name="article_id" value="{{ $article->id }}">
+                      <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
+                      <div class="row">
+                        <div class="col form-group">
+                          <textarea name="content" class="form-control">{!! $data->content !!}</textarea>
+                          <button type="submit" class="btn btn-primary mt-3">Update Comment</button>
+                          {{-- <button type="button" class="btn btn-secondary mt-3 edit-button" data-comment-id="{{ $data->id }}">Cancel</button> --}}
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  @endforeach
+                  @endif
+                </div><!-- End comment reply #2-->
                 @endforeach
                 @endif
-                @endforeach
-
-
-              </div><!-- End comment reply #2-->
-
-            </div><!-- End comment reply #1-->
-
-          </div><!-- End comment #2-->
-
-          <div id="comment-3" class="comment">
-            <div class="d-flex">
-              <div class="comment-img"><img src="assets/img/blog/comments-5.jpg" alt=""></div>
-              <div>
-                <h5><a href="">Nolan Davidson</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i>
-                    Reply</a></h5>
-                <time datetime="2020-01-01">01 Jan, 2020</time>
-                <p>
-                  Distinctio nesciunt rerum reprehenderit sed. Iste omnis eius repellendus quia nihil ut accusantium
-                  tempore. Nesciunt expedita id dolor exercitationem aspernatur aut quam ut. Voluptatem est
-                  accusamus iste at.
-                  Non aut et et esse qui sit modi neque. Exercitationem et eos aspernatur. Ea est consequuntur
-                  officia beatae ea aut eos soluta. Non qui dolorum voluptatibus et optio veniam. Quam officia sit
-                  nostrum dolorem.
-                </p>
-              </div>
-            </div>
-
-          </div><!-- End comment #3 -->
-
-          <div id="comment-4" class="comment">
-            <div class="d-flex">
-              <div class="comment-img"><img src="assets/img/blog/comments-6.jpg" alt=""></div>
-              <div>
-                <h5><a href="">Kay Duggan</a> <a href="#" class="reply"><i class="bi bi-reply-fill"></i> Reply</a>
-                </h5>
-                <time datetime="2020-01-01">01 Jan, 2020</time>
-                <p>
-                  Dolorem atque aut. Omnis doloremque blanditiis quia eum porro quis ut velit tempore. Cumque sed
-                  quia ut maxime. Est ad aut cum. Ut exercitationem non in fugiat.
-                </p>
-              </div>
-            </div>
-
-          </div><!-- End comment #4 -->
-
-          <div class="reply-form">
-            <h4>Leave a Reply</h4>
-            <p>Your email address will not be published. Required fields are marked * </p>
-            <form action="">
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <input name="name" type="text" class="form-control" placeholder="Your Name*">
-                </div>
-                <div class="col-md-6 form-group">
-                  <input name="email" type="text" class="form-control" placeholder="Your Email*">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col form-group">
-                  <input name="website" type="text" class="form-control" placeholder="Your Website">
-                </div>
-              </div>
-              <div class="row">
-                <div class="col form-group">
-                  <textarea name="comment" class="form-control" placeholder="Your Comment*"></textarea>
-                </div>
-              </div>
-              <button type="submit" class="btn btn-primary">Post Comment</button>
-            </form>
-          </div>
-        </div><!-- End blog comments -->
-      </div><!-- End blog entries list -->
-    </div>
+              </div><!-- End comment reply #1-->
+              @endforeach
+              @endif
+            </div><!-- End comment #2-->
+            @endforeach
+            @else
+            <h4 class="comments-count mt-3">0 Comments</h4>
+            <p class="mt-5">No comments available.</p>
+            @endif
+          </div><!-- End blog comments -->
+        </div><!-- End blog entries list -->
+      </div>
     </div>
   </section><!-- End Blog Single Section -->
+
 </main><!-- End #main -->
 
 <!-- ======= Footer ======= -->
@@ -178,4 +364,53 @@
 <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 <script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+<script>
+  ClassicEditor
+    .create( document.querySelector( '#content' ), {
+        toolbar: [ 'undo', 'redo', 'bold', 'italic' ]
+    } )
+    .catch( error => {
+        console.log( error );
+    } );
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+        $('.reply-button').click(function() {
+            var commentId = $(this).data('comment-id');
+            $('#reply-form-' + commentId).toggle();
+        });
+    });
+</script>
+<script>
+  $(document).ready(function() {
+        $('.edit-button').click(function() {
+            var commentId = $(this).data('comment-id');
+            $('#edit-form-' + commentId).toggle();
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  // Fungsi untuk menampilkan SweetAlert konfirmasi
+  function deleteConfirmation(articleId) {
+      Swal.fire({
+          title: 'Confirmation',
+          text: 'Are you sure you want to delete this article?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete',
+          cancelButtonText: 'Cancel',
+          customClass: {
+              icon: 'swal2-icon swal2-warning',
+          },
+      }).then((result) => {
+          if (result.isConfirmed) {
+              // Submit form
+              document.querySelector(`#deleteForm${articleId}`).submit();
+          }
+      });
+  }
+</script>
 @endpush

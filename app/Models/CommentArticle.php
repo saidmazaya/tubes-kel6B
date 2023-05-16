@@ -14,6 +14,7 @@ class CommentArticle extends Model
         'status',
         'user_id',
         'article_id',
+        'parent_id',
     ];
 
     public function articles()

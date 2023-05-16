@@ -14,6 +14,7 @@ class CommentList extends Model
         'status',
         'user_id',
         'article_list_id',
+        'parent_id',
     ];
 
     public function articleList()

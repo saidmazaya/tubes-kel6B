@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ArticleRequest;
+use App\Models\CommentArticle;
 use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
@@ -84,8 +85,15 @@ class ArticleController extends Controller
     public function show($slug)
     {
         $article = Article::with(['user', 'tags', 'comments.replies', 'comments.replies.replies'])
-            ->where('slug', $slug)->first();
-        return view('article-detail', compact('article'));
+            ->where('slug', $slug)
+            ->first();
+        $publishedComments = CommentArticle::with('articles', 'user')
+            ->where('status', '!=', 'Rejected')
+            ->where('article_id', $article->id)
+            ->get();
+            // dd($article->toArray());
+            // dd($publishedComments->toArray());
+        return view('article-detail', compact('article', 'publishedComments'));
     }
 
     /**

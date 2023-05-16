@@ -22,6 +22,10 @@
         </div>
         @endif
 
+        @if ($article->isEmpty())
+        <div class="alert alert-danger">Pencarian {{ $keyword }} tidak ditemukan </div>
+        @endif
+
         <div class="col-lg-8 entries">
 
           @foreach ($article as $data)
