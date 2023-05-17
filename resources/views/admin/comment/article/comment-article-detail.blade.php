@@ -20,7 +20,7 @@
                                         <div class="col-lg-12 entries">
                                             <article class="entry entry-single">
                                                 <h2 class="entry-title">
-                                                    <a href="#">{{ $commentArticle->articles->title }}</a>
+                                                    <a href="{{ route('article.detail', $commentArticle->articles->slug) }}">{{ $commentArticle->articles->title }}</a>
                                                 </h2>
                                                 <div class="entry-meta">
                                                     <ul>

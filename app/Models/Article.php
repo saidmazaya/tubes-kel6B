@@ -40,4 +40,9 @@ class Article extends Model
     {
         return $this->belongsTo(ArticleList::class, 'article_id', 'id');
     }
+
+    public function claps()
+    {
+        return $this->hasMany(ClapArticle::class);
+    }
 }

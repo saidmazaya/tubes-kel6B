@@ -71,4 +71,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ArticleList::class, 'owner_id');
     }
+
+    public function claps()
+    {
+        return $this->hasMany(ClapArticle::class);
+    }
 }

@@ -28,11 +28,15 @@
                                                     <a href="{{ route('article.detail', $article->slug) }}">{{ $article->title }}</a>
                                                 </h2>
                                                 <div class="entry-meta">
+                                                    @php
+                                                    $userClap = Auth::check() ? $article->claps->where('user_id', Auth::user()->id)->first() : null;
+                                                    $clapCount = $article->claps->count();
+                                                    @endphp
                                                     <ul>
-                                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a class="nav-link disabled" href="#">{{ $article->user->name }}</a></li>
-                                                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a class="nav-link disabled" href="#"><time datetime="2020-01-01">{{ $article->created_at->format('M d, Y') }}</time></a></li>
+                                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i><a href="#">{{ $article->user->name }}</a></li>
+                                                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i><a href="#"><time datetime="2020-01-01">{{ $article->created_at->format('M d, Y') }}</time></a></li>
                                                         <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a href="#">{{ $article->duration.' Minutes' }}</a></li>
-                                                        <li class="d-flex align-items-center"><i class="fa fa-hands-clapping"></i> <a href="#">Clap</a></li>
+                                                        <li class="d-flex align-items-center"> <a href="/clap/{{ $article->id }}" class="{{ $userClap ? ' text-primary' : '' }}"><i class="fa fa-hands-clapping"></i>{{ $clap }} Clap</a></li>
                                                         <i class="bi bi-hand-clap"></i>
                                                     </ul>
                                                 </div>

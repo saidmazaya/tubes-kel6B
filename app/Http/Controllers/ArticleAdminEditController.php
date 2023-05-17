@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\Article;
+use App\Models\ClapArticle;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -80,7 +81,9 @@ class ArticleAdminEditController extends Controller
     {
         $article = Article::with(['user', 'tags'])
             ->where('slug', $slug)->first();
-        return view('admin.article.article-admin-detail', compact('article'));
+        
+        $clap = ClapArticle::where('article_id', $article->id)->count();
+        return view('admin.article.article-admin-detail', compact('article', 'clap'));
     }
 
     /**

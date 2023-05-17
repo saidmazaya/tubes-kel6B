@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\TagAdminController;
 use App\Http\Controllers\UserAdminController;
+use App\Http\Controllers\ClapArticleController;
 use App\Http\Controllers\ArticleAdminController;
 use App\Http\Controllers\CommentArticleController;
 use App\Http\Controllers\ArticleAdminEditController;
@@ -59,6 +60,8 @@ Route::delete('/article-delete-published/{id}', [ArticleController::class, 'dest
 Route::middleware('auth')->group(function () {
     Route::resource('/komentar', CommentArticleController::class);
 });
+
+Route::get('/clap/{id}', [ClapArticleController::class, 'clap'])->middleware('auth');
 
 Route::get('/notif', function () {
     return view('main.notif');

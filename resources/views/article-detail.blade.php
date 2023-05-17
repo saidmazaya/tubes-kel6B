@@ -32,12 +32,15 @@
             </h2>
 
             <div class="entry-meta">
+              @php
+              $userClap = Auth::check() ? $article->claps->where('user_id', Auth::user()->id)->first() : null;
+              $clapCount = $article->claps->count();
+              @endphp
               <ul>
                 <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a class="nav-link disabled" href="#">{{ $article->user->name }}</a></li>
                 <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a class="nav-link disabled" href="#"><time datetime="2020-01-01">{{ $article->created_at->format('M d, Y') }}</time></a></li>
-                <li class="d-flex align-items-center"><i class="fa fa-hands-clapping"></i></i> <a href="#">Clap</a></li>
-                <i class="bi bi-hand-clap"></i>
-
+                <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a href="#">{{ $article->duration.' Minutes' }}</a></li>
+                <li class="d-flex align-items-center"> <a href="/clap/{{ $article->id }}" class="{{ $userClap ? ' text-primary' : '' }}"><i class="fa fa-hands-clapping"></i>{{ $clap }} Clap</a></li>
               </ul>
             </div>
 
@@ -118,8 +121,11 @@
                 <div class="comment-img"><img src="/images/logo-user.png" alt=""></div>
                 @endif
                 <div>
-                  <h5><a href="">{{ $data->user->name }}</a> <a style="cursor: pointer;" class="reply reply-button" data-comment-id="{{ $data->id }}"><i class="bi bi-reply-fill"></i>
-                      Reply</a> @if (Auth::user()->id == $data->user->id)
+                  <h5><a href="">{{ $data->user->name }}</a>
+                    @if (Auth::check())
+                    <a style="cursor: pointer;" class="reply reply-button" data-comment-id="{{ $data->id }}"><i class="bi bi-reply-fill"></i>
+                      Reply</a>
+                    @if (Auth::user()->id == $data->user->id)
                     &nbsp;&nbsp;<a style="cursor: pointer;" class="reply edit-button" data-comment-id="{{ $data->id }}">Edit</a>
                     @else
                     @endif
@@ -130,7 +136,9 @@
                       <a type="button" class="btn-sm btn-danger delete-button" onclick="deleteConfirmation({{ $data->id }})">Delete</a>
                     </form>
                     @else
-                    @endif</h5>
+                    @endif
+                    @else
+                    @endif
                   </h5>
                   <time datetime="{{ $data->created_at }}">{{ $data->created_at->diffForHumans() }}</time>
                   <p>
@@ -142,10 +150,13 @@
               <div class="reply-form" id="reply-form-{{ $data->id }}" style="display: none;">
                 <form action="{{ route('komentar.store') }}" method="POST">
                   @csrf
+                  @if (Auth::check())
                   <input type="hidden" name="parent_id" value="{{ $data->id }}">
                   <input type="hidden" name="status" value="Published">
                   <input type="hidden" name="article_id" value="{{ $article->id }}">
                   <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                  @else
+                  @endif
                   <div class="row">
                     <div class="col form-group">
                       <textarea name="content" id="content" class="form-control" placeholder="Your Reply"></textarea>
@@ -165,7 +176,7 @@
                   <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
                   <div class="row">
                     <div class="col form-group">
-                      <textarea name="content" class="form-control">{!! $data->content !!}</textarea>
+                      <textarea name="content" id="content" class="form-control">{!! $data->content !!}</textarea>
                       <button type="submit" class="btn btn-primary mt-3">Update Comment</button>
                       {{-- <button type="button" class="btn btn-secondary mt-3 edit-button" data-comment-id="{{ $data->id }}">Cancel</button> --}}
                     </div>
@@ -185,11 +196,25 @@
                   <div class="comment-img"><img src="/images/logo-user.png" alt=""></div>
                   @endif
                   <div>
-                    <h5><a href="">{{ $data->user->name }}</a> <a style="cursor: pointer;" class="reply reply-button" data-comment-id="{{ $data->id }}"><i class="bi bi-reply-fill"></i>
-                        Reply</a> @if (Auth::user()->id == $data->user->id)
+                    <h5><a href="">{{ $data->user->name }}</a>
+                      @if (Auth::check())
+                      <a style="cursor: pointer;" class="reply reply-button" data-comment-id="{{ $data->id }}"><i class="bi bi-reply-fill"></i>
+                        Reply</a>
+                      @if (Auth::user()->id == $data->user->id)
                       &nbsp;&nbsp;<a style="cursor: pointer;" class="reply edit-button" data-comment-id="{{ $data->id }}">Edit</a>
                       @else
-                      @endif</h5>
+                      @endif
+                      @if (Auth::user()->id == $data->user->id)
+                      &nbsp;&nbsp;<form class="d-inline" action="{{ route('komentar.destroy', $data->id) }}" method="POST" id="deleteForm{{ $data->id }}">
+                        @csrf
+                        @method('delete')
+                        <a type="button" class="btn-sm btn-danger delete-button" onclick="deleteConfirmation({{ $data->id }})">Delete</a>
+                      </form>
+                      @else
+                      @endif
+                      @else
+                      @endif
+                    </h5>
                     <time datetime="{{ $data->created_at }}">{{ $data->created_at->diffForHumans() }}</time>
                     <p>
                       {!! $data->content !!}
@@ -200,10 +225,13 @@
                 <div class="reply-form" id="reply-form-{{ $data->id }}" style="display: none;">
                   <form action="{{ route('komentar.store') }}" method="POST">
                     @csrf
+                    @if (Auth::check())
                     <input type="hidden" name="parent_id" value="{{ $data->id }}">
                     <input type="hidden" name="status" value="Published">
                     <input type="hidden" name="article_id" value="{{ $article->id }}">
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                    @else
+                    @endif
                     <div class="row">
                       <div class="col form-group">
                         <textarea name="content" id="content" class="form-control" placeholder="Your Reply"></textarea>
@@ -223,7 +251,7 @@
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
                     <div class="row">
                       <div class="col form-group">
-                        <textarea name="content" class="form-control">{!! $data->content !!}</textarea>
+                        <textarea name="content" id="content" class="form-control">{!! $data->content !!}</textarea>
                         <button type="submit" class="btn btn-primary mt-3">Update Comment</button>
                         {{-- <button type="button" class="btn btn-secondary mt-3 edit-button" data-comment-id="{{ $data->id }}">Cancel</button> --}}
                       </div>
@@ -243,10 +271,22 @@
                     <div class="comment-img"><img src="/images/logo-user.png" alt=""></div>
                     @endif
                     <div>
-                      <h5><a href="">{{ $data->user->name }}</a> <a style="cursor: pointer;" class="reply reply-button" data-comment-id="{{ $data->id }}"><i class="bi bi-reply-fill"></i>
+                      <h5><a href="">{{ $data->user->name }}</a>
+                        @if (Auth::check())
+                        <a style="cursor: pointer;" class="reply reply-button" data-comment-id="{{ $data->id }}"><i class="bi bi-reply-fill"></i>
                           Reply</a>
                         @if (Auth::user()->id == $data->user->id)
                         &nbsp;&nbsp;<a style="cursor: pointer;" class="reply edit-button" data-comment-id="{{ $data->id }}">Edit</a>
+                        @else
+                        @endif
+                        @if (Auth::user()->id == $data->user->id)
+                        &nbsp;&nbsp;<form class="d-inline" action="{{ route('komentar.destroy', $data->id) }}" method="POST" id="deleteForm{{ $data->id }}">
+                          @csrf
+                          @method('delete')
+                          <a type="button" class="btn-sm btn-danger delete-button" onclick="deleteConfirmation({{ $data->id }})">Delete</a>
+                        </form>
+                        @else
+                        @endif
                         @else
                         @endif
                       </h5>
@@ -260,10 +300,13 @@
                   <div class="reply-form" id="reply-form-{{ $data->id }}" style="display: none">
                     <form action="{{ route('komentar.store') }}" method="POST">
                       @csrf
+                      @if (Auth::check())
                       <input type="hidden" name="parent_id" value="{{ $data->id }}">
                       <input type="hidden" name="status" value="Published">
                       <input type="hidden" name="article_id" value="{{ $article->id }}">
                       <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                      @else
+                      @endif
                       <div class="row">
                         <div class="col form-group">
                           <textarea name="content" id="content" class="form-control" placeholder="Your Reply"></textarea>
@@ -283,7 +326,7 @@
                       <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
                       <div class="row">
                         <div class="col form-group">
-                          <textarea name="content" class="form-control">{!! $data->content !!}</textarea>
+                          <textarea name="content" id="content" class="form-control">{!! $data->content !!}</textarea>
                           <button type="submit" class="btn btn-primary mt-3">Update Comment</button>
                           {{-- <button type="button" class="btn btn-secondary mt-3 edit-button" data-comment-id="{{ $data->id }}">Cancel</button> --}}
                         </div>
@@ -303,14 +346,27 @@
                       <div class="comment-img"><img src="/images/logo-user.png" alt=""></div>
                       @endif
                       <div>
-                        <h5><a href="">{{ $data->user->name }} @if (Auth::user()->id == $data->user->id)
-                            &nbsp;&nbsp;<a style="cursor: pointer;" class="reply edit-button" data-comment-id="{{ $data->id }}">Edit</a>
-                            @else
-                            @endif</a>
-                          <time datetime="2020-01-01">{{ $data->created_at->diffForHumans() }}</time>
-                          <p>
-                            {!! $data->content !!}
-                          </p>
+                        <h5><a href="">{{ $data->user->name }}</a>
+                          @if (Auth::check())
+                          @if (Auth::user()->id == $data->user->id)
+                          &nbsp;&nbsp;<a style="cursor: pointer;" class="reply edit-button" data-comment-id="{{ $data->id }}">Edit</a>
+                          @else
+                          @endif
+                          @if (Auth::user()->id == $data->user->id)
+                          &nbsp;&nbsp;<form class="d-inline" action="{{ route('komentar.destroy', $data->id) }}" method="POST" id="deleteForm{{ $data->id }}">
+                            @csrf
+                            @method('delete')
+                            <a type="button" class="btn-sm btn-danger delete-button" onclick="deleteConfirmation({{ $data->id }})">Delete</a>
+                          </form>
+                          @else
+                          @endif
+                          @else
+                          @endif
+                        </h5>
+                        <time datetime="2020-01-01">{{ $data->created_at->diffForHumans() }}</time>
+                        <p>
+                          {!! $data->content !!}
+                        </p>
                       </div>
                     </div>
                   </div><!-- End comment reply #2-->
@@ -325,7 +381,7 @@
                       <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
                       <div class="row">
                         <div class="col form-group">
-                          <textarea name="content" class="form-control">{!! $data->content !!}</textarea>
+                          <textarea name="content" id="content" class="form-control">{!! $data->content !!}</textarea>
                           <button type="submit" class="btn btn-primary mt-3">Update Comment</button>
                           {{-- <button type="button" class="btn btn-secondary mt-3 edit-button" data-comment-id="{{ $data->id }}">Cancel</button> --}}
                         </div>
@@ -359,11 +415,11 @@
 @endsection
 @push('js')
 <!-- Vendor JS Files -->
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="/assets/vendor/php-email-form/validate.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
 <script>
   ClassicEditor
@@ -391,7 +447,6 @@
         });
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   // Fungsi untuk menampilkan SweetAlert konfirmasi
   function deleteConfirmation(articleId) {

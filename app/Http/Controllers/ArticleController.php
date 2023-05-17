@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ArticleRequest;
+use App\Models\ClapArticle;
 use App\Models\CommentArticle;
 use Illuminate\Support\Facades\Storage;
 
@@ -93,7 +94,8 @@ class ArticleController extends Controller
             ->get();
             // dd($article->toArray());
             // dd($publishedComments->toArray());
-        return view('article-detail', compact('article', 'publishedComments'));
+        $clap = ClapArticle::where('article_id', $article->id)->count();
+        return view('article-detail', compact('article', 'publishedComments', 'clap'));
     }
 
     /**
