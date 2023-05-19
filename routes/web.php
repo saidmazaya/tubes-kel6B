@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\TagAdminController;
 use App\Http\Controllers\UserAdminController;
+use App\Http\Controllers\ProfileSetController;
 use App\Http\Controllers\ClapArticleController;
 use App\Http\Controllers\ArticleAdminController;
 use App\Http\Controllers\CommentArticleController;
@@ -69,9 +70,9 @@ Route::get('/notif', function () {
     return view('main.notif');
 })->middleware('auth');
 
-Route::get('/profile/{id}', function () {
-    return view('profile');
-})->middleware('auth');
+Route::get('/profile/{id}', [ProfileSetController::class, 'show'])->name('profile')->middleware('auth');
+Route::get('/profile/{username}/edit', [ProfileSetController::class, 'edit'])->name('profile.edit')->middleware('auth');
+Route::put('profile-update/{id}', [ProfileSetController::class, 'update'])->name('profile.update')->middleware('auth');
 
 Route::get('/library', function () {
     return view('library');

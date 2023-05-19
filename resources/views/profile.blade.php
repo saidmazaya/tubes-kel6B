@@ -14,7 +14,7 @@
                                 <a class="nav-link" style="color: rgb(0, 0, 0)" id="home-tab" data-toggle="tab" href="#" role="tab" aria-controls="home" aria-selected="true">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" style="color: rgb(0, 0, 0)" id="home-tab" data-toggle="tab" href="#" role="tab" aria-controls="list" aria-selected="true">List</a>
+                                <a class="nav-link" style="color: rgb(0, 0, 0)" id="home-tab" data-toggle="tab" href="#" role="tab" aria-controls="home" aria-selected="true">Lists</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" style="color: rgb(0, 0, 0)" id="home-tab" data-toggle="tab" href="#" role="tab" aria-controls="about" aria-selected="true">About</a>
@@ -23,6 +23,11 @@
                     </nav>
                 </div>
                 <hr style="border-color: black">
+                @if (session('message'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('message') }}
+                </div>
+                @endif
                 <div class="tab-content" style="margin-left: 46px">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <h3>Home Tab Content</h3>
@@ -45,17 +50,22 @@
             <div class="col-md-4">
                 <div class="image-container">
                     @if (Auth::user()->image != null)
-                    <img src="{{ asset('storage/photo/'.Auth::user()->image)}}" alt="" class="rounded-image">
+                    <img src="{{ asset('storage/photo/'.$user->image) }}" alt="profilepicture" class="rounded-image">
                     @else
                     <img src="/images/default-user-image.png" alt="" class="rounded-image">
                     @endif
                 </div>
                 <div class="profile-head">
-                    <h5>{{ Auth::user()->name }}</h5>
+                    <h5>{{ $user->name }}</h5>
                     <h6><a href="#">4 Followers</a></h6>
                     <div class="d-flex flex-row align-items-center justify-content-between mt-3">
                         <div>
-                            <a href="editprofile" class="text-dark mb-4">Edit Profile</a>
+                            <p>{{$user->bio}}</p>
+                            @if ($user->id == Auth::user()->id)
+                            <h6><a href="/profile/{{ Auth::user()->username }}/edit" class="text-success">Edit Profile</a></h6>
+                            @else
+                            <h6><a href="#" class="btn btn-success">Follow</a></h6>
+                            @endif
                             <div class="profile-head mt-4">
                                 <div>
                                     <h6>Following</h6>
