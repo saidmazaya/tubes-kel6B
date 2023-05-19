@@ -56,7 +56,12 @@ class CommentListAdminController extends Controller
     {
         $commentList = CommentList::with(['user', 'articleList'])
             ->findOrFail($id);
-        return view('admin.comment.list.comment-list-detail', compact('commentList'));
+
+        if ($commentList) {
+            return view('admin.comment.list.comment-list-detail', compact('commentList'));
+        } else {
+            abort(404);
+        }
     }
 
     /**

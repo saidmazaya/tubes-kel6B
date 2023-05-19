@@ -21,7 +21,7 @@ class ClapArticleController extends Controller
                 'article_id' => $article_id,
                 'user_id' => Auth::user()->id,
             ]);
-            
+
             return redirect()->back();
         }
     }

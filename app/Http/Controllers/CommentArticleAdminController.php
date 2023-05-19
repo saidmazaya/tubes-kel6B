@@ -55,8 +55,13 @@ class CommentArticleAdminController extends Controller
     public function show($id)
     {
         $commentArticle = CommentArticle::with(['user', 'articles'])
-        ->findOrFail($id);
-        return view('admin.comment.article.comment-article-detail', compact('commentArticle'));
+            ->findOrFail($id);
+
+        if ($commentArticle) {
+            return view('admin.comment.article.comment-article-detail', compact('commentArticle'));
+        } else {
+            abort(404);
+        }
     }
 
     /**

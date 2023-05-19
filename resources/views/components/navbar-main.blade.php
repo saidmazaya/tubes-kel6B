@@ -11,7 +11,11 @@
                 <ul>
                     @if (Auth::check())
                     <li><a class="nav-link scrollto" href="/menuutama"><i class='bx bx-home-alt-2 bx-sm mb-2'></i></a></li>
+                    @if (Auth::user()->role_id == 1)
+                    <li><a class="nav-link scrollto" href="{{ route('administrator.create') }}"><i class='bx bx-edit bx-sm mb-2'></i></a></li>
+                    @else
                     <li><a class="nav-link scrollto" href="/write-article"><i class='bx bx-edit bx-sm mb-2'></i></a></li>
+                    @endif
                     <li><a class="nav-link scrollto" href="/notif"><i class="bx bx-bell bx-sm mb-2"></i></a></li>
                     @if (Auth::user()->image != null)
                     <li class="dropdown"><a href="#" class="nav-link scrollto mb-1"><img src="{{ asset('storage/photo/'.Auth::user()->image)}}" width="40" class="rounded img-fluid" alt="Profile"><i class="bi bi-chevron-down"></i></a>
@@ -22,6 +26,9 @@
                             <li><a href="/profile/{{ Auth::user()->username }}">Profile</a></li>
                             <li><a href="/library">Library</a></li>
                             <li><a href="/stories/draft/{{ Auth::user()->username }}">Stories</a></li>
+                            @if (Auth::user()->role_id == 1)
+                            <li><a href="/dashboard">Dashboard</a></li>
+                            @endif
                             <li><a href="/signout">Sign Out</a></li>
                         </ul>
                     </li>

@@ -89,13 +89,19 @@ class ArticleController extends Controller
         $article = Article::with(['user', 'tags', 'comments.replies', 'comments.replies.replies'])
             ->where('slug', $slug)
             ->first();
-        $publishedComments = CommentArticle::with('articles', 'user')
-            ->where('status', '!=', 'Rejected')
-            ->where('article_id', $article->id)
-            ->get();
+
+        if ($article) {
+            $publishedComments = CommentArticle::with('articles', 'user')
+                ->where('status', '!=', 'Rejected')
+                ->where('article_id', $article->id)
+                ->get();
             // dd($article->toArray());
             // dd($publishedComments->toArray());
-        $clap = ClapArticle::where('article_id', $article->id)->count();
+            $clap = ClapArticle::where('article_id', $article->id)->count();
+        } else {
+            abort(404);
+        }
+
         return view('article-detail', compact('article', 'publishedComments', 'clap'));
     }
 

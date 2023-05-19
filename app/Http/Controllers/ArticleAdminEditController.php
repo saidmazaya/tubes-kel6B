@@ -81,8 +81,12 @@ class ArticleAdminEditController extends Controller
     {
         $article = Article::with(['user', 'tags'])
             ->where('slug', $slug)->first();
-        
-        $clap = ClapArticle::where('article_id', $article->id)->count();
+
+        if ($article) {
+            $clap = ClapArticle::where('article_id', $article->id)->count();
+        } else {
+            abort(404);
+        }
         return view('admin.article.article-admin-detail', compact('article', 'clap'));
     }
 
