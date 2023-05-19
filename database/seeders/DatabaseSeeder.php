@@ -13,11 +13,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            // UserSeeder::class,
-            // TagSeeder::class,
-            // ArticleSeeder::class,
-            // RoleSeeder::class,
-            // CommentArticleSeeder::class,
+            RoleSeeder::class,
+            UserSeeder::class,
+            TagSeeder::class,
+            ArticleSeeder::class,
+            CommentArticleSeeder::class,
+            ArticleListSeeder::class,
+            CommentListSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
 
