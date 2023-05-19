@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Tag;
 use App\Models\User;
 use Faker\Factory as faker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -35,6 +36,7 @@ class ArticleFactory extends Factory
             'slug' => $user->username. '_' . Str::slug($title, '-'). '-' . rand(1000000, 9999999),
             'author_id' => $user->id,
             'tag_id' => $tag->id,
+            'status' => Arr::random(['Draft', 'Published', 'Rejected']),
         ];
     }
 }
