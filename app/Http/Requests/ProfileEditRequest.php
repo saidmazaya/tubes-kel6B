@@ -36,6 +36,7 @@ class ProfileEditRequest extends FormRequest
             'name.required' => 'Nama wajib diisi',
             'name.max' => 'Nama maksimal :max karakter',
             'photo.image' => 'File Wajib Bertipe jpg, jpeg, png, bmp, gif',
+            'photo.max' => 'Ukuran Foto Maksimal :max KB',
             'username.required' => 'Username wajib diisi',
             'username.max' => 'Username maksimal :max karakter',
             'username.min' => 'Username minimal 1 karakter',
