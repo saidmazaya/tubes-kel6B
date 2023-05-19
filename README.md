@@ -19,7 +19,7 @@ composer install
 cp .env.example .env
 ```
 Edit the `.env` file and set the `database` and other config for the system after you copy the `.env.example` file. 
-`(FILESYSTEM_DISK = Public)`
+`(FILESYSTEM_DISK = public)`
 
 ### 4. Make Key
 ```shell
