@@ -30,10 +30,10 @@
 
           @foreach ($article as $data)
           <article class="entry">
-                
+
             @if ($data->image != NULL)
             <div class="entry-img">
-                <img src="{{ asset('storage/photo/'.$data->image)}}" alt="" class="img-fluid">
+              <img src="{{ asset('storage/photo/'.$data->image)}}" alt="" class="img-fluid">
             </div>
             @endif
 
@@ -43,9 +43,10 @@
 
             <div class="entry-meta">
               <ul>
-                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a class="nav-link disabled" href="#">{{ $data->user->name }}</a></li>
+                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">{{ $data->user->name }}</a></li>
                 <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a class="nav-link disabled" href="#"><time datetime="2020-01-01">{{ $data->created_at->format('M d, Y') }}</time></a></li>
-                <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="#">Comments</a></li>
+                <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a class="nav-link disabled" href="#">{{ $data->duration.' Minutes' }}</a></li>
+                <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="#">{{ $data->tags->name }}</a></li>
               </ul>
             </div>
 
@@ -59,7 +60,7 @@
             </div>
 
           </article><!-- End blog entry -->
-            @endforeach
+          @endforeach
 
 
           <div class="blog-pagination">

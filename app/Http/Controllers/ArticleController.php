@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\Article;
+use App\Models\ClapArticle;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\CommentArticle;
+use App\Models\ClapCommentArticle;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ArticleRequest;
-use App\Models\ClapArticle;
-use App\Models\CommentArticle;
 use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller

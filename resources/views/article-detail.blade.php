@@ -37,9 +37,9 @@
               $clapCount = $article->claps->count();
               @endphp
               <ul>
-                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a class="nav-link disabled" href="#">{{ $article->user->name }}</a></li>
+                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">{{ $article->user->name }}</a></li>
                 <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a class="nav-link disabled" href="#"><time datetime="2020-01-01">{{ $article->created_at->format('M d, Y') }}</time></a></li>
-                <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a href="#">{{ $article->duration.' Minutes' }}</a></li>
+                <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a class="nav-link disabled" href="#">{{ $article->duration.' Minutes' }}</a></li>
                 <li class="d-flex align-items-center"> <a href="/clap/{{ $article->id }}" class="{{ $userClap ? ' text-primary' : '' }}"><i class="fa fa-hands-clapping"></i>{{ $clap }} Clap</a></li>
               </ul>
             </div>
@@ -139,6 +139,14 @@
                     @endif
                     @else
                     @endif
+                    @php
+                    $clapCommentArticle = DB::table('clap_comment_articles')
+                    ->where('comment_article_id', $data->id)
+                    ->count();
+                    $userClap = Auth::check() ? $data->claps->where('user_id', Auth::user()->id)->first() : null;
+                    $clapCount = $data->claps->count();
+                    @endphp
+                    <a href="/clap-comment/{{ $data->id }}" class="{{ $userClap ? ' text-primary' : '' }}">&nbsp;&nbsp;<i class="fa fa-hands-clapping"></i>&nbsp;{{ $clapCommentArticle }} Clap</a>
                   </h5>
                   <time datetime="{{ $data->created_at }}">{{ $data->created_at->diffForHumans() }}</time>
                   <p>
@@ -214,6 +222,14 @@
                       @endif
                       @else
                       @endif
+                      @php
+                      $clapCommentArticle = DB::table('clap_comment_articles')
+                      ->where('comment_article_id', $data->id)
+                      ->count();
+                      $userClap = Auth::check() ? $data->claps->where('user_id', Auth::user()->id)->first() : null;
+                      $clapCount = $data->claps->count();
+                      @endphp
+                      <a href="/clap-comment/{{ $data->id }}" class="{{ $userClap ? ' text-primary' : '' }}">&nbsp;&nbsp;<i class="fa fa-hands-clapping"></i>&nbsp;{{ $clapCommentArticle }} Clap</a>
                     </h5>
                     <time datetime="{{ $data->created_at }}">{{ $data->created_at->diffForHumans() }}</time>
                     <p>
@@ -289,6 +305,14 @@
                         @endif
                         @else
                         @endif
+                        @php
+                        $clapCommentArticle = DB::table('clap_comment_articles')
+                        ->where('comment_article_id', $data->id)
+                        ->count();
+                        $userClap = Auth::check() ? $data->claps->where('user_id', Auth::user()->id)->first() : null;
+                        $clapCount = $data->claps->count();
+                        @endphp
+                        <a href="/clap-comment/{{ $data->id }}" class="{{ $userClap ? ' text-primary' : '' }}">&nbsp;&nbsp;<i class="fa fa-hands-clapping"></i>&nbsp;{{ $clapCommentArticle }} Clap</a>
                       </h5>
                       <time datetime="{{ $data->created_at }}">{{ $data->created_at->diffForHumans() }}</time>
                       <p>
@@ -362,6 +386,14 @@
                           @endif
                           @else
                           @endif
+                          @php
+                          $clapCommentArticle = DB::table('clap_comment_articles')
+                          ->where('comment_article_id', $data->id)
+                          ->count();
+                          $userClap = Auth::check() ? $data->claps->where('user_id', Auth::user()->id)->first() : null;
+                          $clapCount = $data->claps->count();
+                          @endphp
+                          <a href="/clap-comment/{{ $data->id }}" class="{{ $userClap ? ' text-primary' : '' }}">&nbsp;&nbsp;<i class="fa fa-hands-clapping"></i>&nbsp;{{ $clapCommentArticle }} Clap</a>
                         </h5>
                         <time datetime="2020-01-01">{{ $data->created_at->diffForHumans() }}</time>
                         <p>
@@ -420,7 +452,7 @@
 <script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
 <script src="/assets/vendor/php-email-form/validate.js"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+{{-- <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
 <script>
   ClassicEditor
     .create( document.querySelector( '#content' ), {
@@ -429,7 +461,7 @@
     .catch( error => {
         console.log( error );
     } );
-</script>
+</script> --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function() {
@@ -452,7 +484,7 @@
   function deleteConfirmation(articleId) {
       Swal.fire({
           title: 'Confirmation',
-          text: 'Are you sure you want to delete this article?',
+          text: 'Are you sure you want to delete this comment?',
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Yes, delete',

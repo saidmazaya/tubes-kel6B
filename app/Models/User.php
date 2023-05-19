@@ -76,4 +76,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ClapArticle::class);
     }
+
+    public function clapsComment()
+    {
+        return $this->hasMany(ClapCommentArticle::class);
+    }
 }

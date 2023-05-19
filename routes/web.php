@@ -10,6 +10,7 @@ use App\Http\Controllers\ArticleAdminController;
 use App\Http\Controllers\CommentArticleController;
 use App\Http\Controllers\ArticleAdminEditController;
 use App\Http\Controllers\CommentListAdminController;
+use App\Http\Controllers\ClapCommentArticleController;
 use App\Http\Controllers\CommentArticleAdminController;
 
 /*
@@ -62,6 +63,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/clap/{id}', [ClapArticleController::class, 'clap'])->middleware('auth');
+Route::get('/clap-comment/{id}', [ClapCommentArticleController::class, 'clap'])->middleware('auth');
 
 Route::get('/notif', function () {
     return view('main.notif');

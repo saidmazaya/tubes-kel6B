@@ -31,4 +31,9 @@ class CommentArticle extends Model
     {
         return $this->hasMany(CommentArticle::class, 'parent_id', 'id');
     }
+
+    public function claps()
+    {
+        return $this->hasMany(ClapCommentArticle::class);
+    }
 }
