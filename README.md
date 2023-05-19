@@ -4,26 +4,35 @@ Tugas Besar Sistem Basis Data Kelompok 6 Kom B
 
 ## Installation
 
-### 1. After Clone
+### 1. Clone the Repo
+```shell
+git clone https://github.com/saidmazaya/tubes-sbd-kel6.git
+```
+
+### 2. Composer Install
 ```shell
 composer install
 ```
 
-### 2. Set the basic config
+### 3. Set the basic config
 ```
 cp .env.example .env
 ```
 Edit the `.env` file and set the `database` and other config for the system after you copy the `.env.example` file. 
 `(FILESYSTEM_DISK = Public)`
 
-### 3. Make Key
+### 4. Make Key
 ```shell
 php artisan key:generate
 ```
 
-### 4. Migrate Database And Seed
+### 5. Migrate Database And Seed
 ```shell
 php artisan migrate --seed
+```
+**if you just want to migrate**  
+```shell  
+php artisan migrate  
 ```
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
