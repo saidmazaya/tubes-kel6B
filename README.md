@@ -11,7 +11,7 @@ composer install
 
 ### 2. Set the basic config
 ```
-Copy .env.example file and adjust to your will
+cp .env.example .env
 ```
 Edit the `.env` file and set the `database` and other config for the system after you copy the `.env.example` file. 
 `(FILESYSTEM_DISK = Public)`
