@@ -59,7 +59,7 @@ class ArticleController extends Controller
         if ($request->file('photo')) {
             $extension = $request->file('photo')->getClientOriginalExtension();
             $today = now()->format('dmY_His');
-            $newName = 'Admin' . '-' . $today . '-' . now()->timestamp . '-' . Str::random(10) . '.' . $extension;
+            $newName = Auth::user()->username . '-' . $today . '-' . now()->timestamp . '-' . Str::random(10) . '.' . $extension;
             $request->file('photo')->storeAs('photo', $newName);
         }
 
@@ -137,7 +137,7 @@ class ArticleController extends Controller
             // Simpan Foto Baru
             $extension = $request->file('photo')->getClientOriginalExtension();
             $today = now()->format('dmY_His');
-            $newName = 'Admin' . '-' . $today . '-' . now()->timestamp . '-' . Str::random(10) . '.' . $extension;
+            $newName = Auth::user()->username . '-' . $today . '-' . now()->timestamp . '-' . Str::random(10) . '.' . $extension;
             $request->file('photo')->storeAs('photo', $newName);
 
             $request['image'] = $newName;
