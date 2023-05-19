@@ -2,6 +2,30 @@
 ---
 Tugas Besar Sistem Basis Data Kelompok 6 Kom B
 
+## Installation
+
+### 1. After Clone
+```shell
+composer install
+```
+
+### 2. Set the basic config
+```
+Copy .env.example file and adjust to your will
+```
+Edit the `.env` file and set the `database` and other config for the system after you copy the `.env.example` file. 
+`(FILESYSTEM_DISK = Public)`
+
+### 3. Make Key
+```shell
+php artisan key:generate
+```
+
+### 4. Migrate Database And Seed
+```shell
+php artisan migrate --seed
+```
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
