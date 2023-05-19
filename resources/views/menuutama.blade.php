@@ -46,7 +46,11 @@
                 <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">{{ $data->user->name }}</a></li>
                 <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a class="nav-link disabled" href="#"><time datetime="2020-01-01">{{ $data->created_at->format('M d, Y') }}</time></a></li>
                 <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a class="nav-link disabled" href="#">{{ $data->duration.' Minutes' }}</a></li>
+                @if ($data->tags != NULL)
                 <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="#">{{ $data->tags->name }}</a></li>
+                @else
+                <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="#">-</a></li>
+                @endif
               </ul>
             </div>
 

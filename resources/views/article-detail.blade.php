@@ -74,7 +74,7 @@
                 @csrf
                 <div class="row">
                   <div class="col form-group">
-                    <textarea name="content" class="form-control" id="content" placeholder="Your Comment"></textarea>
+                    <textarea name="content" class="form-control" id="content" placeholder="Your Comment" required></textarea>
                   </div>
                 </div>
                 <input type="hidden" name="status" value="Published">
@@ -167,10 +167,11 @@
                   @endif
                   <div class="row">
                     <div class="col form-group">
-                      <textarea name="content" id="content" class="form-control" placeholder="Your Reply"></textarea>
+                      <textarea name="content" id="content" class="form-control" placeholder="Your Reply" required></textarea>
                     </div>
                   </div>
                   <button type="submit" class="btn btn-primary">Post Reply</button>
+                  <a style="cursor: pointer; margin-left: 10px" data-comment-id="{{ $data->id }}" class="reply-button text-secondary">Cancel</a>
                 </form>
               </div>
               {{-- Form Edit --}}
@@ -184,11 +185,11 @@
                   <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
                   <div class="row">
                     <div class="col form-group">
-                      <textarea name="content" id="content" class="form-control">{!! $data->content !!}</textarea>
-                      <button type="submit" class="btn btn-primary mt-3">Update Comment</button>
-                      {{-- <button type="button" class="btn btn-secondary mt-3 edit-button" data-comment-id="{{ $data->id }}">Cancel</button> --}}
+                      <textarea name="content" id="content" class="form-control" required>{!! $data->content !!}</textarea>
                     </div>
                   </div>
+                  <button type="submit" class="btn btn-primary">Update Comment</button>
+                  <a style="cursor: pointer; margin-left: 10px" data-comment-id="{{ $data->id }}" class="edit-button text-secondary">Cancel</a>
                 </form>
               </div>
 
@@ -250,10 +251,11 @@
                     @endif
                     <div class="row">
                       <div class="col form-group">
-                        <textarea name="content" id="content" class="form-control" placeholder="Your Reply"></textarea>
+                        <textarea name="content" id="content" class="form-control" placeholder="Your Reply" required></textarea>
                       </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Post Reply</button>
+                    <a style="cursor: pointer; margin-left: 10px" data-comment-id="{{ $data->id }}" class="reply-button text-secondary">Cancel</a>
                   </form>
                 </div>
                 {{-- Form Edit --}}
@@ -267,11 +269,11 @@
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
                     <div class="row">
                       <div class="col form-group">
-                        <textarea name="content" id="content" class="form-control">{!! $data->content !!}</textarea>
-                        <button type="submit" class="btn btn-primary mt-3">Update Comment</button>
-                        {{-- <button type="button" class="btn btn-secondary mt-3 edit-button" data-comment-id="{{ $data->id }}">Cancel</button> --}}
+                        <textarea name="content" id="content" class="form-control" required>{!! $data->content !!}</textarea>
                       </div>
                     </div>
+                    <button type="submit" class="btn btn-primary">Update Comment</button>
+                    <a style="cursor: pointer; margin-left: 10px" data-comment-id="{{ $data->id }}" class="edit-button text-secondary">Cancel</a>
                   </form>
                 </div>
 
@@ -333,10 +335,11 @@
                       @endif
                       <div class="row">
                         <div class="col form-group">
-                          <textarea name="content" id="content" class="form-control" placeholder="Your Reply"></textarea>
+                          <textarea name="content" id="content" class="form-control" placeholder="Your Reply" required></textarea>
                         </div>
                       </div>
                       <button type="submit" class="btn btn-primary">Post Reply</button>
+                      <a style="cursor: pointer; margin-left: 10px" data-comment-id="{{ $data->id }}" class="reply-button text-secondary">Cancel</a>
                     </form>
                   </div>
                   {{-- Form Edit --}}
@@ -350,11 +353,11 @@
                       <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
                       <div class="row">
                         <div class="col form-group">
-                          <textarea name="content" id="content" class="form-control">{!! $data->content !!}</textarea>
-                          <button type="submit" class="btn btn-primary mt-3">Update Comment</button>
-                          {{-- <button type="button" class="btn btn-secondary mt-3 edit-button" data-comment-id="{{ $data->id }}">Cancel</button> --}}
+                          <textarea name="content" id="content" class="form-control" required>{!! $data->content !!}</textarea>
                         </div>
                       </div>
+                      <button type="submit" class="btn btn-primary">Update Comment</button>
+                      <a style="cursor: pointer; margin-left: 10px" data-comment-id="{{ $data->id }}" class="edit-button text-secondary">Cancel</a>
                     </form>
                   </div>
 
@@ -413,11 +416,11 @@
                       <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
                       <div class="row">
                         <div class="col form-group">
-                          <textarea name="content" id="content" class="form-control">{!! $data->content !!}</textarea>
-                          <button type="submit" class="btn btn-primary mt-3">Update Comment</button>
-                          {{-- <button type="button" class="btn btn-secondary mt-3 edit-button" data-comment-id="{{ $data->id }}">Cancel</button> --}}
+                          <textarea name="content" id="content" class="form-control" required>{!! $data->content !!}</textarea>
                         </div>
                       </div>
+                      <button type="submit" class="btn btn-primary">Update Comment</button>
+                      <a style="cursor: pointer; margin-left: 10px" data-comment-id="{{ $data->id }}" class="edit-button text-secondary">Cancel</a>
                     </form>
                   </div>
                   @endforeach
