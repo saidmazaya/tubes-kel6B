@@ -49,7 +49,7 @@
 
             <div class="col-md-4">
                 <div class="image-container">
-                    @if (Auth::user()->image != null)
+                    @if ($user->image != null)
                     <img src="{{ asset('storage/photo/'.$user->image) }}" alt="profilepicture" class="rounded-image">
                     @else
                     <img src="/images/default-user-image.png" alt="" class="rounded-image">
