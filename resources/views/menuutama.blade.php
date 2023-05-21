@@ -43,7 +43,18 @@
 
             <div class="entry-meta">
               <ul>
-                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">{{ $data->user->name }}</a></li>
+                <li class="d-flex align-items-center">
+                  <a href="{{ route('profile', $data->user->username) }}" class="d-flex align-items-center">
+                    <div class="image-container">
+                      @if ($data->user->image != null)
+                      <img src="{{ asset('storage/photo/'.$data->user->image) }}" alt="profilepicture" class="rounded-image">
+                      @else
+                      <img src="/images/default-user-image.png" alt="" class="rounded-image">
+                      @endif
+                    </div>
+                    <span style="margin-left: 8px">{{ $data->user->name }}</span>
+                  </a>
+                </li>
                 <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a class="nav-link disabled" href="#"><time datetime="2020-01-01">{{ $data->created_at->format('M d, Y') }}</time></a></li>
                 <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a class="nav-link disabled" href="#">{{ $data->duration.' Minutes' }}</a></li>
                 @if ($data->tags != NULL)
@@ -114,3 +125,22 @@
 
 </main><!-- End #main -->
 @endsection
+@push('css')
+<style>
+  .rounded-image {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    /* Membuat gambar menjadi bentuk bulat */
+  }
+
+  .image-container {
+    width: 25px;
+    /* Lebar yang diinginkan */
+    height: 25px;
+    /* Tinggi yang diinginkan */
+    overflow: hidden;
+  }
+</style>
+@endpush

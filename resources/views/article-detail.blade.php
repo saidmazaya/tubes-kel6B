@@ -37,7 +37,7 @@
               $clapCount = $article->claps->count();
               @endphp
               <ul>
-                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">{{ $article->user->name }}</a></li>
+                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="{{ route('profile', $article->user->username) }}">{{ $article->user->name }}</a></li>
                 <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a class="nav-link disabled" href="#"><time datetime="2020-01-01">{{ $article->created_at->format('M d, Y') }}</time></a></li>
                 <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a class="nav-link disabled" href="#">{{ $article->duration.' Minutes' }}</a></li>
                 <li class="d-flex align-items-center"> <a href="/clap/{{ $article->id }}" class="{{ $userClap ? ' text-primary' : '' }}"><i class="fa fa-hands-clapping"></i>{{ $clap }} Clap</a></li>
