@@ -22,7 +22,7 @@ class ArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'max:50|required',
+            'title' => 'max:70|required',
             'description' => 'max:250|required',
             'content' => 'required',
             'photo' => 'image|max:5000',
