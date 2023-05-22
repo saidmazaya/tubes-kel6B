@@ -166,7 +166,7 @@
                     @endif
                 </div>
                 <button type="submit" class="btn btn-primary me-2">Publish</button>
-                <a href="/menuutama" class="btn btn-outline-secondary">Cancel</a>
+                <a href="{{ URL::previous() }}" class="btn btn-outline-secondary">Cancel</a>
             </form>
         </div>
     </div>
