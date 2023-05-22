@@ -2,7 +2,12 @@
 <header id="header" class="fixed-top @yield('cssnav')">
     <div class="container d-flex align-items-center justify-content-between">
 
-        <h1 class="logo"><a href="">Premium</a></h1>
+        <h1 class="logo">
+            <a href="/">
+                <img src="/images/premium-mini.png" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
+                Premium
+            </a>
+        </h1>
 
         <nav id="navbar" class="navbar">
             <ul>
