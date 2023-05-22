@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileEditRequest;
 use App\Models\User;
+use App\Models\Article;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\ProfileEditRequest;
 
 class ProfileSetController extends Controller
 {
@@ -78,9 +79,26 @@ class ProfileSetController extends Controller
         $user = User::where('username', $username)->first();
 
         if ($user) {
-            return view('profile', compact('user'));
+            $article = Article::where('author_id', $user->id)
+                ->where('status', 'Published')
+                ->get();
+
+            return view('profile', compact('user', 'article'));
         } else {
             abort(404);
         }
+    }
+
+    public function updateAbout(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->id !== auth()->user()->id) {
+            abort(403, 'Unauthorized');
+        }
+
+        $user->update($request->all());
+
+        return redirect(route('profile', Auth::user()->username))->with('message', 'About berhasil diperbarui.');
     }
 }
