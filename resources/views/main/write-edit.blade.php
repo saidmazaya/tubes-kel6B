@@ -33,19 +33,26 @@
     <header id="header" class="fixed-top header-inner-pages">
         <div class="container">
             <div class="navbar d-flex align-items-center justify-content-between">
-                <form method="GET" action="#">
-                    <input type="text" style="border-radius: 4px; width: 6cm; padding: 4px" placeholder="Search...">
-                    <button type="submit" style="padding: 4px" class=""><i class="bi bi-search"></i></button>
-                </form>
+                <h1 class="logo">
+                    <a href="/menuutama" style="float: left">
+                        <img src="/images/premium-mini.png" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
+                    </a>
+                    <form method="GET" action="/menuutama" id="formNav" style="font-size: 15px; margin-left: 10px; margin-top: 3px; float: left;">
+                        <input type="text" style="border-radius: 4px; width: 6cm; padding: 4px" name="keyword" placeholder="Search...">
+                        <button type="submit" style="padding: 4px; height: 32px;">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </form>
+                </h1>
 
                 <nav id="navbar" class="navbar">
                     <ul>
-                    <li><a class="nav-link scrollto" href="/menuutama"><i class='bx bx-home-alt-2 bx-sm mb-2'></i></a></li>
-                        <li><a class="nav-link scrollto" href="notif"><i class="bx bx-bell bx-sm mb-2"></i></a></li>
+                        <li><a class="nav-link scrollto" href="/menuutama">Home</a></li>
+                        <li><a class="nav-link scrollto" href="/notif">Notification</a></li>
                         @if (Auth::user()->image != null)
-                        <li class="dropdown"><a href="#" class="nav-link scrollto mb-1"><img src="{{ asset('storage/photo/'.Auth::user()->image)}}" width="40" class="rounded img-fluid" alt="Profile"><i class="bi bi-chevron-down"></i></a>
+                        <li class="dropdown"><a href="#" class="nav-link scrollto">{{ Auth::user()->name }}<i class="bi bi-chevron-down"></i></a>
                             @else
-                        <li class="dropdown"><a href="#" class="nav-link scrollto mb-1"><img src="/images/default-user-image.png" width="40" class="rounded img-fluid" alt="Profile"><i class="bi bi-chevron-down"></i></a>
+                        <li class="dropdown"><a href="#" class="nav-link scrollto">{{ Auth::user()->name }}<i class="bi bi-chevron-down"></i></a>
                             @endif
                             <ul>
                                 <li><a href="/profile/{{ Auth::user()->username }}">Profile</a></li>
@@ -156,16 +163,16 @@
                     @endif
                 </div>
                 <div class="form-group mb-3">
-                    <label for="status" class="form-label">Status (Publish or Draft)</label>
+                    <label for="status" class="form-label">Status</label>
                     <select name="status" id="status" class="form-select">
                         @if ($article->status == 'Published')
-                        <option value="Pending">{{ $article->status }}</option>
+                        <option value="Published">{{ $article->status }}</option>
                         @else
                         <option value="{{ $article->status }}">{{ $article->status }}</option>
                         @endif
                         @if ($article->status == 'Draft')
                         <option value="Pending">Publish</option>
-                        @elseif ($article->status == 'Pending' || $article->status == 'Published')
+                        @elseif ($article->status == 'Pending')
                         <option value="Draft">Draft</option>
                         @endif
                     </select>
@@ -177,11 +184,11 @@
                     </div>
                     @endif
                 </div>
-                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                <button type="submit" class="btn btn-primary me-2">Save</button>
                 @if ($article->status == 'Draft')
                 <a href="{{ route('stories.draft', Auth::user()->username) }}" class="btn btn-outline-secondary">Cancel</a>
                 @else
-                <a href="{{ route('stories.published', Auth::user()->username) }}" class="btn btn-outline-secondary">Cancel</a>
+                <a href="{{ URL::previous() }}" class="btn btn-outline-secondary">Cancel</a>
                 @endif
             </form>
         </div>
