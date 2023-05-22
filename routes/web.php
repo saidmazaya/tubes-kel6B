@@ -59,6 +59,8 @@ Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article.d
 Route::delete('/article-delete/{id}', [ArticleController::class, 'destroyDraft'])->name('article.destroy-draft')->middleware('auth');
 Route::delete('/article-delete-published/{id}', [ArticleController::class, 'destroyPublished'])->name('article.destroy-published')->middleware('auth');
 
+Route::delete('/write-article-delete-tes/{id}', [ArticleController::class, 'destroyArticle'])->name('write-article.destroy-article')->middleware('auth');
+
 Route::middleware('auth')->group(function () {
     Route::resource('/komentar', CommentArticleController::class);
 });
@@ -72,7 +74,12 @@ Route::get('/notif', function () {
 
 Route::get('/profile/{id}', [ProfileSetController::class, 'show'])->name('profile')->middleware('auth');
 Route::get('/profile/{username}/edit', [ProfileSetController::class, 'edit'])->name('profile.edit')->middleware('auth');
-Route::put('profile-update/{id}', [ProfileSetController::class, 'update'])->name('profile.update')->middleware('auth');
+Route::put('/profile-update/{id}', [ProfileSetController::class, 'update'])->name('profile.update')->middleware('auth');
+
+Route::get('/profile/{username}/about', function () {
+    return view('about');
+})->middleware('auth');
+Route::put('/about-update/{id}', [ProfileSetController::class, 'updateAbout'])->name('about.update')->middleware('auth');
 
 Route::get('/library', function () {
     return view('library');
