@@ -102,7 +102,7 @@
                                     @endif
                                 </div>
                                 <input type="hidden" name="status" value="Published">
-                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                                <button type="submit" class="btn btn-primary me-2">Save</button>
                                 <a href="{{ route('administrator.index') }}" class="btn btn-outline-secondary">Cancel</a>
                             </form>
                         </div>
