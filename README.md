@@ -17,6 +17,8 @@ composer install
 ### 3. Set the basic config
 ```
 cp .env.example .env
+
+php artisan storage:link
 ```
 Edit the `.env` file and set the `database` and other config for the system after you copy the `.env.example` file. 
 `(FILESYSTEM_DISK = public)`
