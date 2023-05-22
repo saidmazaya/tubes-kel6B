@@ -160,7 +160,7 @@ class ArticleController extends Controller
         if ($request->status == 'Draft') {
             return redirect(route('stories.draft', Auth::user()->username))->with('message', 'Perubahan Data Artikel Berhasil');
         } else {
-            return redirect(route('stories.published', Auth::user()->username))->with('message', 'Perubahan Data Artikel Berhasil, Mohon tunggu persetujuan admin');
+            return redirect(route('article.detail', $article->slug))->with('message', 'Perubahan Data Artikel Berhasil');
         }
     }
 
@@ -169,7 +169,6 @@ class ArticleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
     }
 
     public function draft($username)
@@ -224,5 +223,18 @@ class ArticleController extends Controller
         $article->delete();
 
         return redirect(route('stories.published', Auth::user()->username))->with('message', 'Article berhasil dihapus.');
+    }
+
+    public function destroyArticle($id)
+    {
+        $article = Article::findOrFail($id);
+
+        if ($article->author_id !== auth()->user()->id) {
+            abort(403, 'Unauthorized');
+        }
+
+        $article->delete();
+
+        return redirect(route('profile', Auth::user()->username))->with('message', 'Article berhasil dihapus.');;
     }
 }
