@@ -97,7 +97,8 @@ class ProfileSetController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        $user->update($request->all());
+        $user->about = $request->about;
+        $user->save();
 
         return redirect(route('profile', Auth::user()->username))->with('message', 'About berhasil diperbarui.');
     }
