@@ -36,12 +36,12 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/signin', [AuthController::class, 'signin'])->name('signin')->middleware('guest');
+// Route::post('/menuutama', [AuthController::class, 'authentication'])->name('menuutama');
+// Route::post('/menuutama', [AuthController::class, 'signup'])->name('menuutama');
 
+Route::get('/signin', [AuthController::class, 'signin'])->name('signin')->middleware('guest');
 Route::post('/signup', [AuthController::class, 'signup'])->name('signup');
-Route::post('/menuutama', [AuthController::class, 'signup'])->name('menuutama');
 Route::post('/signin', [AuthController::class, 'authentication'])->middleware('guest');
-Route::post('/menuutama', [AuthController::class, 'authentication'])->name('menuutama');
 Route::get('/signout', [AuthController::class, 'signout'])->middleware('auth');
 
 Route::get('/signup', function () {
@@ -108,7 +108,7 @@ Route::get('/write', function () {
     return view('write');
 });
 
-Route::get('/menuutama', [ArticleController::class, 'index']);
+Route::get('/menuutama', [ArticleController::class, 'index'])->name('menuutama');
 
 Route::get('/write-article', [ArticleController::class, 'create'])->name('write-article')->middleware('auth');
 Route::post('/write-article-store', [ArticleController::class, 'store'])->name('write-article.store')->middleware('auth');
