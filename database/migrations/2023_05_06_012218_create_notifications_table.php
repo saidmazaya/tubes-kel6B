@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->unsignedBigInteger('mutual_id')->nullable();
-            $table->foreign('mutual_id')->references('id')->on('mutuals')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('mutual_id')->references('following_user_id')->on('mutuals')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('clap_article_id')->nullable();
             $table->foreign('clap_article_id')->references('id')->on('clap_articles')->onDelete('restrict')->onUpdate('cascade');
             $table->unsignedBigInteger('clap_list_id')->nullable();
