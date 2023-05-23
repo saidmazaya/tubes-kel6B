@@ -42,6 +42,9 @@ Route::get('/signup', function () {
     return view('signup');
 })->middleware('guest');
 
+Route::get('/change-password', [AuthController::class, 'changePassword'])->middleware('auth')->name('profile.change');
+Route::post('/change-password/{id}', [AuthController::class, 'processChangePassword'])->middleware('auth')->name('profile.change-password');
+
 Route::get('/ourstory', function () {
     return view('ourstory');
 });
