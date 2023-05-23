@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\TagAdminController;
+use App\Http\Controllers\FollowingController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\ProfileSetController;
 use App\Http\Controllers\ClapArticleController;
@@ -71,6 +72,10 @@ Route::get('/clap-comment/{id}', [ClapCommentArticleController::class, 'clap'])-
 Route::get('/notif', function () {
     return view('main.notif');
 })->middleware('auth');
+
+Route::post('/profile/{user}/follows', [FollowingController::class, 'store'])->name('following.store')->middleware('auth');
+Route::get('/profile/{user}/following', [FollowingController::class, 'following'])->name('profile.following')->middleware('auth');
+Route::get('/profile/{user}/follower', [FollowingController::class, 'follower'])->name('profile.follower')->middleware('auth');
 
 Route::get('/profile/{id}', [ProfileSetController::class, 'show'])->name('profile')->middleware('auth');
 Route::get('/profile/{username}/edit', [ProfileSetController::class, 'edit'])->name('profile.edit')->middleware('auth');
