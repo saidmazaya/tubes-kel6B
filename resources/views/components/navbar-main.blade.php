@@ -42,6 +42,7 @@
                             @if (Auth::user()->role_id == 1)
                             <li><a href="/dashboard">Dashboard</a></li>
                             @endif
+                            <li><a href="{{ route('profile.change') }}">Change Password</a></li>
                             <li><a href="/signout">Sign Out</a></li>
                         </ul>
                     </li>
