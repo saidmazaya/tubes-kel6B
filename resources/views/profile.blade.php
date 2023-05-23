@@ -79,7 +79,8 @@
                         <h6 class="d-flex justify-content-end"><a href="/profile/{{ Auth::user()->username }}/about" class="btn btn-outline-dark">Edit About</a></h6>
                         @endif
                         <hr style="border-color: black">
-                        <h6><a href="#" style="color: green">4 Followers</a><span class="mx-2">&sdot;</span><a href="#" style="color: green">4 Following</a></h6>
+                        <h6><a href="{{ route('profile.follower', $user->username) }}" style="color: green">{{ $user->followers->count() }} Followers</a><span class="mx-2">&sdot;</span><a href="{{ route('profile.following', $user->username) }}"
+                                style="color: green">{{ $user->follows->count() }} Following</a></h6>
                     </div>
                 </div>
             </div>
@@ -95,26 +96,40 @@
             </div>
             <div class="profile-head">
                 <h5>{{ $user->name }}</h5>
-                <h6><a href="#">4 Followers</a></h6>
+                <h6><a href="{{ route('profile.follower', $user->username) }}">{{ $user->followers->count() }} Followers</a></h6>
                 <div class="d-flex flex-row align-items-center justify-content-between mt-3">
                     <div>
                         <p>{{$user->bio}}</p>
                         @if ($user->id == Auth::user()->id)
                         <h6><a href="/profile/{{ Auth::user()->username }}/edit" class="text-success">Edit Profile</a></h6>
                         @else
-                        <h6><a href="#" class="btn btn-success">Follow</a></h6>
+                        <h6>
+                            <form action="{{ route('following.store', $user->id)}}" method="POST">
+                                @csrf
+                                @if (Auth::user()->follows()->where('following_user_id', $user->id)->first())
+                                <button type="submit" class="btn btn-outline-success rounded-5">Unfollow</button>
+                                @else
+                                <button type="submit" class="btn btn-success rounded-5">Follow</button>
+                                @endif
+                            </form>
+                        </h6>
                         @endif
                         <div class="profile-head mt-4">
                             <div>
                                 <h6>Following</h6>
-                                <div class="d-flex flex-row align-items-center">
-                                    <img src="profile-image.jpg" alt="Follower Name" class="rounded-circle" width="30">
-                                    <a href="#" class="text-dark ml-2">Follower Name</a>
+                                @foreach ($user->follows->take(5) as $data)
+                                <div class="d-flex flex-row align-items-center my-2">
+                                    <div class="image-container-following">
+                                        @if ($data->image != null)
+                                        <img src="{{ asset('storage/photo/'.$data->image) }}" alt="profilepicture" class="rounded-image">
+                                        @else
+                                        <img src="/images/default-user-image.png" alt="" class="rounded-image">
+                                        @endif
+                                    </div>
+                                    <a href="/profile/{{ $data->username }}" class="text-dark ml-2">{{ $data->name }}</a>
                                 </div>
-                                <div class="d-flex flex-row align-items-center">
-                                    <img src="profile-image.jpg" alt="Follower Name" class="rounded-circle" width="30">
-                                    <a href="#" class="text-dark ml-2 mb-5">Follower Name</a>
-                                </div>
+                                @endforeach
+                                <a href="{{ route('profile.following', $user->username) }}" class="text-secondary mt-2">See All ({{ $user->follows->count() }})</a>
                             </div>
                         </div>
                     </div>
@@ -143,6 +158,14 @@
 
     #about-content .btn {
         margin-top: 10px;
+    }
+
+    .image-container-following {
+        width: 30px;
+        /* Lebar yang diinginkan */
+        height: 30px;
+        /* Tinggi yang diinginkan */
+        overflow: hidden;
     }
 </style>
 @endpush
