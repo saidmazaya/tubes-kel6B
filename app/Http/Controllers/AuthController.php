@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\AuthSignUpRequest;
+use App\Http\Requests\ChangePasswordRequest;
 
 class AuthController extends Controller
 {
@@ -58,7 +60,7 @@ class AuthController extends Controller
                 return redirect()->intended($request->redirect ? $request->redirect : route('menuutama'));
             }
         } else {
-            return redirect()->route('signin')->with('message', ['type' => 'danger', 'content' => 'Login Gagal!']);
+            return redirect()->route('signup')->with('message', ['type' => 'danger', 'content' => 'Login Gagal!']);
         }
     }
 
@@ -91,5 +93,39 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/');
+    }
+
+    public function changePassword()
+    {
+        return view('profile.change-password');
+    }
+
+    public function processChangePassword(ChangePasswordRequest $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->id !== auth()->user()->id) {
+            abort(403, 'Unauthorized');
+        }
+
+        $cek = Hash::check($request->old_password, auth()->user()->password);
+        $checkNew = $request->new_password == $request->repeat_password;
+
+        if (!$cek && !$checkNew) {
+            return back()->with('message_a', 'Password Lama Tidak Sesuai Dengan Password Sekarang')
+                ->with('message_b', 'Password Baru dan Perulangan Password Tidak Sesuai');
+        }
+
+        if (!$cek) {
+            return back()->with('message_a', 'Password Lama Tidak Sesuai Dengan Password Sekarang');
+        }
+
+        if (!$checkNew) {
+            return back()->with('message_b', 'Password Baru dan Perulangan Password Tidak Sesuai');
+        }
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect(route('profile', Auth::user()->username))->with('message', 'Password berhasil diperbarui.');
     }
 }
