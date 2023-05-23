@@ -71,7 +71,7 @@
                                     </div>
                                     @endif
                                 </div>
-                                <input type="hidden" name="author_id" value="1">
+                                <input type="hidden" name="author_id" value="{{ Auth::user()->id }}">
                                 <div class="form-group mb-3">
                                     <label for="tag">Tag</label>
                                     <select name="tag_id" id="tag" class="form-select">
