@@ -42,6 +42,11 @@
                     {{ session('message')['content'] }}
                 </div>
                 @endif
+                @if (session()->has('status'))
+                <div class="alert alert-success">
+                    {{ session()->get('status') }}
+                </div>
+                @endif
                   <form method="POST" action="{{ route('signin', ['redirect' => url()->current() == route('menuutama') ? route('menuutama') : null]) }}">
                     @csrf
                     <div class="form-outline form-white mb-4">
@@ -57,7 +62,7 @@
                         @enderror
                     </div>
                 
-                    <p class="small mb-5 pb-lg-2"></p>
+                    <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="{{ route('password.request') }}">Forgot password?</a></p>
                 
                     <button class="btn btn-outline-light btn-lg px-5 mb-3" type="submit">Sign In</button>
                 
