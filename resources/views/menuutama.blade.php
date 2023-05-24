@@ -91,7 +91,7 @@
             <h3 class="sidebar-title">Your Topics</h3>
             <div class="sidebar-item tags">
               <ul>
-                @foreach ($tag as $data)
+                @foreach ($tag->take(10) as $data)
                 <li><a href="#">{{ $data->name }}</a></li>
                 @endforeach
               </ul>
