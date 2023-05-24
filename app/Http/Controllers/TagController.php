@@ -10,28 +10,33 @@ class TagController extends Controller
 {
     public function show($slug)
     {
-        $article = Article::whereHas('tags', function ($query) use ($slug) {
-            $query->where('slug', $slug);
-        })
-        ->where('status', 'Published')
-        ->paginate(10);
-
-        $tag = Tag::all();
-
-        $articleCount = Article::whereHas('tags', function ($query) use ($slug) {
-            $query->where('slug', $slug);
-        })
-        ->where('status', 'Published')
-        ->count();
-
-        $authorCount = Article::whereHas('tags', function ($query) use ($slug) {
-            $query->where('slug', $slug);
-        })
-        ->where('status', 'published')
-        ->distinct('author_id')
-        ->count('author_id');
+        $tagCheck = Tag::where('slug', $slug)->first();
         
-        return view('tag-detail', compact('article', 'tag', 'articleCount', 'authorCount'));
+        if ($tagCheck) {
+            $article = Article::whereHas('tags', function ($query) use ($slug) {
+                $query->where('slug', $slug);
+            })
+                ->where('status', 'Published')
+                ->paginate(10);
+            $tag = Tag::all();
+
+            $articleCount = Article::whereHas('tags', function ($query) use ($slug) {
+                $query->where('slug', $slug);
+            })
+                ->where('status', 'Published')
+                ->count();
+
+            $authorCount = Article::whereHas('tags', function ($query) use ($slug) {
+                $query->where('slug', $slug);
+            })
+                ->where('status', 'published')
+                ->distinct('author_id')
+                ->count('author_id');
+
+            return view('tag-detail', compact('article', 'tag', 'articleCount', 'authorCount'));
+        } else {
+            abort(404);
+        }
     }
 
     public function explore(Request $request)
