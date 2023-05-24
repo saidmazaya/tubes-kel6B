@@ -51,7 +51,8 @@
                                             @endphp
                                             <td>{{ $tagUseCount }}</td>
                                             <td>
-                                                <a href="{{ route('tag.edit', $data->slug) }}" class="btn-sm text-decoration-none btn-primary">Edit</a>
+                                                <a href="{{ route('tag.detail', $data->slug) }}" class="btn-sm text-decoration-none btn-info">Detail</a>
+                                                | <a href="{{ route('tag.edit', $data->slug) }}" class="btn-sm text-decoration-none btn-primary">Edit</a>
                                                 | <form class="d-inline" action="{{ route('tag.destroy', $data->id) }}" method="POST" id="deleteForm{{ $data->id }}" data-tag-id="{{ $data->id }}" data-related-articles="{{ $tagUseCount }}">
                                                     @csrf
                                                     @method('delete')
