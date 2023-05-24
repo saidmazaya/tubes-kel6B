@@ -34,7 +34,7 @@ class AuthSignUpRequest extends FormRequest
             'password.min' => 'Password must be at least 8 characters',
             'password.max' => 'Password can not exceed 16 characters',
             'email.required' => 'Password is required',
-            'email.unique' => 'Email must be unique'
+            'email.unique' => 'Email already registered'
         ];
     }
 }
