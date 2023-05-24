@@ -17,6 +17,7 @@ use App\Http\Controllers\ClapArticleController;
 use App\Http\Controllers\ArticleAdminController;
 use App\Http\Controllers\CommentArticleController;
 use App\Http\Controllers\ArticleAdminEditController;
+use App\Http\Controllers\ArticleIndexController;
 use App\Http\Controllers\CommentListAdminController;
 use App\Http\Controllers\ClapCommentArticleController;
 use App\Http\Controllers\CommentArticleAdminController;
@@ -32,9 +33,8 @@ use App\Http\Controllers\CommentArticleAdminController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [ArticleIndexController::class, 'tampilanAwal'])->name('index')->middleware('guest');
+
 
 // Route::post('/menuutama', [AuthController::class, 'authentication'])->name('menuutama');
 // Route::post('/menuutama', [AuthController::class, 'signup'])->name('menuutama');
