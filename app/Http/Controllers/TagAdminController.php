@@ -57,7 +57,7 @@ class TagAdminController extends Controller
      */
     public function edit($slug)
     {
-        $tag = Tag::where('slug', $slug)->first();;
+        $tag = Tag::where('slug', $slug)->first();
         return view('admin.tag.tag-edit', compact('tag'));
     }
 
