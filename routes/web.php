@@ -21,6 +21,7 @@ use App\Http\Controllers\ArticleIndexController;
 use App\Http\Controllers\CommentListAdminController;
 use App\Http\Controllers\ClapCommentArticleController;
 use App\Http\Controllers\CommentArticleAdminController;
+use App\Http\Controllers\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -126,6 +127,9 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/clap/{id}', [ClapArticleController::class, 'clap'])->middleware('auth');
 Route::get('/clap-comment/{id}', [ClapCommentArticleController::class, 'clap'])->middleware('auth');
+
+Route::get('/tag/{slug}', [TagController::class, 'show'])->name('tag.detail');
+Route::get('/explore-tags', [TagController::class, 'explore'])->name('tag.explore');
 
 Route::get('/notif', function () {
     return view('main.notif');
