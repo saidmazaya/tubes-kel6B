@@ -24,9 +24,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('stories.published', Auth::user()->username)}}">Published</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Responses</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
