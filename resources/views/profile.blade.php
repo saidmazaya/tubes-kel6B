@@ -42,7 +42,7 @@
                         </h2>
                         <div class="entry-meta">
                             @if ($data->tags != NULL)
-                            <i class="bi bi-tags mr-1"></i><a href="#" style="color: black;">{{ $data->tags->name }}</a>
+                            <i class="bi bi-tags mr-1"></i><a href="{{ route('tag.detail', $data->tags->slug) }}" style="color: black;">{{ $data->tags->name }}</a>
                             @else
                             <i class="bi bi-tags mr-1"></i><a href="#" style="color: black;">-</a></li>
                             @endif
