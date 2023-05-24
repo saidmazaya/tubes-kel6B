@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Faker\Factory as faker;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -27,6 +28,7 @@ class CommentArticleFactory extends Factory
             'content' => $faker->text(),
             'user_id' => $user_id,
             'article_id' => $article_id,
+            'status' => Arr::random(['Published', 'Rejected']),
         ];
     }
 }
