@@ -23,6 +23,11 @@
                 @endif
 
                 <div class="col-lg-8 entries">
+                    <div class="d-flex flex-row">
+                        <i class="bi bi-tags" style="font-size: 20px; margin-top: 10px"></i>
+                        <h1 class="mx-3 mb-4 d-flex" style="font-weight: bolder">{{ request()->slug }}</h1>
+                    </div>
+                    <hr style="color: black">
 
                     @foreach ($article as $data)
                     <article class="entry">
@@ -93,13 +98,13 @@
                             <p class="d-flex flex-column">Writers</p>
                         </div>
                     </div><!-- End sidebar -->
-
+                    <hr style="color: black">
                     <div class="sidebar">
                         <h3 class="sidebar-title">Recommended Topics</h3>
                         <div class="sidebar-item tags">
                             <ul>
                                 @foreach ($tag->take(10) as $data)
-                                <li><a href="#">{{ $data->name }}</a></li>
+                                <li><a href="{{ $data->slug }}">{{ $data->name }}</a></li>
                                 @endforeach
                             </ul>
                             <a href="{{ route('tag.explore') }}">See more topics</a>
