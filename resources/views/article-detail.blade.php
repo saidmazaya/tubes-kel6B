@@ -52,7 +52,7 @@
               <i class="bi bi-tags"></i>
               @if ($article->tags != NULL)
               <ul class="tags">
-                <li><a href="#">{{ $article->tags->name }}</a></li>
+                <li><a href="{{ route('tag.detail', $article->tags->slug) }}">{{ $article->tags->name }}</a></li>
               </ul>
               @else
               -
