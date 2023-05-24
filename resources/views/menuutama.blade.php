@@ -91,17 +91,6 @@
             <h3 class="sidebar-title">Your Topics</h3>
             <div class="sidebar-item tags">
               <ul>
-                @foreach ($tag->take(10) as $data)
-                <li><a href="#">{{ $data->name }}</a></li>
-                @endforeach
-              </ul>
-            </div><!-- End sidebar tags-->
-          </div><!-- End sidebar -->
-
-          <div class="sidebar">
-            <h3 class="sidebar-title">Recommended Topics</h3>
-            <div class="sidebar-item tags">
-              <ul>
                 <li><a href="#">App</a></li>
                 <li><a href="#">IT</a></li>
                 <li><a href="#">Business</a></li>
@@ -113,6 +102,17 @@
                 <li><a href="#">Smart</a></li>
                 <li><a href="#">Tips</a></li>
                 <li><a href="#">Marketing</a></li>
+              </ul>
+            </div><!-- End sidebar tags-->
+          </div><!-- End sidebar -->
+
+          <div class="sidebar">
+            <h3 class="sidebar-title">Recommended Topics</h3>
+            <div class="sidebar-item tags">
+              <ul>
+                @foreach ($tag->take(10) as $data)
+                <li><a href="#">{{ $data->name }}</a></li>
+                @endforeach
               </ul>
             </div><!-- End sidebar tags-->
           </div><!-- End sidebar -->
