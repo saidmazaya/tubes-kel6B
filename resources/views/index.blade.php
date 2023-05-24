@@ -59,7 +59,7 @@
                   <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a class="nav-link disabled" href="#"><time datetime="2020-01-01">{{ $data->created_at->format('M d, Y') }}</time></a></li>
                   <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a class="nav-link disabled" href="#">{{ $data->duration.' Minutes' }}</a></li>
                   @if ($data->tags != NULL)
-                  <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="#">{{ $data->tags->name }}</a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="{{ route('tag.detail', $data->tags->slug) }}">{{ $data->tags->name }}</a></li>
                   @else
                   <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="#">-</a></li>
                   @endif
@@ -96,12 +96,12 @@
                 @foreach ($articles->sortByDesc('created_at')->take(5) as $data)
                 <div class="post-item clearfix">
                   @if ($data->image != NULL)
-                    <img src="{{ asset('storage/photo/'.$data->image)}}" alt="">
+                  <img src="{{ asset('storage/photo/'.$data->image)}}" alt="">
                   @endif
                   <h4><a href="{{ route('article.detail', $data->slug) }}">{{ $data->title }}</a></h4>
                   <time datetime="{{ $data->created_at }}">{{ $data->created_at->format('M d, Y') }}</time>
                 </div>
-              @endforeach
+                @endforeach
 
               </div><!-- End sidebar recent posts-->
 
@@ -109,9 +109,10 @@
               <div class="sidebar-item tags">
                 <ul>
                   @foreach ($tag->take(10) as $data)
-                  <li><a href="#">{{ $data->name }}</a></li>
+                  <li><a href="{{ route('tag.detail', $data->slug) }}">{{ $data->name }}</a></li>
                   @endforeach
                 </ul>
+                <a href="{{ route('tag.explore') }}">See more topics</a>
               </div><!-- End sidebar tags-->
 
             </div><!-- End sidebar -->
