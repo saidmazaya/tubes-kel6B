@@ -112,4 +112,24 @@ class User extends Authenticatable
     {
         return $this->follows()->detach($user);
     }
+
+    public function followsTag()
+    {
+        return $this->belongsToMany(Tag::class, 'user_choices', 'user_id', 'tag_id')->withTimestamps();
+    }
+
+    public function followTag(Tag $tag)
+    {
+        return $this->followsTag()->save($tag);
+    }
+
+    public function hasFollowTag(Tag $tag)
+    {
+        return $this->followsTag()->where('tag_id', $tag->id)->exists();
+    }
+
+    public function unfollowTag(Tag $tag)
+    {
+        return $this->followsTag()->detach($tag);
+    }
 }
