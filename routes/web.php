@@ -130,6 +130,7 @@ Route::get('/clap-comment/{id}', [ClapCommentArticleController::class, 'clap'])-
 
 Route::get('/tag/{slug}', [TagController::class, 'show'])->name('tag.detail');
 Route::get('/explore-tags', [TagController::class, 'explore'])->name('tag.explore');
+Route::post('/tag/{tag}/follows', [TagController::class, 'store'])->name('tag-follow.store')->middleware('auth');
 
 Route::get('/notif', function () {
     return view('main.notif');
