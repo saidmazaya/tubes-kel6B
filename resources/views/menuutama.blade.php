@@ -87,24 +87,23 @@
         </div><!-- End blog entries list -->
 
         <div class="col-lg-4">
+          @if (Auth::check())
           <div class="sidebar">
             <h3 class="sidebar-title">Your Topics</h3>
             <div class="sidebar-item tags">
               <ul>
-                <li><a href="#">App</a></li>
-                <li><a href="#">IT</a></li>
-                <li><a href="#">Business</a></li>
-                <li><a href="#">Mac</a></li>
-                <li><a href="#">Design</a></li>
-                <li><a href="#">Office</a></li>
-                <li><a href="#">Creative</a></li>
-                <li><a href="#">Studio</a></li>
-                <li><a href="#">Smart</a></li>
-                <li><a href="#">Tips</a></li>
-                <li><a href="#">Marketing</a></li>
+                @if (Auth::user()->followsTag != '[]')
+                @foreach (Auth::user()->followsTag as $data)
+                <li><a href="{{ route('tag.detail', $data->slug) }}">{{ $data->name }}</a></li>
+                @endforeach
+                @else
+                Follow Some Topics That You Like, It will appear here !!
+                @endif
               </ul>
             </div><!-- End sidebar tags-->
           </div><!-- End sidebar -->
+          @else
+          @endif
 
           <div class="sidebar">
             <h3 class="sidebar-title">Recommended Topics</h3>
