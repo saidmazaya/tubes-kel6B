@@ -27,6 +27,14 @@
                         <i class="bi bi-tags" style="font-size: 20px; margin-top: 10px"></i>
                         <h1 class="mx-3 mb-4 d-flex" style="font-weight: bolder">{{ request()->slug }}</h1>
                     </div>
+                    <form action="{{ route('tag-follow.store', $tagCheck->id)}}" style="margin-left: 33px" method="POST">
+                        @csrf
+                        @if (Auth::user()->followsTag()->where('tag_id', $tagCheck->id)->first())
+                        <button type="submit" class="btn btn-outline-success rounded-5">Unfollow</button>
+                        @else
+                        <button type="submit" class="btn btn-success rounded-5">Follow</button>
+                        @endif
+                    </form>
                     <hr style="color: black">
 
                     @foreach ($article as $data)
