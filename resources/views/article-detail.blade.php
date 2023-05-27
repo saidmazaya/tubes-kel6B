@@ -70,7 +70,7 @@
             <div class="reply-form">
               <h4>Leave a Reply</h4>
               @if (Auth::check())
-              <form action="{{ route('komentar.store') }}" method="POST">
+              <form action="{{ route('komentar.store') }}" method="POST" id="commentForm">
                 @csrf
                 <div class="row">
                   <div class="col form-group">
@@ -80,7 +80,7 @@
                 <input type="hidden" name="status" value="Published">
                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                 <input type="hidden" name="article_id" value="{{ $article->id }}">
-                <button type="submit" class="btn btn-primary">Post Comment</button>
+                <button type="submit" class="btn btn-primary" id="postCommentBtn">Post Comment</button>
               </form>
               @else
               <a href="/signin">
@@ -503,4 +503,27 @@
       });
   }
 </script>
+<script>
+  // Disable the button and show loading state
+  function disableButton() {
+    var button = document.getElementById('postCommentBtn');
+    button.disabled = true;
+    button.innerHTML = 'Loading...';
+  }
+  
+  // Enable the button and restore its original state
+  function enableButton() {
+    var button = document.getElementById('postCommentBtn');
+    button.disabled = false;
+    button.innerHTML = 'Post Comment';
+  }
+  
+  // Add event listener to the form submission
+  var commentForm = document.getElementById('commentForm');
+  commentForm.addEventListener('submit', function(event) {
+    disableButton();
+    // Perform any necessary AJAX requests or other asynchronous operations
+    // After the operations are complete, enable the button again using enableButton()
+  });
+  </script>
 @endpush
