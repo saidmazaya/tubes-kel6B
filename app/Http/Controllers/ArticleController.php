@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\Article;
+use App\Models\ArticleList;
 use App\Models\ClapArticle;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
+        $user = Auth::user()->id;
         $keyword = $request->keyword;
         $article = Article::with(['tags', 'user'])
             ->where(function ($query) use ($keyword) {
@@ -37,7 +39,9 @@ class ArticleController extends Controller
             ->orderBy('id', 'asc')
             ->paginate(10);
         $tag = Tag::all();
-        return view('menuutama', compact('article', 'keyword', 'tag'));
+        $yourList = ArticleList::where('user_id', $user)
+            ->get();
+        return view('menuutama', compact('article', 'keyword', 'tag', 'yourList'));
     }
 
     /**
