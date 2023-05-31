@@ -41,6 +41,18 @@
                 <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a class="nav-link disabled" href="#"><time datetime="2020-01-01">{{ $article->created_at->format('M d, Y') }}</time></a></li>
                 <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a class="nav-link disabled" href="#">{{ $article->duration.' Minutes' }}</a></li>
                 <li class="d-flex align-items-center"> <a href="/clap/{{ $article->id }}" class="{{ $userClap ? ' text-primary' : '' }}"><i class="fa fa-hands-clapping"></i>{{ $clap }} Clap</a></li>
+                @if (Auth::check())
+                <li class="d-flex align-items-center">
+                  @if ($article->bookmarkByUser(Auth::user(), $article->id)->exists())
+                  <i class="bi bi-bookmark-fill"></i>
+                  @else
+                  <i class="bi bi-bookmark"></i>
+                  @endif
+                  <a href="{{ route('bookmark.add') }}" onclick="showBookmarkModal('{{ $article->id }}', event)" id="bookmarkLink" class="bookmark-btn">
+                    Bookmark
+                  </a>
+                </li>
+                @endif
               </ul>
             </div>
 
@@ -48,16 +60,82 @@
               <p>{!! $article->content !!}</p>
             </div>
 
-            <div class="entry-footer">
+            <div class="entry-footer d-flex flex-row">
               <i class="bi bi-tags"></i>
               @if ($article->tags != NULL)
               <ul class="tags">
-                <li><a href="{{ route('tag.detail', $article->tags->slug) }}">{{ $article->tags->name }}</a></li>
+                <li><a href="{{ route('tag.detail', $article->tags->slug) }}" class="ms-2">{{ $article->tags->name }}</a></li>
               </ul>
               @else
               -
               @endif
             </div>
+
+
+            @if (Auth::check())
+            <div id="bookmarkListModal-{{ $article->id }}" class="modal" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="bookmarkListModalLabel">Select or Create List </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: rgb(214, 72, 72);">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    @if ($yourList->isEmpty())
+                    <p>You don't have any list.</p>
+                    @else
+                    @php
+                    $uniqueLists = $yourList->unique('add_id');
+                    @endphp
+                    @foreach ($uniqueLists as $list)
+                    <div class="card mb-2">
+                      <form id="bookmarkListAdd" action="{{ route('bookmark.add') }}" method="POST">
+                        @csrf
+                        <div class="card-body d-flex justify-content-between">
+                          {{ $list->name }}
+                          <input type="hidden" id="list_id" name="add_id" value="{{ $list->add_id }}">
+                          <input type="hidden" id="listname" name="name" value="{{ $list->name }}">
+                          <input type="hidden" id="listDescription" name="description" value="{{ $list->description }}">
+                          <input type="hidden" id="article_id" name="article_id" value="{{ $article->id }}">
+
+                          @php
+                          $isArticleInList = $article->articleCheckList()->where('add_id', $list->add_id)->exists();
+                          @endphp
+
+                          @if ($isArticleInList)
+                          <button type="submit" class="btn btn-danger mt-2">Delete</button>
+                          @else
+                          <button type="submit" class="btn btn-primary mt-2">Add</button>
+                          @endif
+                        </div>
+                      </form>
+                    </div>
+                    @endforeach
+                    @endif
+
+                    <hr style="border-color: black">
+                    <form id="bookmarkListForm" action="{{ route('bookmark.add')}}" method="POST">
+                      @csrf
+
+                      <div class="form-group mb-3">
+                        <label for="listName">List Name</label>
+                        <input type="text" class="form-control" id="listName" name="name" required>
+                      </div>
+                      <div class="form-group mb-3">
+                        <label for="listDescription">List Description</label>
+                        <textarea class="form-control" id="listDescription" name="description"></textarea>
+                      </div>
+                      <input type="hidden" id="article_id" name="article_id" value="{{ $article->id }}">
+                      <input type="hidden" name="add_id" value="">
+                      <button type="submit" class="btn btn-primary mt-2">Add to List</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            @endif
 
           </article><!-- End blog entry -->
 
@@ -150,7 +228,7 @@
                   </h5>
                   <time datetime="{{ $data->created_at }}">{{ $data->created_at->diffForHumans() }}</time>
                   <p>
-                    {!! $data->content !!}
+                    {{ htmlspecialchars($data->content) }}
                   </p>
                 </div>
               </div>
@@ -185,7 +263,7 @@
                   <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
                   <div class="row">
                     <div class="col form-group">
-                      <textarea name="content" id="content" class="form-control" required>{!! $data->content !!}</textarea>
+                      <textarea name="content" id="content" class="form-control" required>{{  htmlspecialchars($data->content)  }}</textarea>
                     </div>
                   </div>
                   <button type="submit" class="btn btn-primary">Update Comment</button>
@@ -234,7 +312,7 @@
                     </h5>
                     <time datetime="{{ $data->created_at }}">{{ $data->created_at->diffForHumans() }}</time>
                     <p>
-                      {!! $data->content !!}
+                      {{ htmlspecialchars($data->content) }}
                     </p>
                   </div>
                 </div>
@@ -269,7 +347,7 @@
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
                     <div class="row">
                       <div class="col form-group">
-                        <textarea name="content" id="content" class="form-control" required>{!! $data->content !!}</textarea>
+                        <textarea name="content" id="content" class="form-control" required>{{  htmlspecialchars($data->content)  }}</textarea>
                       </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Update Comment</button>
@@ -318,7 +396,7 @@
                       </h5>
                       <time datetime="{{ $data->created_at }}">{{ $data->created_at->diffForHumans() }}</time>
                       <p>
-                        {!! $data->content !!}
+                        {{ htmlspecialchars($data->content) }}
                       </p>
                     </div>
                   </div>
@@ -353,7 +431,7 @@
                       <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
                       <div class="row">
                         <div class="col form-group">
-                          <textarea name="content" id="content" class="form-control" required>{!! $data->content !!}</textarea>
+                          <textarea name="content" id="content" class="form-control" required>{{  htmlspecialchars($data->content)  }}</textarea>
                         </div>
                       </div>
                       <button type="submit" class="btn btn-primary">Update Comment</button>
@@ -400,7 +478,7 @@
                         </h5>
                         <time datetime="2020-01-01">{{ $data->created_at->diffForHumans() }}</time>
                         <p>
-                          {!! $data->content !!}
+                          {{ htmlspecialchars($data->content) }}
                         </p>
                       </div>
                     </div>
@@ -416,7 +494,7 @@
                       <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
                       <div class="row">
                         <div class="col form-group">
-                          <textarea name="content" id="content" class="form-control" required>{!! $data->content !!}</textarea>
+                          <textarea name="content" id="content" class="form-control" required>{{  htmlspecialchars($data->content)  }}</textarea>
                         </div>
                       </div>
                       <button type="submit" class="btn btn-primary">Update Comment</button>
@@ -450,7 +528,7 @@
 @endsection
 @push('js')
 <!-- Vendor JS Files -->
-<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+{{-- <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> --}}
 <script src="/assets/vendor/glightbox/js/glightbox.min.js"></script>
 <script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
@@ -571,5 +649,15 @@
       $('#reply-form-' + commentId).toggle();
     });
   });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
+</script>
+<script>
+  function showBookmarkModal(article, event) {
+            event.preventDefault();
+
+            $('#article_id').val(article);
+            $('#bookmarkListModal-' + article).modal('show');
+        }
 </script>
 @endpush
