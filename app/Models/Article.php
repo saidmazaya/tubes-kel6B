@@ -45,4 +45,22 @@ class Article extends Model
     {
         return $this->hasMany(ClapArticle::class);
     }
+
+    public function bookmarkByUser(User $user, $articleId)
+    {
+        return $this->hasOne(ArticleList::class)
+            ->where('user_id', $user->id)
+            ->where('article_id', $articleId);
+    }
+
+    public function articleCheckList()
+    {
+        return $this->hasOne(ArticleList::class, 'article_id', 'id');
+    }
+    // public function checkArticleInList(Article $articleId, $addId)
+    // {
+    //     return $this->hasOne(ArticleList::class)
+    //         ->where('add_id', $addId)
+    //         ->where('article_id', $articleId);
+    // }
 }
