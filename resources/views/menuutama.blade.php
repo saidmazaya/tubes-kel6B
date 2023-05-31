@@ -62,6 +62,7 @@
                 @else
                 <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="#">-</a></li>
                 @endif
+                @if (Auth::check())                    
                 <li class="d-flex align-items-center">
                   @if ($data->bookmarkByUser(Auth::user(), $data->id)->exists())
                   <i class="bi bi-bookmark-fill"></i>
@@ -72,6 +73,7 @@
                     Bookmark
                   </a>
                 </li>
+                @endif
               </ul>
             </div>
             <div class="entry-content">
@@ -83,6 +85,7 @@
               </div>
             </div>
 
+            @if (Auth::check())           
             <div id="bookmarkListModal-{{ $data->id }}" class="modal" tabindex="-1" role="dialog">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -109,6 +112,7 @@
                           <input type="hidden" id="listname" name="name" value="{{ $list->name }}">
                           <input type="hidden" id="listDescription" name="description" value="{{ $list->description }}">
                           <input type="hidden" id="article_id" name="article_id" value="{{ $data->id }}">
+                          <input type="hidden" name="visibility" value="{{ $list->visibility }}">
 
                           @php
                           $isArticleInList = $data->articleCheckList()->where('add_id', $list->add_id)->exists();
@@ -131,20 +135,28 @@
 
                       <div class="form-group mb-3">
                         <label for="listName">List Name</label>
-                        <input type="text" class="form-control" id="listName" name="name" required>
+                        <input type="text" class="form-control" id="listName" name="name" required maxlength="60">
                       </div>
                       <div class="form-group mb-3">
                         <label for="listDescription">List Description</label>
-                        <textarea class="form-control" id="listDescription" name="description"></textarea>
+                        <textarea class="form-control" id="listDescription" name="description" maxlength="250"></textarea>
                       </div>
                       <input type="hidden" id="article_id" name="article_id" value="{{ $data->id }}">
                       <input type="hidden" name="add_id" value="">
+                      <div class="form-group mb-3">
+                        <label for="listVisibility">List Visibility</label>
+                        <select name="visibility" id="listVisibility" class="form-select">
+                          <option value="Public">Public</option>
+                          <option value="Private">Private</option>
+                        </select>
+                      </div>
                       <button type="submit" class="btn btn-primary mt-2">Add to List</button>
                     </form>
                   </div>
                 </div>
               </div>
             </div>
+            @endif
 
           </article><!-- End blog entry -->
           @endforeach
