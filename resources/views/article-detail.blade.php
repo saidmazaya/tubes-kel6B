@@ -110,7 +110,7 @@
             $totalCommentsWithReplies = $totalComments + $totalReplies;
             @endphp
             <h4 class="comments-count mt-3">{{ $totalCommentsWithReplies }} Comments</h4>
-            @foreach ($article->comments as $data)
+            @foreach ($article->comments->where('status', '!=', 'Rejected') as $data)
 
             {{-- Level 1 --}}
             <div id="comment-2" class="comment">
