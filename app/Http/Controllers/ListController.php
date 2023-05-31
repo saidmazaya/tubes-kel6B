@@ -59,12 +59,20 @@ class ListController extends Controller
         // Mengambil data user berdasarkan username
         $user = User::where('username', $username)->first();
 
+        if (!$user) {
+            abort(404);
+        }
+
         if ($user->id != Auth::user()->id) {
             abort(404);
         }
 
         // Mengambil semua data article_list yang dimiliki oleh user
         $userList = ArticleList::where('user_id', $user->id)->get();
+
+        if (!$userList) {
+            abort(404);
+        }
 
         return view('library', compact('userList'));
     }
