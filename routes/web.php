@@ -158,6 +158,8 @@ Route::get('/library/{id}', [ListController::class, 'showLibrary'])->name('libra
 
 Route::post('/bookmark/add', [ListController::class, 'toggleyourlist'])->name('bookmark.add')->middleware('auth');
 Route::post('/bookmark/edit/{id}', [ListController::class, 'editList'])->name('bookmark.edit')->middleware('auth');
+Route::delete('/bookmark/delete/{id}', [ListController::class, 'destroyList'])->name('list.destroy-list')->middleware('auth');
+Route::delete('/your-bookmark/delete/{id}', [ListController::class, 'destroyListYour'])->name('list.destroy-list-your')->middleware('auth');
 
 Route::get('/claplist/{id}', [ClapListController::class, 'claplist'])->middleware('auth');
 
