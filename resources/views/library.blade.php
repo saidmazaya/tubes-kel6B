@@ -34,6 +34,12 @@
                 </div>
             </div>
             <hr style="border-color: black">
+            @if (session('message'))
+            <div class="alert alert-success" role="alert">
+                {{ session('message') }}
+            </div>
+            @endif
+
             @if ($userList->isEmpty())
             <p>You don't have any list.</p>
             @else
@@ -53,10 +59,19 @@
                         <a href="/yourlist/{{$data->add_id}}/{{ $data->user->username }}" class="btn btn-primary bookmark-btn" data-article-id="{{ $data->add_id }}">
                             Check List
                         </a>
-                        <a href="{{ route('bookmark.edit', $data->add_id)  }}" onclick="showBookmarkModal('{{ $data->id }}', event)" id="bookmarkLink" class="bookmark-btn btn btn-warning">
-                            <i class="bi bi-pencil-fill"></i>
-                            Edit List Info
-                        </a>
+                        @if (Auth::user()->id == $data->user_id)
+                        <div class="d-flex justify-content-end">
+                            <a href="{{ route('bookmark.edit', $data->add_id)  }}" onclick="showBookmarkModal('{{ $data->id }}', event)" id="bookmarkLink" class="bookmark-btn btn btn-warning" style="margin-right: 10px">
+                                <i class="bi bi-pencil-fill"></i>
+                                Edit List Info
+                            </a>
+                            <form class="d-inline" action="{{ route('list.destroy-list', $data->add_id) }}" method="POST" id="deleteFormList{{ $data->id }}">
+                                @csrf
+                                @method('delete')
+                                <button type="button" class="btn btn-danger delete-button" onclick="deleteConfirmationList({{ $data->id }})">Delete List</button>
+                            </form>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -185,7 +200,7 @@
         });
 </script>
 @endpush
-@push('js')    
+@push('js')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
 </script>
@@ -197,4 +212,34 @@
             $('#bookmarkListModal-' + article).modal('show');
         }
 </script>
+
+<script>
+    // Fungsi untuk menampilkan SweetAlert konfirmasi
+    function deleteConfirmationList(articleId) {
+        Swal.fire({
+            title: 'Confirmation',
+            text: 'Are you sure you want to delete this List?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete',
+            cancelButtonText: 'Cancel',
+            customClass: {
+                icon: 'swal2-icon swal2-warning',
+                confirmButton: 'swal2-button-confirm',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit form
+                document.querySelector(`#deleteFormList${articleId}`).submit();
+            }
+        });
+    }
+</script>
+@endpush
+@push('css')
+<style>
+    .swal2-button-confirm {
+        margin-right: 10px !important;
+    }
+</style>
 @endpush
