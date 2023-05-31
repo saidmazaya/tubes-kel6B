@@ -14,13 +14,14 @@ class ArticleList extends Model
         'description',
         'visibilty',
         'user_id',
+        'add_id',
         'article_id',
         'owner_id',
     ];
 
     public function articles()
     {
-        return $this->hasMany(Article::class, 'article_id', 'id');
+        return $this->hasMany(Article::class, 'id', 'article_id');
     }
 
     public function comments()
@@ -36,5 +37,15 @@ class ArticleList extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id', 'id');
+    }
+
+    public function article_lists()
+    {
+        return $this->belongsTo(ArticleList::class, 'add_id', 'id');
+    }
+
+    public function claps()
+    {
+        return $this->hasMany(ClapList::class);
     }
 }
