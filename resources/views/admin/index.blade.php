@@ -30,6 +30,7 @@
                         ->where('users.role_id', 1)
                         ->count();
                         $userCount = DB::table('users')->count();
+                        $tagCount = DB::table('tags')->count();
                         @endphp
                         <h3 class="rate-percentage">{{ $userCount }}</h3>
                       </div>
@@ -42,9 +43,8 @@
                         <h3 class="rate-percentage">{{ $articleAdminCount }}</h3>
                       </div>
                       <div class="d-none d-md-block">
-                        <p class="statistics-title">Avg. Time on Site</p>
-                        <h3 class="rate-percentage">2m:35s</h3>
-                        <p class="text-success d-flex"><i class="mdi mdi-menu-down"></i><span>+0.8%</span></p>
+                        <p class="statistics-title">Total Tag</p>
+                        <h3 class="rate-percentage">{{ $tagCount }}</h3>
                       </div>
                       <div class="d-none d-md-block">
                         <p class="statistics-title">New Sessions</p>
