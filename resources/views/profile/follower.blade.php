@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title', 'Profile')
+@section('title', 'Followers')
 
 @section('content')
 <div class="container-sm">
