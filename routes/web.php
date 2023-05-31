@@ -157,6 +157,7 @@ Route::get('/yourlist/{id}/{username}', [YourListController::class, 'yourListSho
 Route::get('/library/{id}', [ListController::class, 'showLibrary'])->name('library')->middleware('auth');
 
 Route::post('/bookmark/add', [ListController::class, 'toggleyourlist'])->name('bookmark.add')->middleware('auth');
+Route::post('/bookmark/edit/{id}', [ListController::class, 'editList'])->name('bookmark.edit')->middleware('auth');
 
 Route::get('/claplist/{id}', [ClapListController::class, 'claplist'])->middleware('auth');
 
