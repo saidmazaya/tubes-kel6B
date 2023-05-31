@@ -87,4 +87,36 @@ class ListController extends Controller
 
         return redirect()->back()->with('message', 'List berhasil diupdate');
     }
+
+    public function destroyList($id)
+    {
+        $articleLists = ArticleList::where('add_id', $id)->get();
+
+        if ($articleLists->isEmpty()) {
+            // Handle jika data tidak ditemukan
+            return redirect()->back()->with('message', 'List tidak ditemukan');
+        }
+
+        foreach ($articleLists as $articleList) {
+            $articleList->delete();
+        }
+
+        return redirect()->back()->with('message', 'List berhasil dihapus');
+    }
+
+    public function destroyListYour($id)
+    {
+        $articleLists = ArticleList::where('add_id', $id)->get();
+
+        if ($articleLists->isEmpty()) {
+            // Handle jika data tidak ditemukan
+            return redirect()->back()->with('message', 'List tidak ditemukan');
+        }
+
+        foreach ($articleLists as $articleList) {
+            $articleList->delete();
+        }
+
+        return redirect(route('library', Auth::user()->username))->with('message', 'List berhasil dihapus');
+    }
 }
