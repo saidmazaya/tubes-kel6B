@@ -22,7 +22,6 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::user()->id;
         $keyword = $request->keyword;
         $article = Article::with(['tags', 'user'])
             ->where(function ($query) use ($keyword) {
@@ -39,7 +38,7 @@ class ArticleController extends Controller
             ->orderBy('id', 'asc')
             ->paginate(10);
         $tag = Tag::all();
-        
+
         if (Auth::check()) {
             $yourList = ArticleList::where('user_id', Auth::user()->id)->get();
             return view('menuutama', compact('article', 'keyword', 'tag', 'yourList'));
