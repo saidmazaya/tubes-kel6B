@@ -63,13 +63,13 @@
                                         {{ $data->description }}
                                     </p>
                                 </div>
-                                <div class="entry-content">
+                                <div class="entry-footer d-flex align-items-end">
                                     @php
                                     $userClap = Auth::check() ? $data->claps->where('user_id', Auth::user()->id)->first() : null;
                                     $clapCount = $data->claps->count();
                                     @endphp
-                                    <ul>
-                                        <li class="d-flex align-items-center"> <a href="/claplist/{{ $data->id }}" class="{{ $userClap ? ' text-primary' : '' }}"><i class="fa fa-hands-clapping"></i>{{ $clapCount }} Clap</a></li>
+                                    <ul class="tags">
+                                        <li> <a href="/claplist/{{ $data->id }}" class="{{ $userClap ? ' text-primary' : '' }}"><i class="fa fa-hands-clapping me-2"></i>{{ $clapCount }} Clap</a></li>
                                     </ul>
                                 </div>
                             </article>
