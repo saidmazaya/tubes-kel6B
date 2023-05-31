@@ -36,7 +36,11 @@
                                 </div>
                                 @endif
                                 <h2 class="entry-title">
-                                    <a href="">{{ $data->name }}</a>
+                                    <a href="#">{{ $data->name }}
+                                        @if ($data->visibility == 'Private')
+                                        <i class="fa-solid fa-lock" style="font-size: 20px"></i>
+                                        @endif
+                                    </a>
                                 </h2>
 
                                 <div class="entry-meta">
@@ -72,6 +76,52 @@
                                         <li> <a href="/claplist/{{ $data->id }}" class="{{ $userClap ? ' text-primary' : '' }}"><i class="fa fa-hands-clapping me-2"></i>{{ $clapCount }} Clap</a></li>
                                     </ul>
                                 </div>
+                                <div class="d-flex justify-content-end">
+                                    <a href="{{ route('bookmark.edit', $data->add_id)  }}" onclick="showBookmarkModalEdit('{{ $data->id }}', event)" id="bookmarkLink" class="bookmark-btn btn btn-warning">
+                                        <i class="bi bi-pencil-fill"></i>
+                                        Edit List Info
+                                    </a>
+                                </div>
+
+                                <div id="bookmarkListEdit-{{ $data->id }}" class="modal" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="bookmarkListEditLabel">Edit List</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: rgb(214, 72, 72);">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="bookmarkListForm" action="{{ route('bookmark.edit', $data->add_id) }}" method="POST">
+                                                    @csrf
+
+                                                    <div class="form-group mb-3">
+                                                        <label for="listName">List Name</label>
+                                                        <input type="text" class="form-control" id="listName" name="name" value="{{ $data->name }}" required maxlength="60">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label for="listDescription">List Description</label>
+                                                        <textarea class="form-control" id="listDescription" name="description" maxlength="250">{{ $data->description }}</textarea>
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label for="listVisibility">List Visibility</label>
+                                                        <select name="visibility" id="listVisibility" class="form-select">
+                                                            <option value="{{ $data->visibility }}">{{ $data->visibility }}</option>
+                                                            @if ($data->visibility == 'Public')
+                                                            <option value="Private">Private</option>
+                                                            @else
+                                                            <option value="Public">Public</option>
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary mt-2">Save</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </article>
                             @endforeach
                         </div><!-- End blog entries list -->
@@ -80,11 +130,6 @@
                             <div class="container" data-aos="fade-up">
 
                                 <div class="row">
-                                    @if (session('message'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{ session('message') }}
-                                    </div>
-                                    @endif
 
                                     {{-- @if ($article->isEmpty())
                                     <div class="alert alert-danger">Pencarian {{ $keyword }} tidak ditemukan
@@ -124,15 +169,20 @@
                                                     </li>
                                                     <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a class="nav-link disabled" href="#">{{ $data->duration . ' Minutes' }}</a>
                                                     </li>
-                                                    @if ($data->tags != null)
-                                                    <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="#">{{ $data->tags->name }}</a></li>
+                                                    @if ($data->tags != NULL)
+                                                    <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="{{ route('tag.detail', $data->tags->slug) }}">{{ $data->tags->name }}</a></li>
+                                                    @else
+                                                    <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="#">-</a></li>
                                                     @endif
                                                     <li class="d-flex align-items-center">
-                                                        <i class="bi bi-bookmarks"></i>
+                                                        @if ($data->bookmarkByUser(Auth::user(), $data->id)->exists())
+                                                        <i class="bi bi-bookmark-fill"></i>
+                                                        @else
+                                                        <i class="bi bi-bookmark"></i>
+                                                        @endif
                                                         <a href="{{ route('bookmark.add') }}" onclick="showBookmarkModal('{{ $data->id }}', event)" id="bookmarkLink" class="bookmark-btn">
                                                             Bookmark
                                                         </a>
-
                                                     </li>
                                                 </ul>
                                             </div>
@@ -146,6 +196,78 @@
                                                         More</a>
                                                 </div>
                                             </div>
+
+                                            <div id="bookmarkListModal-{{ $data->id }}" class="modal" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="bookmarkListModalLabel">Select or Create List </h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: rgb(214, 72, 72);">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            @if ($yourList->isEmpty())
+                                                            <p>You don't have any list.</p>
+                                                            @else
+                                                            @php
+                                                            $uniqueLists = $yourList->unique('add_id');
+                                                            @endphp
+                                                            @foreach ($uniqueLists as $list)
+                                                            <div class="card mb-2">
+                                                                <form id="bookmarkListAdd" action="{{ route('bookmark.add') }}" method="POST">
+                                                                    @csrf
+                                                                    <div class="card-body d-flex justify-content-between">
+                                                                        {{ $list->name }}
+                                                                        <input type="hidden" id="list_id" name="add_id" value="{{ $list->add_id }}">
+                                                                        <input type="hidden" id="listname" name="name" value="{{ $list->name }}">
+                                                                        <input type="hidden" id="listDescription" name="description" value="{{ $list->description }}">
+                                                                        <input type="hidden" id="article_id" name="article_id" value="{{ $data->id }}">
+                                                                        <input type="hidden" name="visibility" value="{{ $list->visibility }}">
+
+                                                                        @php
+                                                                        $isArticleInList = $data->articleCheckList()->where('add_id', $list->add_id)->exists();
+                                                                        @endphp
+
+                                                                        @if ($isArticleInList)
+                                                                        <button type="submit" class="btn btn-danger mt-2">Delete</button>
+                                                                        @else
+                                                                        <button type="submit" class="btn btn-primary mt-2">Add</button>
+                                                                        @endif
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            @endforeach
+                                                            @endif
+
+                                                            <hr style="border-color: black">
+                                                            <form id="bookmarkListForm" action="{{ route('bookmark.add')}}" method="POST">
+                                                                @csrf
+
+                                                                <div class="form-group mb-3">
+                                                                    <label for="listName">List Name</label>
+                                                                    <input type="text" class="form-control" id="listName" name="name" required maxlength="60">
+                                                                </div>
+                                                                <div class="form-group mb-3">
+                                                                    <label for="listDescription">List Description</label>
+                                                                    <textarea class="form-control" id="listDescription" name="description" maxlength="250"></textarea>
+                                                                </div>
+                                                                <input type="hidden" id="article_id" name="article_id" value="{{ $data->id }}">
+                                                                <input type="hidden" name="add_id" value="">
+                                                                <div class="form-group mb-3">
+                                                                    <label for="listVisibility">List Visibility</label>
+                                                                    <select name="visibility" id="listVisibility" class="form-select">
+                                                                        <option value="Public">Public</option>
+                                                                        <option value="Private">Private</option>
+                                                                    </select>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary mt-2">Add to List</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
 
                                         </article><!-- End blog entry -->
                                         @endforeach
@@ -238,4 +360,25 @@
         overflow: hidden;
     }
 </style>
+@endpush
+@push('js')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
+</script>
+<script>
+    function showBookmarkModal(article, event) {
+            event.preventDefault();
+
+            $('#article_id').val(article);
+            $('#bookmarkListModal-' + article).modal('show');
+        }
+</script>
+<script>
+    function showBookmarkModalEdit(edit, event) {
+            event.preventDefault();
+
+            $('#article_id').val(edit);
+            $('#bookmarkListEdit-' + edit).modal('show');
+        }
+</script>
 @endpush
