@@ -12,7 +12,7 @@ class ArticleList extends Model
     protected $fillable = [
         'name',
         'description',
-        'visibilty',
+        'visibility',
         'user_id',
         'add_id',
         'article_id',
