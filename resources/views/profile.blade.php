@@ -73,13 +73,61 @@
                     $uniqueLists = $userList->unique('add_id');
                     @endphp
                     @foreach ($uniqueLists as $data)
-                    <div class="card w-75 mb-3" id="your-list">
+                    <div class="card mb-3" id="your-list">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $data->name }}</h5>
+                            <h5 class="card-title">{{ $data->name }}
+                                @if ($data->visibility == 'Private')
+                                <i class="fa-solid fa-lock" style="font-size: 15px"></i>
+                                @endif
+                            </h5>
                             <p class="card-text">{{ $data->description }}</p>
-                            <a href="/yourlist/{{$data->add_id}}/{{ $data->user->username }}" class="btn btn-primary bookmark-btn" data-article-id="{{ $data->add_id }}">
-                                Check List
-                            </a>
+                            <div class="d-flex justify-content-between">
+                                <a href="/yourlist/{{$data->add_id}}/{{ $data->user->username }}" class="btn btn-primary bookmark-btn" data-article-id="{{ $data->add_id }}">
+                                    Check List
+                                </a>
+                                <a href="{{ route('bookmark.edit', $data->add_id)  }}" onclick="showBookmarkModal('{{ $data->id }}', event)" id="bookmarkLink" class="bookmark-btn btn btn-warning">
+                                    <i class="bi bi-pencil-fill"></i>
+                                    Edit List Info
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="bookmarkListModal-{{ $data->id }}" class="modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="bookmarkListModalLabel">Edit List</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: rgb(214, 72, 72);">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="bookmarkListForm" action="{{ route('bookmark.edit', $data->add_id) }}" method="POST">
+                                        @csrf
+
+                                        <div class="form-group mb-3">
+                                            <label for="listName">List Name</label>
+                                            <input type="text" class="form-control" id="listName" name="name" value="{{ $data->name }}" required maxlength="60">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="listDescription">List Description</label>
+                                            <textarea class="form-control" id="listDescription" name="description" maxlength="250">{{ $data->description }}</textarea>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="listVisibility">List Visibility</label>
+                                            <select name="visibility" id="listVisibility" class="form-select">
+                                                <option value="{{ $data->visibility }}">{{ $data->visibility }}</option>
+                                                @if ($data->visibility == 'Public')
+                                                <option value="Private">Private</option>
+                                                @else
+                                                <option value="Public">Public</option>
+                                                @endif
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mt-2">Save</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     @endforeach
@@ -157,7 +205,7 @@
 @push('css')
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link rel="stylesheet" href="/css/pf.css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+{{-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script> --}}
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 @endpush
 @push('css')
@@ -216,5 +264,15 @@
             }
         });
     }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
+</script>
+<script>
+    function showBookmarkModal(article, event) {
+            event.preventDefault();
+
+            $('#article_id').val(article);
+            $('#bookmarkListModal-' + article).modal('show');
+        }
 </script>
 @endpush
