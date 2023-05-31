@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\ArticleList;
-use App\Models\yourlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +20,7 @@ class ListController extends Controller
 
         // dd($article);
         $existingList = ArticleList::where('name', $yourListName)->first();
-        
+
         if ($existingList) {
             // List with the same name already exists, use the existing add_id
             $yourListId = $existingList->add_id;
@@ -28,7 +28,7 @@ class ListController extends Controller
             // Generate a new add_id
             $yourListId = ArticleList::max('add_id') + 1;
         }
-        
+
         $bookmark = ArticleList::where('article_id', $article)->where('user_id', Auth::user()->id)->where('add_id', $checkAdd)->first();
         $hasBookmark = !!$bookmark;
         if (empty($yourListName)) {
@@ -50,5 +50,20 @@ class ListController extends Controller
                 return redirect()->back()->with('message', 'Artikel berhasil ditambahkan ke list');
             }
         }
+    }
+
+    public function showLibrary($username)
+    {
+        // Mengambil data user berdasarkan username
+        $user = User::where('username', $username)->first();
+
+        if ($user->id != Auth::user()->id) {
+            abort(404);
+        }
+
+        // Mengambil semua data article_list yang dimiliki oleh user
+        $userList = ArticleList::where('user_id', $user->id)->get();
+
+        return view('library', compact('userList'));
     }
 }
