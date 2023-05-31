@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Article;
+use App\Models\ArticleList;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,7 +84,10 @@ class ProfileSetController extends Controller
                 ->where('status', 'Published')
                 ->get();
 
-            return view('profile', compact('user', 'article'));
+        // Mengambil semua data article_list yang dimiliki oleh user
+        $userList = ArticleList::where('user_id', $user->id)->get();
+
+            return view('profile', compact('user', 'article', 'userList'));
         } else {
             abort(404);
         }
