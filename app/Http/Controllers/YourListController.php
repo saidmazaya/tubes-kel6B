@@ -10,29 +10,36 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class YourListController extends Controller
-{ 
-    public function yourListShow(Request $request, $id)
+{
+    public function yourListShow(Request $request, $id, $username)
     {
         // Mengambil data user yang sedang login
-        $user = Auth::user();
-    
+        $user = User::where('username', $username)->first();
+
+        if (!$user) {
+            abort(404);
+        }
+
         // Mengambil semua data article_list yang dimiliki oleh user yang sedang login
         $articleLists = ArticleList::where('user_id', $user->id)
             ->where('add_id', $id)
             ->with('article_lists') // Memuat artikel terkait
             ->get();
-    
+
+        if ($articleLists->isEmpty()) {
+            abort(404);
+        }
+
         // Mengambil semua article_id dari article_lists yang ditemukan
         $articleIds = $articleLists->pluck('article_id');
-    
+
         // Mengambil semua detail artikel berdasarkan article_id yang ditemukan
         $articles = Article::whereIn('id', $articleIds)->get();
-    
+
         return view('yourlist', [
             'user' => $user,
             'articleLists' => $articleLists,
             'articles' => $articles, // Menambahkan data artikel ke view
         ]);
     }
-    
-} 
+}
