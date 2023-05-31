@@ -17,9 +17,10 @@ class ListController extends Controller
         $yourListName = $request->input('name');
         $yourListDescription = $request->input('description');
         $checkAdd = $request->input('add_id');
+        $visibility = $request->input('visibility');
 
         // dd($article);
-        $existingList = ArticleList::where('name', $yourListName)->first();
+        $existingList = ArticleList::where('name', $yourListName)->where('user_id', Auth::user()->id)->first();
 
         if ($existingList) {
             // List with the same name already exists, use the existing add_id
@@ -42,11 +43,12 @@ class ListController extends Controller
                     'add_id' => $yourListId,
                     'name' => $yourListName,
                     'description' => $yourListDescription,
-                    'visibility' => 'public',
+                    'visibility' => $visibility,
                     'user_id' => $user->id,
                     'article_id' => $article,
                     'owner_id' => Auth::user()->id,
                 ]);
+                // dd($yourList);
                 return redirect()->back()->with('message', 'Artikel berhasil ditambahkan ke list');
             }
         }
@@ -65,5 +67,24 @@ class ListController extends Controller
         $userList = ArticleList::where('user_id', $user->id)->get();
 
         return view('library', compact('userList'));
+    }
+
+    public function editList(Request $request, $id)
+    {
+        $articleLists = ArticleList::where('add_id', $id)->get();
+        // dd($articleList);
+        if ($articleLists->isEmpty()) {
+            // Handle jika data tidak ditemukan
+            return redirect()->back()->with('message', 'List tidak ditemukan');
+        }
+
+        foreach ($articleLists as $articleList) {
+            $articleList->name = $request->input('name');
+            $articleList->description = $request->input('description');
+            $articleList->visibility = $request->input('visibility');
+            $articleList->save();
+        }
+
+        return redirect()->back()->with('message', 'List berhasil diupdate');
     }
 }
