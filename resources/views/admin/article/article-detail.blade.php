@@ -36,8 +36,8 @@
                                                         <li class="d-flex align-items-center"><i class="bi bi-person"></i><a href="{{ route('profile', $article->user->username) }}">{{ $article->user->name }}</a></li>
                                                         <li class="d-flex align-items-center"><i class="bi bi-clock"></i><a href="#"><time datetime="2020-01-01">{{ $article->created_at->format('M d, Y') }}</time></a></li>
                                                         <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a href="#">{{ $article->duration.' Minutes' }}</a></li>
-                                                        <li class="d-flex align-items-center"> <a href="/clap/{{ $article->id }}" class="{{ $userClap ? ' text-primary' : '' }}"><i class="fa fa-hands-clapping"></i>{{ $clap }} Clap</a></li>
-                                                        <i class="bi bi-hand-clap"></i>
+                                                        {{-- <li class="d-flex align-items-center"> <a href="/clap/{{ $article->id }}" class="{{ $userClap ? ' text-primary' : '' }}"><i class="fa fa-hands-clapping"></i>{{ $clap }} Clap</a></li>
+                                                        <i class="bi bi-hand-clap"></i> --}}
                                                     </ul>
                                                 </div>
 
