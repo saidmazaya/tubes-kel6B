@@ -102,11 +102,16 @@ class ArticleController extends Controller
             // dd($article->toArray());
             // dd($publishedComments->toArray());
             $clap = ClapArticle::where('article_id', $article->id)->count();
+            if (Auth::check()) {
+                $yourList = ArticleList::where('user_id', Auth::user()->id)->get();
+                return view('article-detail', compact('article', 'publishedComments', 'clap', 'yourList'));
+            } else {
+                return view('article-detail', compact('article', 'publishedComments', 'clap'));
+            }
         } else {
             abort(404);
         }
 
-        return view('article-detail', compact('article', 'publishedComments', 'clap'));
     }
 
     /**
