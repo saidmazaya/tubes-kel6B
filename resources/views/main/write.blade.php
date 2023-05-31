@@ -57,7 +57,7 @@
                             @endif
                             <ul>
                                 <li><a href="/profile/{{ Auth::user()->username }}">Profile</a></li>
-                                <li><a href="/library">Library</a></li>
+                                <li><a href="/library/{{ Auth::user()->username }}">Library</a></li>
                                 <li><a href="/stories/draft/{{ Auth::user()->username }}">Stories</a></li>
                                 @if (Auth::user()->role_id == 1)
                                 <li><a href="/dashboard">Dashboard</a></li>
