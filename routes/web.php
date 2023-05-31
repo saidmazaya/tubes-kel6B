@@ -5,23 +5,25 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ListController;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\TagAdminController;
+use App\Http\Controllers\YourListController;
 use App\Http\Controllers\FollowingController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\ProfileSetController;
 use App\Http\Controllers\ClapArticleController;
 use App\Http\Controllers\ArticleAdminController;
+use App\Http\Controllers\ArticleIndexController;
 use App\Http\Controllers\CommentArticleController;
 use App\Http\Controllers\ArticleAdminEditController;
-use App\Http\Controllers\ArticleIndexController;
 use App\Http\Controllers\CommentListAdminController;
 use App\Http\Controllers\ClapCommentArticleController;
 use App\Http\Controllers\CommentArticleAdminController;
-use App\Http\Controllers\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -149,9 +151,14 @@ Route::get('/profile/{username}/about', function () {
 })->middleware('auth');
 Route::put('/about-update/{id}', [ProfileSetController::class, 'updateAbout'])->name('about.update')->middleware('auth');
 
+Route::get('/yourlist/{id}', [YourListController::class, 'yourListShow'])->name('yourlist')->middleware('auth');
 Route::get('/library', function () {
     return view('library');
 })->middleware('auth');
+
+Route::post('/bookmark/add', [ListController::class, 'toggleyourlist'])->name('bookmark.add')->middleware('auth');
+
+Route::get('/claplist/{id}', [ClapListController::class, 'claplist'])->middleware('auth');
 
 Route::get('/stories/draft/{id}', [ArticleController::class, 'draft'])->name('stories.draft')->middleware('auth');
 Route::get('/stories/public/{id}', [ArticleController::class, 'published'])->name('stories.published')->middleware('auth');
