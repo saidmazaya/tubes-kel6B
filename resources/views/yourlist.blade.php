@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title', 'Profile')
+@section('title', 'Your List')
 
 @section('content')
 <div class="container mt-5" id="containera">
@@ -76,12 +76,19 @@
                                         <li> <a href="/claplist/{{ $data->id }}" class="{{ $userClap ? ' text-primary' : '' }}"><i class="fa fa-hands-clapping me-2"></i>{{ $clapCount }} Clap</a></li>
                                     </ul>
                                 </div>
+                                @if (Auth::user()->id == $data->user_id)
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route('bookmark.edit', $data->add_id)  }}" onclick="showBookmarkModalEdit('{{ $data->id }}', event)" id="bookmarkLink" class="bookmark-btn btn btn-warning">
+                                    <a href="{{ route('bookmark.edit', $data->add_id)  }}" onclick="showBookmarkModalEdit('{{ $data->id }}', event)" id="bookmarkLink" class="bookmark-btn btn btn-warning" style="margin-right: 10px">
                                         <i class="bi bi-pencil-fill"></i>
                                         Edit List Info
                                     </a>
+                                    <form class="d-inline" action="{{ route('list.destroy-list-your', $data->add_id) }}" method="POST" id="deleteFormList{{ $data->id }}">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="button" class="btn btn-danger delete-button" onclick="deleteConfirmationList({{ $data->id }})">Delete List</button>
+                                    </form>
                                 </div>
+                                @endif
 
                                 <div id="bookmarkListEdit-{{ $data->id }}" class="modal" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
@@ -381,4 +388,34 @@
             $('#bookmarkListEdit-' + edit).modal('show');
         }
 </script>
+
+<script>
+    // Fungsi untuk menampilkan SweetAlert konfirmasi
+    function deleteConfirmationList(articleId) {
+        Swal.fire({
+            title: 'Confirmation',
+            text: 'Are you sure you want to delete this List?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete',
+            cancelButtonText: 'Cancel',
+            customClass: {
+                icon: 'swal2-icon swal2-warning',
+                confirmButton: 'swal2-button-confirm',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit form
+                document.querySelector(`#deleteFormList${articleId}`).submit();
+            }
+        });
+    }
+</script>
+@endpush
+@push('css')
+<style>
+    .swal2-button-confirm {
+        margin-right: 10px !important;
+    }
+</style>
 @endpush
