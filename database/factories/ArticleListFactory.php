@@ -31,6 +31,7 @@ class ArticleListFactory extends Factory
             'description' => $faker->text(),
             'visibility' => Arr::random(['Private', 'Public']),
             'user_id' => $user->id,
+            'add_id' => 1,
             'article_id' => $articles->id,
             'owner_id' => $owner->id
         ];
