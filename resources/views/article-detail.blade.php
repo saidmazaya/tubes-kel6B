@@ -156,7 +156,7 @@
               </div>
               <!-- Form Reply -->
               <div class="reply-form" id="reply-form-{{ $data->id }}" style="display: none;">
-                <form action="{{ route('komentar.store') }}" method="POST">
+                <form action="{{ route('komentar.store') }}" method="POST" id="reply-form-reply" onsubmit="submitReplyForm(event, {{ $data->id }})">
                   @csrf
                   @if (Auth::check())
                   <input type="hidden" name="parent_id" value="{{ $data->id }}">
@@ -170,7 +170,7 @@
                       <textarea name="content" id="content" class="form-control" placeholder="Your Reply" required></textarea>
                     </div>
                   </div>
-                  <button type="submit" class="btn btn-primary">Post Reply</button>
+                  <button type="submit" class="btn btn-primary" id="post-reply-btn-{{ $data->id }}">Post Reply</button>
                   <a style="cursor: pointer; margin-left: 10px" data-comment-id="{{ $data->id }}" class="reply-button text-secondary">Cancel</a>
                 </form>
               </div>
@@ -240,7 +240,7 @@
                 </div>
                 <!-- Form Reply -->
                 <div class="reply-form" id="reply-form-{{ $data->id }}" style="display: none;">
-                  <form action="{{ route('komentar.store') }}" method="POST">
+                  <form action="{{ route('komentar.store') }}" method="POST" id="reply-form-reply" onsubmit="submitReplyForm(event, {{ $data->id }})">
                     @csrf
                     @if (Auth::check())
                     <input type="hidden" name="parent_id" value="{{ $data->id }}">
@@ -254,7 +254,7 @@
                         <textarea name="content" id="content" class="form-control" placeholder="Your Reply" required></textarea>
                       </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Post Reply</button>
+                    <button type="submit" class="btn btn-primary" id="post-reply-btn-{{ $data->id }}">Post Reply</button>
                     <a style="cursor: pointer; margin-left: 10px" data-comment-id="{{ $data->id }}" class="reply-button text-secondary">Cancel</a>
                   </form>
                 </div>
@@ -324,7 +324,7 @@
                   </div>
                   <!-- Form Reply -->
                   <div class="reply-form" id="reply-form-{{ $data->id }}" style="display: none">
-                    <form action="{{ route('komentar.store') }}" method="POST">
+                    <form action="{{ route('komentar.store') }}" method="POST" id="reply-form-reply" onsubmit="submitReplyForm(event, {{ $data->id }})">
                       @csrf
                       @if (Auth::check())
                       <input type="hidden" name="parent_id" value="{{ $data->id }}">
@@ -338,7 +338,7 @@
                           <textarea name="content" id="content" class="form-control" placeholder="Your Reply" required></textarea>
                         </div>
                       </div>
-                      <button type="submit" class="btn btn-primary">Post Reply</button>
+                      <button type="submit" class="btn btn-primary" id="post-reply-btn-{{ $data->id }}">Post Reply</button>
                       <a style="cursor: pointer; margin-left: 10px" data-comment-id="{{ $data->id }}" class="reply-button text-secondary">Cancel</a>
                     </form>
                   </div>
@@ -466,14 +466,14 @@
     } );
 </script> --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
+{{-- <script>
   $(document).ready(function() {
         $('.reply-button').click(function() {
             var commentId = $(this).data('comment-id');
             $('#reply-form-' + commentId).toggle();
         });
     });
-</script>
+</script> --}}
 <script>
   $(document).ready(function() {
         $('.edit-button').click(function() {
@@ -525,5 +525,51 @@
     // Perform any necessary AJAX requests or other asynchronous operations
     // After the operations are complete, enable the button again using enableButton()
   });
-  </script>
+</script>
+<script>
+  function submitReplyForm(event, commentId) {
+    // event.preventDefault();
+    disablePostReplyButton(commentId);
+
+    // Mendapatkan data dari form
+    var form = $('#reply-form-reply');
+    var formData = form.serialize();
+
+    // Mengirim data komentar melalui AJAX request
+    $.ajax({
+      url: form.attr('action'),
+      type: form.attr('method'),
+      data: formData,
+      success: function(response) {
+        // Tindakan setelah sukses pengiriman komentar
+        enablePostReplyButton(commentId);
+        // Tambahkan kode di sini untuk menangani respons setelah pengiriman komentar berhasil
+      },
+      error: function(xhr, status, error) {
+        // Tindakan setelah gagal pengiriman komentar
+        enablePostReplyButton(commentId);
+        // Tambahkan kode di sini untuk menangani respons setelah pengiriman komentar gagal
+      }
+    });
+  }
+
+  function disablePostReplyButton(commentId) {
+    var postReplyBtn = document.getElementById("post-reply-btn-" + commentId);
+    postReplyBtn.disabled = true;
+    postReplyBtn.innerHTML = "Loading...";
+  }
+
+  function enablePostReplyButton(commentId) {
+    var postReplyBtn = document.getElementById("post-reply-btn-" + commentId);
+    postReplyBtn.disabled = false;
+    postReplyBtn.innerHTML = "Post Reply";
+  }
+
+  $(document).ready(function() {
+    $('.reply-button').click(function() {
+      var commentId = $(this).data('comment-id');
+      $('#reply-form-' + commentId).toggle();
+    });
+  });
+</script>
 @endpush
