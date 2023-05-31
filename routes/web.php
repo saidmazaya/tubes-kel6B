@@ -11,6 +11,7 @@ use App\Http\Controllers\ListController;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ClapListController;
 use App\Http\Controllers\TagAdminController;
 use App\Http\Controllers\YourListController;
 use App\Http\Controllers\FollowingController;
@@ -151,10 +152,9 @@ Route::get('/profile/{username}/about', function () {
 })->middleware('auth');
 Route::put('/about-update/{id}', [ProfileSetController::class, 'updateAbout'])->name('about.update')->middleware('auth');
 
-Route::get('/yourlist/{id}', [YourListController::class, 'yourListShow'])->name('yourlist')->middleware('auth');
-Route::get('/library', function () {
-    return view('library');
-})->middleware('auth');
+Route::get('/yourlist/{id}/{username}', [YourListController::class, 'yourListShow'])->name('yourlist')->middleware('auth');
+
+Route::get('/library/{id}', [ListController::class, 'showLibrary'])->name('library')->middleware('auth');
 
 Route::post('/bookmark/add', [ListController::class, 'toggleyourlist'])->name('bookmark.add')->middleware('auth');
 
