@@ -39,9 +39,13 @@ class ArticleController extends Controller
             ->orderBy('id', 'asc')
             ->paginate(10);
         $tag = Tag::all();
-        $yourList = ArticleList::where('user_id', $user)
-            ->get();
-        return view('menuutama', compact('article', 'keyword', 'tag', 'yourList'));
+        
+        if (Auth::check()) {
+            $yourList = ArticleList::where('user_id', Auth::user()->id)->get();
+            return view('menuutama', compact('article', 'keyword', 'tag', 'yourList'));
+        } else {
+            return view('menuutama', compact('article', 'keyword', 'tag'));
+        }
     }
 
     /**
@@ -111,7 +115,6 @@ class ArticleController extends Controller
         } else {
             abort(404);
         }
-
     }
 
     /**
