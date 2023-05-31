@@ -44,7 +44,7 @@
                                         @foreach ($article as $data)
                                         <tr>
                                             <td>{{ $loop->iteration + $article->firstItem() - 1 }}</td>
-                                            <td>{{ $data->title }}</td>
+                                            <td>{{ Str::limit($data->title, 50, '...') }}</td>
                                             <td>{{ $data->user->name }}</td>
                                             @if ($data->tags)
                                             <td>{{ $data->tags->name }}</td>
