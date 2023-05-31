@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('article_lists', function (Blueprint $table) {
             $table->id();
+            $table->integer('add_id');
             $table->string('name', 70);
             $table->string('description', 290)->nullable();
             $table->enum('visibility', ['Private', 'Public'])->default('Public');
