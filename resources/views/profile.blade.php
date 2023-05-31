@@ -66,9 +66,24 @@
                     </article><!-- End blog entry -->
                 </div>
                 <div class="tab-pane fade" id="list" role="tabpanel" aria-labelledby="list-tab">
-                    <h3>List Tab Content</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae commodo quam. Aliquam
-                        luctus nisi non odio commodo, at tincidunt mauris dictum.</p>
+                    @if ($userList->isEmpty())
+                    <p>Empty list.</p>
+                    @else
+                    @php
+                    $uniqueLists = $userList->unique('add_id');
+                    @endphp
+                    @foreach ($uniqueLists as $data)
+                    <div class="card w-75 mb-3" id="your-list">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $data->name }}</h5>
+                            <p class="card-text">{{ $data->description }}</p>
+                            <a href="/yourlist/{{$data->add_id}}/{{ $data->user->username }}" class="btn btn-primary bookmark-btn" data-article-id="{{ $data->add_id }}">
+                                Check List
+                            </a>
+                        </div>
+                    </div>
+                    @endforeach
+                    @endif
                 </div>
                 <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
                     <div id="about-content">
