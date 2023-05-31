@@ -62,15 +62,87 @@
                 @else
                 <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="#">-</a></li>
                 @endif
+                <li class="d-flex align-items-center">
+                  @if ($data->bookmarkByUser(Auth::user(), $data->id)->exists())
+                  <i class="bi bi-bookmark-fill"></i>
+                  @else
+                  <i class="bi bi-bookmark"></i>
+                  @endif
+                  <a href="{{ route('bookmark.add') }}" onclick="showBookmarkModal('{{ $data->id }}', event)" id="bookmarkLink" class="bookmark-btn">
+                    Bookmark
+                  </a>
+                </li>
               </ul>
             </div>
-
             <div class="entry-content">
               <p>
                 {{ $data->description }}
               </p>
               <div class="read-more">
                 <a href="{{ route('article.detail', $data->slug) }}">Read More</a>
+              </div>
+            </div>
+
+            <div id="bookmarkListModal-{{ $data->id }}" class="modal" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="bookmarkListModalLabel">Select or Create List </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: rgb(214, 72, 72);">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    @if ($yourList->isEmpty())
+                    <p>You don't have any list.</p>
+                    @else
+                    @php
+                    $uniqueLists = $yourList->unique('add_id');
+                    @endphp
+                    @foreach ($uniqueLists as $list)
+                    <div class="card mb-2">
+                      <form id="bookmarkListAdd" action="{{ route('bookmark.add') }}" method="POST">
+                        @csrf
+                        <div class="card-body d-flex justify-content-between">
+                          {{ $list->name }}
+                          <input type="hidden" id="list_id" name="add_id" value="{{ $list->add_id }}">
+                          <input type="hidden" id="listname" name="name" value="{{ $list->name }}">
+                          <input type="hidden" id="listDescription" name="description" value="{{ $list->description }}">
+                          <input type="hidden" id="article_id" name="article_id" value="{{ $data->id }}">
+
+                          @php
+                          $isArticleInList = $data->articleCheckList()->where('add_id', $list->add_id)->exists();
+                          @endphp
+
+                          @if ($isArticleInList)
+                          <button type="submit" class="btn btn-danger mt-2">Delete</button>
+                          @else
+                          <button type="submit" class="btn btn-primary mt-2">Add</button>
+                          @endif
+                        </div>
+                      </form>
+                    </div>
+                    @endforeach
+                    @endif
+
+                    <hr style="border-color: black">
+                    <form id="bookmarkListForm" action="{{ route('bookmark.add')}}" method="POST">
+                      @csrf
+
+                      <div class="form-group mb-3">
+                        <label for="listName">List Name</label>
+                        <input type="text" class="form-control" id="listName" name="name" required>
+                      </div>
+                      <div class="form-group mb-3">
+                        <label for="listDescription">List Description</label>
+                        <textarea class="form-control" id="listDescription" name="description"></textarea>
+                      </div>
+                      <input type="hidden" id="article_id" name="article_id" value="{{ $data->id }}">
+                      <input type="hidden" name="add_id" value="">
+                      <button type="submit" class="btn btn-primary mt-2">Add to List</button>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -143,4 +215,17 @@
     overflow: hidden;
   }
 </style>
+@endpush
+@push('js')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
+</script>
+<script>
+  function showBookmarkModal(article, event) {
+            event.preventDefault();
+
+            $('#article_id').val(article);
+            $('#bookmarkListModal-' + article).modal('show');
+        }
+</script>
 @endpush
