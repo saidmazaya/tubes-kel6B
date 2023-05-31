@@ -84,8 +84,15 @@ class ProfileSetController extends Controller
                 ->where('status', 'Published')
                 ->get();
 
-        // Mengambil semua data article_list yang dimiliki oleh user
-        $userList = ArticleList::where('user_id', $user->id)->get();
+            // Mengambil semua data article_list yang dimiliki oleh user
+            if ($user->id == Auth::user()->id) {
+                $userList = ArticleList::where('user_id', $user->id)
+                    ->get();
+            } else {
+                $userList = ArticleList::where('user_id', $user->id)
+                    ->where('visibility', 'Public')
+                    ->get();
+            }
 
             return view('profile', compact('user', 'article', 'userList'));
         } else {
