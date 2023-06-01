@@ -85,6 +85,26 @@
                                 <a href="/yourlist/{{$data->add_id}}/{{ $data->user->username }}" class="btn btn-primary bookmark-btn" data-article-id="{{ $data->add_id }}">
                                     Check List
                                 </a>
+                                @if (Auth::user()->id != $data->user_id)
+                                <div class="d-flex justify-content-end">
+                                    @if ($data->bookmarkByUser(Auth::user(), $data->owner_id, $data->add_id)->exists())
+                                    <form class="d-inline" method="POST" action="{{ route('other-list.destroy', [$data->owner_id, $data->add_id]) }}" class="bookmark-btn">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn">
+                                            <i class="bi bi-bookmark-fill"></i>
+                                        </button>
+                                    </form>
+                                    @else
+                                    <form class="d-inline" method="POST" action="{{ route('other-list.add', [$data->owner_id, $data->add_id]) }}" class="bookmark-btn">
+                                        @csrf
+                                        <button type="submit" class="btn">
+                                            <i class="bi bi-bookmark-plus"></i>
+                                        </button>
+                                    </form>
+                                    @endif
+                                </div>
+                                @endif
                                 @if (Auth::user()->id == $user->id)
                                 <div class="d-flex justify-content-end">
                                     <a href="{{ route('bookmark.edit', $data->add_id)  }}" onclick="showBookmarkModal('{{ $data->id }}', event)" id="bookmarkLink" class="bookmark-btn btn btn-warning mr-2">
