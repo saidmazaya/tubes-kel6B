@@ -551,14 +551,14 @@
     } );
 </script> --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-{{-- <script>
+<script>
   $(document).ready(function() {
         $('.reply-button').click(function() {
             var commentId = $(this).data('comment-id');
             $('#reply-form-' + commentId).toggle();
         });
     });
-</script> --}}
+</script>
 <script>
   $(document).ready(function() {
         $('.edit-button').click(function() {
@@ -579,6 +579,7 @@
           cancelButtonText: 'Cancel',
           customClass: {
               icon: 'swal2-icon swal2-warning',
+              confirmButton: 'swal2-button-confirm',
           },
       }).then((result) => {
           if (result.isConfirmed) {
@@ -611,7 +612,7 @@
     // After the operations are complete, enable the button again using enableButton()
   });
 </script>
-<script>
+{{-- <script>
   function submitReplyForm(event, commentId) {
     // event.preventDefault();
     disablePostReplyButton(commentId);
@@ -656,7 +657,7 @@
       $('#reply-form-' + commentId).toggle();
     });
   });
-</script>
+</script> --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
 </script>
 <script>
