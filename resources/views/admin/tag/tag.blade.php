@@ -134,7 +134,8 @@ deleteButtons.forEach((button) => {
                 confirmButtonText: 'Ya, Hapus',
                 cancelButtonText: 'Batal',
                 customClass: {
-                    icon: '.swal2-icon.swal2-warning' // Nama kelas CSS yang Anda tentukan
+                    icon: '.swal2-icon.swal2-warning',
+                    confirmButton: 'swal2-button-confirm', // Nama kelas CSS yang Anda tentukan
                 },
             }).then((result) => {
                 if (result.isConfirmed) {

@@ -99,6 +99,7 @@
             cancelButtonText: 'Cancel',
             customClass: {
                 icon: 'swal2-icon swal2-warning',
+                confirmButton: 'swal2-button-confirm',
             },
         }).then((result) => {
             if (result.isConfirmed) {
@@ -118,6 +119,7 @@
             cancelButtonText: 'Cancel',
             customClass: {
                 icon: 'swal2-icon swal2-warning',
+                confirmButton: 'swal2-button-confirm',
             },
         }).then((result) => {
             if (result.isConfirmed) {

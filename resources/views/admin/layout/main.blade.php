@@ -28,6 +28,9 @@
             margin-top: 50px !important;
             /* Sesuaikan nilai sesuai kebutuhan */
         }
+        .swal2-button-confirm {
+            margin-right: 10px !important;
+        }
     </style>
     @stack('css')
 </head>
