@@ -68,13 +68,13 @@
                                     </p>
                                 </div>
                                 <div class="entry-footer d-flex align-items-end">
-                                    @php
+                                    {{-- @php
                                     $userClap = Auth::check() ? $data->claps->where('user_id', Auth::user()->id)->first() : null;
                                     $clapCount = $data->claps->count();
                                     @endphp
                                     <ul class="tags">
                                         <li> <a href="/claplist/{{ $data->id }}" class="{{ $userClap ? ' text-primary' : '' }}"><i class="fa fa-hands-clapping me-2"></i>{{ $clapCount }} Clap</a></li>
-                                    </ul>
+                                    </ul> --}}
                                 </div>
                                 @if (Auth::user()->id == $data->user_id)
                                 <div class="d-flex justify-content-end">
