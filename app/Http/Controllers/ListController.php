@@ -86,10 +86,6 @@ class ListController extends Controller
             return redirect()->back()->with('message', 'List tidak ditemukan');
         }
 
-        if ($articleLists->user_id != Auth::user()->id) {
-            abort(404);
-        }
-
         foreach ($articleLists as $articleList) {
             $articleList->name = $request->input('name');
             $articleList->description = $request->input('description');
@@ -182,6 +178,7 @@ class ListController extends Controller
         // Mengambil semua data article_list yang dimiliki oleh user dengan user_id yang sama dan owner_id yang berbeda
         $userList = ArticleList::where('user_id', Auth::user()->id)
             ->where('owner_id', '!=', Auth::user()->id)
+            ->where('visibility', 'Public')
             ->get();
 
         // dd($userList->toArray());
