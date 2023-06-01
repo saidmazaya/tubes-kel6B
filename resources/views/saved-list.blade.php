@@ -49,68 +49,50 @@
             @foreach ($uniqueLists as $data)
             <div class="card mb-3" id="your-list">
                 <div class="card-body">
-                    <h5 class="card-title">{{ $data->name }}
+                    <div>
+                        <a href="{{ route('profile', $data->owner->username) }}" class="d-flex align-items-center">
+                            <div class="image-container">
+                                @if ($data->owner->image != null)
+                                <img src="{{ asset('storage/photo/' . $data->owner->image) }}" alt="profilepicture" class="rounded-image">
+                                @else
+                                <img src="/images/default-user-image.png" alt="" class="rounded-image">
+                                @endif
+                            </div>
+                            <span style="margin-left: 8px">{{ $data->owner->name }}</span>
+                        </a>
+                    </div>
+                    <h5 class="card-title mt-3">{{ $data->name }}
                         @if ($data->visibility == 'Private')
                         <i class="fa-solid fa-lock" style="font-size: 15px"></i>
                         @endif
                     </h5>
                     <p class="card-text">{{ $data->description }}</p>
                     <div class="d-flex justify-content-between">
-                        <a href="/yourlist/{{$data->add_id}}/{{ $data->user->username }}" class="btn btn-primary bookmark-btn" data-article-id="{{ $data->add_id }}">
+                        <a href="/yourlist/{{$data->add_id}}/{{ $data->owner->username }}" class="btn btn-primary bookmark-btn" data-article-id="{{ $data->add_id }}">
                             Check List
                         </a>
                         @if (Auth::user()->id == $data->user_id)
                         <div class="d-flex justify-content-end">
-                            <a href="{{ route('bookmark.edit', $data->add_id)  }}" onclick="showBookmarkModal('{{ $data->id }}', event)" id="bookmarkLink" class="bookmark-btn btn btn-warning" style="margin-right: 10px">
-                                <i class="bi bi-pencil-fill"></i>
-                                Edit List Info
-                            </a>
-                            <form class="d-inline" action="{{ route('list.destroy-list', $data->add_id) }}" method="POST" id="deleteFormList{{ $data->id }}">
+                            @if ($data->bookmarkByUser(Auth::user(), $data->owner_id, $data->add_id)->exists())
+                            <form class="d-inline" method="POST" action="{{ route('other-list.destroy', [$data->owner_id, $data->add_id]) }}" class="bookmark-btn">
                                 @csrf
-                                @method('delete')
-                                <button type="button" class="btn btn-danger delete-button" onclick="deleteConfirmationList({{ $data->id }})">Delete List</button>
+                                @method('DELETE')
+                                <button type="submit" class="btn">
+                                    <i class="bi bi-bookmark-fill"></i>
+                                </button>
                             </form>
+                            @else
+                            <form class="d-inline" method="POST" action="{{ route('other-list.add', [$data->owner_id, $data->add_id]) }}" class="bookmark-btn">
+                                @csrf
+                                <button type="submit" class="btn">
+                                    <i class="bi bi-bookmark-plus"></i>
+                                </button>
+                            </form>
+                            @endif
                         </div>
                         @endif
                     </div>
-                </div>
-            </div>
-            <div id="bookmarkListModal-{{ $data->id }}" class="modal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="bookmarkListModalLabel">Edit List Info</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: rgb(214, 72, 72);">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="bookmarkListForm" action="{{ route('bookmark.edit', $data->add_id) }}" method="POST">
-                                @csrf
-
-                                <div class="form-group mb-3">
-                                    <label for="listName">List Name</label>
-                                    <input type="text" class="form-control" id="listName" name="name" value="{{ $data->name }}" required maxlength="60">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="listDescription">List Description</label>
-                                    <textarea class="form-control" id="listDescription" name="description" maxlength="250">{{ $data->description }}</textarea>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="listVisibility">List Visibility</label>
-                                    <select name="visibility" id="listVisibility" class="form-select">
-                                        <option value="{{ $data->visibility }}">{{ $data->visibility }}</option>
-                                        @if ($data->visibility == 'Public')
-                                        <option value="Private">Private</option>
-                                        @else
-                                        <option value="Public">Public</option>
-                                        @endif
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-primary mt-2">Save</button>
-                            </form>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
             @endforeach
@@ -212,34 +194,30 @@
             $('#bookmarkListModal-' + article).modal('show');
         }
 </script>
-
-<script>
-    // Fungsi untuk menampilkan SweetAlert konfirmasi
-    function deleteConfirmationList(articleId) {
-        Swal.fire({
-            title: 'Confirmation',
-            text: 'Are you sure you want to delete this List?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete',
-            cancelButtonText: 'Cancel',
-            customClass: {
-                icon: 'swal2-icon swal2-warning',
-                confirmButton: 'swal2-button-confirm',
-            },
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Submit form
-                document.querySelector(`#deleteFormList${articleId}`).submit();
-            }
-        });
-    }
-</script>
 @endpush
 @push('css')
 <style>
     .swal2-button-confirm {
         margin-right: 10px !important;
+    }
+</style>
+@endpush
+@push('css')
+<style>
+    .rounded-image {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        /* Membuat gambar menjadi bentuk bulat */
+    }
+
+    .image-container {
+        width: 25px;
+        /* Lebar yang diinginkan */
+        height: 25px;
+        /* Tinggi yang diinginkan */
+        overflow: hidden;
     }
 </style>
 @endpush
