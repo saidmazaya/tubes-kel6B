@@ -18,17 +18,17 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link" href="library">Your lists</a>
+                                <a class="nav-link" href="{{ route('library', Auth::user()->username) }}">Your lists</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="saved-list">Saved lists</a>
+                                <a class="nav-link" href="{{ route('library.saved', Auth::user()->username) }}">Saved lists</a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" href="highlights">Highlights</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="reading-history">Reading history</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>
