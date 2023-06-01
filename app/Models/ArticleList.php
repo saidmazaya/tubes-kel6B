@@ -26,7 +26,7 @@ class ArticleList extends Model
 
     public function comments()
     {
-        return $this->hasMany(CommentList::class, 'article_id', 'id');
+        return $this->hasMany(CommentList::class, 'article_list_id', 'id');
     }
 
     public function user()
@@ -47,5 +47,12 @@ class ArticleList extends Model
     public function claps()
     {
         return $this->hasMany(ClapList::class);
+    }
+
+    public function bookmarkByUser(User $user, $ownerId, $addId)
+    {
+        return $this->where('user_id', $user->id)
+            ->where('owner_id', $ownerId)
+            ->where('add_id', $addId);
     }
 }
