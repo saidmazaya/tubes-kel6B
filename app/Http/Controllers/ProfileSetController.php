@@ -87,9 +87,11 @@ class ProfileSetController extends Controller
             // Mengambil semua data article_list yang dimiliki oleh user
             if ($user->id == Auth::user()->id) {
                 $userList = ArticleList::where('user_id', $user->id)
+                    ->where('owner_id', $user->id)
                     ->get();
             } else {
                 $userList = ArticleList::where('user_id', $user->id)
+                    ->where('owner_id', $user->id)
                     ->where('visibility', 'Public')
                     ->get();
             }
