@@ -161,6 +161,10 @@ Route::post('/bookmark/edit/{id}', [ListController::class, 'editList'])->name('b
 Route::delete('/bookmark/delete/{id}', [ListController::class, 'destroyList'])->name('list.destroy-list')->middleware('auth');
 Route::delete('/your-bookmark/delete/{id}', [ListController::class, 'destroyListYour'])->name('list.destroy-list-your')->middleware('auth');
 
+Route::post('/other-bookmark/add/{id}/{add_id}', [ListController::class, 'addOtherList'])->name('other-list.add')->middleware('auth');
+Route::delete('/other-bookmark/delete/{id}/{add_id}', [ListController::class, 'deleteOtherList'])->name('other-list.destroy')->middleware('auth');
+Route::get('/library-other/{id}', [ListController::class, 'showLibrarySaved'])->name('library.saved')->middleware('auth');
+
 Route::get('/claplist/{id}', [ClapListController::class, 'claplist'])->middleware('auth');
 
 Route::get('/stories/draft/{id}', [ArticleController::class, 'draft'])->name('stories.draft')->middleware('auth');
