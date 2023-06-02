@@ -12,10 +12,19 @@ class Tag extends Model
 
     protected $fillable = [
         'name',
+        'slug',
     ];
 
     public function articles()
     {
-        return $this->hasMany(Article::class, 'id', 'tag_id');
+        return $this->hasMany(Article::class, 'tag_id', 'id');
     }
 }
+
+//sql query
+// SELECT tags.*,
+//        COUNT(articles.id) AS article_count
+// FROM tags
+// LEFT JOIN articles ON tags.id = articles.tag_id
+// GROUP BY tags.id;
+
