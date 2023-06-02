@@ -15,7 +15,7 @@ class ArticleListSeeder extends Seeder
     public function run(): void
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        DB::table('comment_lists')->truncate();
+        DB::table('article_lists')->truncate();
 
         ArticleList::factory()->count(20)->create();
     }
