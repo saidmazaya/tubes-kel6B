@@ -19,16 +19,10 @@ return new class extends Migration
             $table->foreign('mutual_id')->references('following_user_id')->on('mutuals')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('clap_article_id')->nullable();
             $table->foreign('clap_article_id')->references('id')->on('clap_articles')->onDelete('restrict')->onUpdate('cascade');
-            $table->unsignedBigInteger('clap_list_id')->nullable();
-            $table->foreign('clap_list_id')->references('id')->on('clap_lists')->onDelete('restrict')->onUpdate('cascade');
             $table->unsignedBigInteger('clap_comment_article_id')->nullable();
             $table->foreign('clap_comment_article_id')->references('id')->on('clap_comment_articles')->onDelete('restrict')->onUpdate('cascade');
-            $table->unsignedBigInteger('clap_comment_list_id')->nullable();
-            $table->foreign('clap_comment_list_id')->references('id')->on('clap_comment_lists')->onDelete('restrict')->onUpdate('cascade');
             $table->unsignedBigInteger('comment_article_id')->nullable();
             $table->foreign('comment_article_id')->references('id')->on('comment_articles')->onDelete('restrict')->onUpdate('cascade');
-            $table->unsignedBigInteger('comment_list_id')->nullable();
-            $table->foreign('comment_list_id')->references('id')->on('comment_lists')->onDelete('restrict')->onUpdate('cascade');
             $table->timestamps();
         });
     }
