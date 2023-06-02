@@ -36,7 +36,9 @@ class YourListController extends Controller
         // Mengambil semua detail artikel berdasarkan article_id yang ditemukan
         $articles = Article::whereIn('id', $articleIds)->get();
 
-        $yourList = ArticleList::where('user_id', Auth::user()->id)->get();
+        $yourList = ArticleList::where('user_id', Auth::user()->id)
+            ->where('owner_id', Auth::user()->id)
+            ->get();
 
         return view('yourlist', [
             'user' => $user,
