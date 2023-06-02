@@ -26,3 +26,10 @@ return new class extends Migration
         Schema::dropIfExists('password_reset_tokens');
     }
 };
+
+//query sql
+// CREATE TABLE password_reset_tokens (
+//     email VARCHAR(255) PRIMARY KEY,
+//     token VARCHAR(255),
+//     created_at TIMESTAMP NULL
+// );

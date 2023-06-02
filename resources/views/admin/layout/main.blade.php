@@ -22,11 +22,14 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="/images/favicon.png" />
+    <link rel="shortcut icon" href="/images/premium-mini.png" />
     <style>
         .swal2-icon.swal2-warning {
             margin-top: 50px !important;
             /* Sesuaikan nilai sesuai kebutuhan */
+        }
+        .swal2-button-confirm {
+            margin-right: 10px !important;
         }
     </style>
     @stack('css')

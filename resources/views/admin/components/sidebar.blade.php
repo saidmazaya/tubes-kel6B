@@ -22,14 +22,14 @@
             </a>
             <div class="collapse" id="comment-basic">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Articles</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">List</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('comment.index') }}">Articles</a></li>
+                    {{-- <li class="nav-item"> <a class="nav-link" href="{{ route('list.index') }}">List</a></li> --}}
                 </ul>
             </div>
         </li>
         <li class="nav-item nav-category">Forms and Datas</li>
         <li class="nav-item">
-            <a class="nav-link" href="#" aria-expanded="false" aria-controls="form-elements">
+            <a class="nav-link" href="{{ route('administrator.index') }}" aria-expanded="false" aria-controls="form-elements">
                 <i class="menu-icon fa-solid fa-folder-plus"></i>
                 <span class="menu-title">Articles Admin</span>
             </a>

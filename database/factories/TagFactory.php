@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Faker\Factory as faker;
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tag>
@@ -18,9 +19,10 @@ class TagFactory extends Factory
     public function definition(): array
     {
         $faker = faker::create();
-        $name = $faker->word();
+        $name = Str::random(10);
         return [
             'name' => $name,
+            'slug' => Str::slug($name, '-'),
         ];
     }
 }

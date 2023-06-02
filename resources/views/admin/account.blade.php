@@ -38,7 +38,7 @@
                                         @foreach ($user as $data)
                                         <tr>
                                             <td>{{ $loop->iteration + $user->firstItem() - 1 }}</td>
-                                            <td>{{ '@'.$data->username }}</td>
+                                            <td>{{ $data->username }}</td>
                                             <td>{{ $data->name }}</td>
                                             <td>{{ $data->email }}</td>
                                             <td>

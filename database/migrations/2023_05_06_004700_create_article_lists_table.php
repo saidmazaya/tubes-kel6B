@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('article_lists', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 60);
-            $table->string('description', 280)->nullable();
+            $table->integer('add_id');
+            $table->string('name', 70);
+            $table->string('description', 290)->nullable();
             $table->enum('visibility', ['Private', 'Public'])->default('Public');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->unsignedBigInteger('article_id');
-            $table->foreign('article_id')->references('id')->on('articles')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('owner_id');
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->timestamps();
@@ -34,3 +35,21 @@ return new class extends Migration
         Schema::dropIfExists('article_lists');
     }
 };
+
+//query sql 
+
+// CREATE TABLE article_lists (
+//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     add_id INT,
+//     name VARCHAR(70),
+//     description VARCHAR(290) NULL,
+//     visibility ENUM('Private', 'Public') DEFAULT 'Public',
+//     user_id BIGINT UNSIGNED,
+//     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+//     article_id BIGINT UNSIGNED,
+//     FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE ON UPDATE CASCADE,
+//     owner_id BIGINT UNSIGNED,
+//     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+// );

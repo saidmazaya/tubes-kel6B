@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->unsignedBigInteger('article_id');
-            $table->foreign('article_id')->references('id')->on('articles')->onDelete('restrict');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,3 +29,15 @@ return new class extends Migration
         Schema::dropIfExists('clap_articles');
     }
 };
+
+//query sql
+
+// CREATE TABLE clap_articles (
+//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     user_id BIGINT UNSIGNED,
+//     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT,
+//     article_id BIGINT UNSIGNED,
+//     FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE,
+//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+// );

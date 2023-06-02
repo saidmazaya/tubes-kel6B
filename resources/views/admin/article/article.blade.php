@@ -44,7 +44,7 @@
                                         @foreach ($article as $data)
                                         <tr>
                                             <td>{{ $loop->iteration + $article->firstItem() - 1 }}</td>
-                                            <td>{{ $data->title }}</td>
+                                            <td>{{ Str::limit($data->title, 50, '...') }}</td>
                                             <td>{{ $data->user->name }}</td>
                                             @if ($data->tags)
                                             <td>{{ $data->tags->name }}</td>
@@ -53,7 +53,7 @@
                                             @endif
                                             <td>{{ $data->status }}</td>
                                             <td>
-                                                <a href="{{ route('article.show', $data->id) }}" class="btn-sm text-decoration-none btn-info"><i class="fa-solid fa-circle-info"></i></a>
+                                                <a href="{{ route('article.show', $data->slug) }}" class="btn-sm text-decoration-none btn-info"><i class="fa-solid fa-circle-info"></i></a>
                                                 | <form id="publish-form-{{ $data->id }}" action="{{ route('article.update-status', $data->id) }}" data-status="Published" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('PUT')
@@ -61,6 +61,8 @@
                                                     <input type="hidden" name="id" value="{{ $data->id }}">
                                                     <button type="button" class="btn-sm text-decoration-none btn-success publish-button" data-article-id="{{ $data->id }}"><i class="fa-solid fa-check"></i></button>
                                                 </form>
+                                                @if ($data->status == 'Published')
+                                                @else
                                                 | <form id="reject-form-{{ $data->id }}" action="{{ route('article.update-status', $data->id) }}" data-status="Rejected" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('PUT')
@@ -68,6 +70,7 @@
                                                     <input type="hidden" name="id" value="{{ $data->id }}">
                                                     <button type="button" class="btn-sm text-decoration-none btn-danger reject-button" data-article-id="{{ $data->id }}"><i class="fa-solid fa-x"></i></button>
                                                 </form>
+                                                @endif
                                             </td>
                                         </tr>
                                         @endforeach
@@ -96,6 +99,7 @@
             cancelButtonText: 'Cancel',
             customClass: {
                 icon: 'swal2-icon swal2-warning',
+                confirmButton: 'swal2-button-confirm',
             },
         }).then((result) => {
             if (result.isConfirmed) {
@@ -115,6 +119,7 @@
             cancelButtonText: 'Cancel',
             customClass: {
                 icon: 'swal2-icon swal2-warning',
+                confirmButton: 'swal2-button-confirm',
             },
         }).then((result) => {
             if (result.isConfirmed) {

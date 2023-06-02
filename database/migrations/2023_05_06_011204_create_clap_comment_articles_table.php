@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->unsignedBigInteger('comment_article_id');
-            $table->foreign('comment_article_id')->references('id')->on('comment_articles')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('comment_article_id')->references('id')->on('comment_articles')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -29,3 +29,15 @@ return new class extends Migration
         Schema::dropIfExists('clap_comment_articles');
     }
 };
+
+//query sql
+
+// CREATE TABLE clap_comment_articles (
+//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     user_id BIGINT UNSIGNED,
+//     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+//     comment_article_id BIGINT UNSIGNED,
+//     FOREIGN KEY (comment_article_id) REFERENCES comment_articles(id) ON DELETE CASCADE ON UPDATE CASCADE,
+//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+// );

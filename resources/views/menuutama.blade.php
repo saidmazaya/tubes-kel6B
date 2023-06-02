@@ -16,177 +16,188 @@
     <div class="container" data-aos="fade-up">
 
       <div class="row ">
+        @if (session('message'))
+        <div class="alert alert-success" role="alert">
+          {{ session('message') }}
+        </div>
+        @endif
+
+        @if ($article->isEmpty())
+        <div class="alert alert-danger">Pencarian {{ $keyword }} tidak ditemukan </div>
+        @endif
 
         <div class="col-lg-8 entries">
 
+          @foreach ($article as $data)
           <article class="entry">
 
+            @if ($data->image != NULL)
             <div class="entry-img">
-              <img src="assets/img/blog/blog-1.jpg" alt="" class="img-fluid">
+              <img src="{{ asset('storage/photo/'.$data->image)}}" alt="" class="img-fluid">
             </div>
+            @endif
 
             <h2 class="entry-title">
-              <a href="blog-single.html">Dolorum optio tempore voluptas dignissimos cumque fuga qui quibusdam quia</a>
+              <a href="{{ route('article.detail', $data->slug) }}">{{ $data->title }}</a>
             </h2>
 
             <div class="entry-meta">
               <ul>
-                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">John Doe</a></li>
-                <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01">Jan 1, 2020</time></a></li>
-                <li class="d-flex align-items-center"><i class='bx bx-bookmark'></i> </li>
+                <li class="d-flex align-items-center">
+                  <a href="{{ route('profile', $data->user->username) }}" class="d-flex align-items-center">
+                    <div class="image-container">
+                      @if ($data->user->image != null)
+                      <img src="{{ asset('storage/photo/'.$data->user->image) }}" alt="profilepicture" class="rounded-image">
+                      @else
+                      <img src="/images/default-user-image.png" alt="" class="rounded-image">
+                      @endif
+                    </div>
+                    <span style="margin-left: 8px">{{ $data->user->name }}</span>
+                  </a>
+                </li>
+                <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a class="nav-link disabled" href="#"><time datetime="2020-01-01">{{ $data->created_at->format('M d, Y') }}</time></a></li>
+                <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a class="nav-link disabled" href="#">{{ $data->duration.' Minutes' }}</a></li>
+                @if ($data->tags != NULL)
+                <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="{{ route('tag.detail', $data->tags->slug) }}">{{ $data->tags->name }}</a></li>
+                @else
+                <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="#">-</a></li>
+                @endif
+                @if (Auth::check())                    
+                <li class="d-flex align-items-center">
+                  @if ($data->bookmarkByUser(Auth::user(), $data->id)->exists())
+                  <i class="bi bi-bookmark-fill"></i>
+                  @else
+                  <i class="bi bi-bookmark"></i>
+                  @endif
+                  <a href="{{ route('bookmark.add') }}" onclick="showBookmarkModal('{{ $data->id }}', event)" id="bookmarkLink" class="bookmark-btn">
+                    Bookmark
+                  </a>
+                </li>
+                @endif
               </ul>
             </div>
-
             <div class="entry-content">
               <p>
-                Similique neque nam consequuntur ad non maxime aliquam quas. Quibusdam animi praesentium. Aliquam et laboriosam eius aut nostrum quidem aliquid dicta.
-                Et eveniet enim. Qui velit est ea dolorem doloremque deleniti aperiam unde soluta. Est cum et quod quos aut ut et sit sunt. Voluptate porro consequatur assumenda perferendis dolore.
+                {{ $data->description }}
               </p>
               <div class="read-more">
-                <a href="blog-single">Read More</a>
+                <a href="{{ route('article.detail', $data->slug) }}">Read More</a>
               </div>
             </div>
 
-          </article><!-- End blog entry -->
+            @if (Auth::check())           
+            <div id="bookmarkListModal-{{ $data->id }}" class="modal" tabindex="-1" role="dialog">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="bookmarkListModalLabel">Select or Create List </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="background-color: rgb(214, 72, 72);">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    @if ($yourList->isEmpty())
+                    <p>You don't have any list.</p>
+                    @else
+                    @php
+                    $uniqueLists = $yourList->unique('add_id');
+                    @endphp
+                    @foreach ($uniqueLists as $list)
+                    <div class="card mb-2">
+                      <form id="bookmarkListAdd" action="{{ route('bookmark.add') }}" method="POST">
+                        @csrf
+                        <div class="card-body d-flex justify-content-between">
+                          {{ $list->name }}
+                          <input type="hidden" id="list_id" name="add_id" value="{{ $list->add_id }}">
+                          <input type="hidden" id="listname" name="name" value="{{ $list->name }}">
+                          <input type="hidden" id="listDescription" name="description" value="{{ $list->description }}">
+                          <input type="hidden" id="article_id" name="article_id" value="{{ $data->id }}">
+                          <input type="hidden" name="visibility" value="{{ $list->visibility }}">
 
-          <article class="entry">
+                          @php
+                          $isArticleInList = $data->articleCheckList()->where('add_id', $list->add_id)->exists();
+                          @endphp
 
-            <div class="entry-img">
-              <img src="assets/img/blog/blog-2.jpg" alt="" class="img-fluid">
-            </div>
+                          @if ($isArticleInList)
+                          <button type="submit" class="btn btn-danger mt-2">Delete</button>
+                          @else
+                          <button type="submit" class="btn btn-primary mt-2">Add</button>
+                          @endif
+                        </div>
+                      </form>
+                    </div>
+                    @endforeach
+                    @endif
 
-            <h2 class="entry-title">
-              <a href="blog-single.html">Nisi magni odit consequatur autem nulla dolorem</a>
-            </h2>
+                    <hr style="border-color: black">
+                    <form id="bookmarkListForm" action="{{ route('bookmark.add')}}" method="POST">
+                      @csrf
 
-            <div class="entry-meta">
-              <ul>
-                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">John Doe</a></li>
-                <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01">Jan 1, 2020</time></a></li>
-                <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="blog-single.html">12 Comments</a></li>
-              </ul>
-            </div>
-
-            <div class="entry-content">
-              <p>
-                Incidunt voluptate sit temporibus aperiam. Quia vitae aut sint ullam quis illum voluptatum et. Quo libero rerum voluptatem pariatur nam.
-                Ad impedit qui officiis est in non aliquid veniam laborum. Id ipsum qui aut. Sit aliquam et quia molestias laboriosam. Tempora nam odit omnis eum corrupti qui aliquid excepturi molestiae. Facilis et sint quos sed voluptas. Maxime sed
-                tempore enim omnis non alias odio quos distinctio.
-              </p>
-              <div class="read-more">
-                <a href="blog-single.html">Read More</a>
+                      <div class="form-group mb-3">
+                        <label for="listName">List Name</label>
+                        <input type="text" class="form-control" id="listName" name="name" required maxlength="60">
+                      </div>
+                      <div class="form-group mb-3">
+                        <label for="listDescription">List Description</label>
+                        <textarea class="form-control" id="listDescription" name="description" maxlength="250"></textarea>
+                      </div>
+                      <input type="hidden" id="article_id" name="article_id" value="{{ $data->id }}">
+                      <input type="hidden" name="add_id" value="">
+                      <div class="form-group mb-3">
+                        <label for="listVisibility">List Visibility</label>
+                        <select name="visibility" id="listVisibility" class="form-select">
+                          <option value="Public">Public</option>
+                          <option value="Private">Private</option>
+                        </select>
+                      </div>
+                      <button type="submit" class="btn btn-primary mt-2">Add to List</button>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
+            @endif
 
           </article><!-- End blog entry -->
+          @endforeach
 
-          <article class="entry">
-
-            <div class="entry-img">
-              <img src="assets/img/blog/blog-3.jpg" alt="" class="img-fluid">
-            </div>
-
-            <h2 class="entry-title">
-              <a href="blog-single.html">Possimus soluta ut id suscipit ea ut. In quo quia et soluta libero sit sint.</a>
-            </h2>
-
-            <div class="entry-meta">
-              <ul>
-                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">John Doe</a></li>
-                <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01">Jan 1, 2020</time></a></li>
-                <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="blog-single.html">12 Comments</a></li>
-              </ul>
-            </div>
-
-            <div class="entry-content">
-              <p>
-                Aut iste neque ut illum qui perspiciatis similique recusandae non. Fugit autem dolorem labore omnis et. Eum temporibus fugiat voluptate enim tenetur sunt omnis.
-                Doloremque est saepe laborum aut. Ipsa cupiditate ex harum at recusandae nesciunt. Ut dolores velit.
-              </p>
-              <div class="read-more">
-                <a href="blog-single.html">Read More</a>
-              </div>
-            </div>
-
-          </article><!-- End blog entry -->
-
-          <article class="entry">
-
-            <div class="entry-img">
-              <img src="assets/img/blog/blog-4.jpg" alt="" class="img-fluid">
-            </div>
-
-            <h2 class="entry-title">
-              <a href="blog-single.html">Non rem rerum nam cum quo minus. Dolor distinctio deleniti explicabo eius exercitationem.</a>
-            </h2>
-
-            <div class="entry-meta">
-              <ul>
-                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">John Doe</a></li>
-                <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01">Jan 1, 2020</time></a></li>
-                <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="blog-single.html">12 Comments</a></li>
-              </ul>
-            </div>
-
-            <div class="entry-content">
-              <p>
-                Aspernatur rerum perferendis et sint. Voluptates cupiditate voluptas atque quae. Rem veritatis rerum enim et autem. Saepe atque cum eligendi eaque iste omnis a qui.
-                Quia sed sunt. Ea asperiores expedita et et delectus voluptates rerum. Id saepe ut itaque quod qui voluptas nobis porro rerum. Quam quia nesciunt qui aut est non omnis. Inventore occaecati et quaerat magni itaque nam voluptas.
-                Voluptatem ducimus sint id earum ut nesciunt sed corrupti nemo.
-              </p>
-              <div class="read-more">
-                <a href="blog-single.html">Read More</a>
-              </div>
-            </div>
-
-          </article><!-- End blog entry -->
 
           <div class="blog-pagination">
             <ul class="justify-content-center">
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
+              {{ $article->withQueryString()->links() }}
             </ul>
           </div>
 
         </div><!-- End blog entries list -->
 
         <div class="col-lg-4">
+          @if (Auth::check())
           <div class="sidebar">
             <h3 class="sidebar-title">Your Topics</h3>
             <div class="sidebar-item tags">
               <ul>
-                <li><a href="#">App</a></li>
-                <li><a href="#">IT</a></li>
-                <li><a href="#">Business</a></li>
-                <li><a href="#">Mac</a></li>
-                <li><a href="#">Design</a></li>
-                <li><a href="#">Office</a></li>
-                <li><a href="#">Creative</a></li>
-                <li><a href="#">Studio</a></li>
-                <li><a href="#">Smart</a></li>
-                <li><a href="#">Tips</a></li>
-                <li><a href="#">Marketing</a></li>
+                @if (Auth::user()->followsTag != '[]')
+                @foreach (Auth::user()->followsTag as $data)
+                <li><a href="{{ route('tag.detail', $data->slug) }}">{{ $data->name }}</a></li>
+                @endforeach
+                @else
+                Follow Some Topics That You Like, It will appear here !!
+                @endif
               </ul>
             </div><!-- End sidebar tags-->
           </div><!-- End sidebar -->
+          @else
+          @endif
 
           <div class="sidebar">
             <h3 class="sidebar-title">Recommended Topics</h3>
             <div class="sidebar-item tags">
               <ul>
-                <li><a href="#">App</a></li>
-                <li><a href="#">IT</a></li>
-                <li><a href="#">Business</a></li>
-                <li><a href="#">Mac</a></li>
-                <li><a href="#">Design</a></li>
-                <li><a href="#">Office</a></li>
-                <li><a href="#">Creative</a></li>
-                <li><a href="#">Studio</a></li>
-                <li><a href="#">Smart</a></li>
-                <li><a href="#">Tips</a></li>
-                <li><a href="#">Marketing</a></li>
+                @foreach ($tag->take(10) as $data)
+                <li><a href="{{ route('tag.detail', $data->slug) }}">{{ $data->name }}</a></li>
+                @endforeach
               </ul>
+              <a href="{{ route('tag.explore') }}">See more topics</a>
             </div><!-- End sidebar tags-->
           </div><!-- End sidebar -->
         </div><!-- End blog sidebar -->
@@ -198,3 +209,35 @@
 
 </main><!-- End #main -->
 @endsection
+@push('css')
+<style>
+  .rounded-image {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    /* Membuat gambar menjadi bentuk bulat */
+  }
+
+  .image-container {
+    width: 25px;
+    /* Lebar yang diinginkan */
+    height: 25px;
+    /* Tinggi yang diinginkan */
+    overflow: hidden;
+  }
+</style>
+@endpush
+@push('js')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
+</script>
+<script>
+  function showBookmarkModal(article, event) {
+            event.preventDefault();
+
+            $('#article_id').val(article);
+            $('#bookmarkListModal-' + article).modal('show');
+        }
+</script>
+@endpush

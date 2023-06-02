@@ -51,7 +51,8 @@
                                             @endphp
                                             <td>{{ $tagUseCount }}</td>
                                             <td>
-                                                <a href="{{ route('tag.edit', $data->id) }}" class="btn-sm text-decoration-none btn-primary">Edit</a>
+                                                <a href="{{ route('tag.detail', $data->slug) }}" class="btn-sm text-decoration-none btn-info">Detail</a>
+                                                | <a href="{{ route('tag.edit', $data->slug) }}" class="btn-sm text-decoration-none btn-primary">Edit</a>
                                                 | <form class="d-inline" action="{{ route('tag.destroy', $data->id) }}" method="POST" id="deleteForm{{ $data->id }}" data-tag-id="{{ $data->id }}" data-related-articles="{{ $tagUseCount }}">
                                                     @csrf
                                                     @method('delete')
@@ -133,7 +134,8 @@ deleteButtons.forEach((button) => {
                 confirmButtonText: 'Ya, Hapus',
                 cancelButtonText: 'Batal',
                 customClass: {
-                    icon: '.swal2-icon.swal2-warning' // Nama kelas CSS yang Anda tentukan
+                    icon: '.swal2-icon.swal2-warning',
+                    confirmButton: 'swal2-button-confirm', // Nama kelas CSS yang Anda tentukan
                 },
             }).then((result) => {
                 if (result.isConfirmed) {

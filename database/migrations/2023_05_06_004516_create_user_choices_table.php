@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_choices', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('tag_id');
-            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('restrict');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+            $table->primary(['user_id', 'tag_id']);
             $table->timestamps();
         });
     }
@@ -29,3 +29,16 @@ return new class extends Migration
         Schema::dropIfExists('user_choices');
     }
 };
+
+//query sql
+
+// CREATE TABLE user_choices (
+//     user_id BIGINT UNSIGNED,
+//     tag_id BIGINT UNSIGNED,
+//     PRIMARY KEY (user_id, tag_id),
+//     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+//     FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
+//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+// );
+

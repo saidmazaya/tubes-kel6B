@@ -13,6 +13,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Article Details</h4>
+                            <a href="{{ route('article.index') }}" class="btn btn-outline-info"><i class="fa-solid fa-arrow-left"></i>&nbsp;&nbsp;Back</a>
                             <section id="blog" class="blog">
                                 <div class="container" data-aos="fade-up">
                                     <div class="row d-flex justify-content-center align-items-center">
@@ -20,42 +21,35 @@
                                             <article class="entry entry-single">
                                                 @if ($article->image != NULL)
                                                 <div class="entry-img">
-                                                    <img src="#" alt="" class="img-fluid">
-                                                </div>
-                                                @else
-                                                <div class="entry-img">
-                                                    <img src="#" alt="" class="img-fluid">
+                                                    <img src="{{ asset('storage/photo/'.$article->image)}}" alt="" class="img-fluid">
                                                 </div>
                                                 @endif
                                                 <h2 class="entry-title">
-                                                    <a href="#">{{ $article->title }}</a>
+                                                    <a href="{{ route('article.detail', $article->slug) }}">{{ $article->title }}</a>
                                                 </h2>
                                                 <div class="entry-meta">
+                                                    @php
+                                                    $userClap = Auth::check() ? $article->claps->where('user_id', Auth::user()->id)->first() : null;
+                                                    $clapCount = $article->claps->count();
+                                                    @endphp
                                                     <ul>
-                                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">{{ $article->user->name }}</a></li>
-                                                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><time datetime="2020-01-01">{{ $article->created_at->format('M d, Y') }}</time></a></li>
+                                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i><a href="{{ route('profile', $article->user->username) }}">{{ $article->user->name }}</a></li>
+                                                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i><a href="#"><time datetime="2020-01-01">{{ $article->created_at->format('M d, Y') }}</time></a></li>
                                                         <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a href="#">{{ $article->duration.' Minutes' }}</a></li>
-                                                        <li class="d-flex align-items-center"><i class="fa fa-hands-clapping"></i> <a href="#">Clap</a></li>
-                                                        <i class="bi bi-hand-clap"></i>
+                                                        {{-- <li class="d-flex align-items-center"> <a href="/clap/{{ $article->id }}" class="{{ $userClap ? ' text-primary' : '' }}"><i class="fa fa-hands-clapping"></i>{{ $clap }} Clap</a></li>
+                                                        <i class="bi bi-hand-clap"></i> --}}
                                                     </ul>
                                                 </div>
 
                                                 <div class="entry-content">
-                                                    {{-- <p>{{ $article->content }}</p> --}}
-                                                    @php
-                                                        $paragraphs = str_split($article->content, 600);
-                                                    @endphp
-                                                
-                                                    @foreach ($paragraphs as $chunk)
-                                                        <p style="font-size: 16px">{{ $chunk }}</p>
-                                                    @endforeach
+                                                    <p>{!! $article->content !!}</p>
                                                 </div>
 
                                                 <div class="entry-footer">
                                                     <i class="bi bi-tags"></i>
                                                     @if ($article->tags != NULL)
                                                     <ul class="tags">
-                                                        <li><a href="#">{{ $article->tags->name }}</a></li>
+                                                        <li><a href="{{ route('tag.detail', $article->tags->slug) }}">{{ $article->tags->name }}</a></li>
                                                     </ul>
                                                     @else
                                                     -

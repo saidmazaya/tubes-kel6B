@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\ClapArticle;
 use Illuminate\Http\Request;
 
 class ArticleAdminController extends Controller
@@ -24,9 +25,13 @@ class ArticleAdminController extends Controller
                         $query->where('name', 'LIKE', '%' . $keyword . '%');
                     });
             })
-            // ->where('status', '!=', 'Draft')
+            ->whereHas('user', function ($query) {
+                $query->where('role_id', '!=', 1);
+            })
+            ->whereNotIn('status', ['Draft', 'Rejected'])
+            ->orderBy('id', 'asc')
             ->paginate(10);
-        return view('admin.article.article', compact('article'));
+        return view('admin.article.article', compact('article', 'keyword'));
     }
 
     /**
@@ -48,11 +53,18 @@ class ArticleAdminController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($slug)
     {
         $article = Article::with(['user', 'tags'])
-        ->findOrFail($id);
-        return view('admin.article.article-detail', compact('article'));
+            ->where('slug', $slug)->first();
+
+        if ($article) {
+            $clap = ClapArticle::where('article_id', $article->id)->count();
+        } else {
+            abort(404);
+        }
+
+        return view('admin.article.article-detail', compact('article', 'clap'));
     }
 
     /**

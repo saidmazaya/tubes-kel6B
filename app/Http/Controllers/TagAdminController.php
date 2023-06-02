@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use App\Models\Article;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\TagCreateRequest;
 use App\Http\Requests\TagUpdateRequest;
@@ -37,6 +38,7 @@ class TagAdminController extends Controller
      */
     public function store(TagCreateRequest $request)
     {
+        $request['slug'] = Str::slug($request->name, '-');
         $tag = Tag::create($request->all());
 
         return redirect(route('tag.index'))->with('message', 'Penambahan Data Perhasil');
@@ -53,9 +55,9 @@ class TagAdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($slug)
     {
-        $tag = Tag::findOrFail($id);
+        $tag = Tag::where('slug', $slug)->first();
         return view('admin.tag.tag-edit', compact('tag'));
     }
 
@@ -65,6 +67,11 @@ class TagAdminController extends Controller
     public function update(TagUpdateRequest $request, $id)
     {
         $tag = Tag::findOrFail($id);
+
+        if ($request->name !== $tag->name) {
+            // Jika nama diubah, perbarui juga slug
+            $request['slug'] = Str::slug($request->name, '-');
+        }
 
         $tag->update($request->all());
 

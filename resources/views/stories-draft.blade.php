@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title', 'Story')
+@section('title', 'Story Draft')
 
 @section('content')
 <div class="container mt-5" id="containera">
@@ -8,7 +8,7 @@
         <div class="col-8">
             <div class="d-flex justify-content-between align-items-center mt-5" style="margin-left: 30px">
                 <h1>Your Stories</h1>
-                <button class="btn btn-primary">Write a story</button>
+                <a href="/write-article" class="btn btn-primary">Write a Story</a>
             </div>
             <hr>
             <div class="navbar navbar-expand-lg navbar-light bg-transparent" id="navbarr">
@@ -19,16 +19,22 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Published</a>
+                                <a class="nav-link" href="{{ route('stories.draft', Auth::user()->username)}}">Draft</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Responses</a>
+                                <a class="nav-link" href="{{ route('stories.published', Auth::user()->username)}}">Published</a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
             <hr style="border-color: black">
+            @if (session('message'))
+            <div class="alert alert-success" role="alert">
+                {{ session('message') }}
+            </div>
+            @endif
+            @include('stories.draft')
         </div>
     </div>
 </div>
@@ -89,4 +95,29 @@
         margin: 20px 0;
     }
 </style>
+@stack('css')
+@endpush
+@push('js')
+<script>
+    // Fungsi untuk menampilkan SweetAlert konfirmasi
+    function deleteConfirmation(articleId) {
+        Swal.fire({
+            title: 'Confirmation',
+            text: 'Are you sure you want to delete this Draft Article?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete',
+            cancelButtonText: 'Cancel',
+            customClass: {
+                icon: 'swal2-icon swal2-warning',
+                confirmButton: 'swal2-button-confirm',
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit form
+                document.querySelector(`#deleteForm${articleId}`).submit();
+            }
+        });
+    }
+</script>
 @endpush

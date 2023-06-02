@@ -15,7 +15,7 @@
                             <form action="{{ route('tag.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group mb-3">
-                                    <label for="name">Name</label>
+                                    <label for="name" class="form-label">Name</label>
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Tag Name">
                                     @if ($errors->has('name'))
                                     <div class="alert alert-danger mt-2">
@@ -25,7 +25,7 @@
                                     </div>
                                     @endif
                                 </div>
-                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                                <button type="submit" class="btn btn-primary me-2">Add</button>
                                 <a href="{{ route('tag.index') }}" class="btn btn-outline-secondary">Cancel</a>
                             </form>
                         </div>

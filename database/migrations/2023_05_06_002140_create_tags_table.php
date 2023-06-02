@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clap_lists', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
-            $table->unsignedBigInteger('article_list_id');
-            $table->foreign('article_list_id')->references('id')->on('article_lists')->onDelete('restrict');
+            $table->string('name', 60)->unique();
             $table->timestamps();
         });
     }
@@ -26,6 +23,15 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clap_lists');
+        Schema::dropIfExists('tags');
     }
 };
+
+//query sql 
+// CREATE TABLE tags (
+//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     name VARCHAR(60) UNIQUE,
+//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+// );
+
