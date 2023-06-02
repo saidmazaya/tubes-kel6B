@@ -40,7 +40,9 @@ class ArticleController extends Controller
         $tag = Tag::all();
 
         if (Auth::check()) {
-            $yourList = ArticleList::where('user_id', Auth::user()->id)->get();
+            $yourList = ArticleList::where('user_id', Auth::user()->id)
+                ->where('owner_id', Auth::user()->id)
+                ->get();
             return view('menuutama', compact('article', 'keyword', 'tag', 'yourList'));
         } else {
             return view('menuutama', compact('article', 'keyword', 'tag'));
@@ -106,7 +108,9 @@ class ArticleController extends Controller
             // dd($publishedComments->toArray());
             $clap = ClapArticle::where('article_id', $article->id)->count();
             if (Auth::check()) {
-                $yourList = ArticleList::where('user_id', Auth::user()->id)->get();
+                $yourList = ArticleList::where('user_id', Auth::user()->id)
+                    ->where('owner_id', Auth::user()->id)
+                    ->get();
                 return view('article-detail', compact('article', 'publishedComments', 'clap', 'yourList'));
             } else {
                 return view('article-detail', compact('article', 'publishedComments', 'clap'));
