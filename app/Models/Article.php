@@ -50,6 +50,7 @@ class Article extends Model
     {
         return $this->hasOne(ArticleList::class)
             ->where('user_id', $user->id)
+            ->where('owner_id', $user->id)
             ->where('article_id', $articleId);
     }
 
