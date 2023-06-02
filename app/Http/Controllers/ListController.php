@@ -68,7 +68,9 @@ class ListController extends Controller
         }
 
         // Mengambil semua data article_list yang dimiliki oleh user
-        $userList = ArticleList::where('user_id', $user->id)->get();
+        $userList = ArticleList::where('user_id', $user->id)
+            ->where('owner_id', $user->id)
+            ->get();
 
         if (!$userList) {
             abort(404);
