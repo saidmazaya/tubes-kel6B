@@ -37,6 +37,24 @@ class TagController extends Controller
         } else {
             abort(404);
         }
+
+// SELECT articles.*
+// FROM articles
+// INNER JOIN tags ON articles.tag_id = tags.id
+// WHERE tags.slug = '<slug>' AND articles.status = 'Published'
+// LIMIT 10;
+
+// authorCount
+// SELECT COUNT(DISTINCT author_id) AS authorCount
+// FROM articles
+// INNER JOIN tags ON articles.tag_id = tags.id
+// WHERE tags.slug = '<slug>' AND articles.status = 'published';
+
+// articleCount
+// SELECT COUNT(*) AS articleCount
+// FROM articles
+// INNER JOIN tags ON articles.tag_id = tags.id
+// WHERE tags.slug = '<slug>' AND articles.status = 'published';
     }
 
     public function explore(Request $request)
@@ -49,6 +67,10 @@ class TagController extends Controller
             ->get();
 
         return view('tag-explore', compact('tag', 'keyword'));
+
+// SELECT *
+// FROM tags
+// WHERE name LIKE '%<keyword>%';
     }
 
     public function store(Request $request, Tag $tag)
@@ -62,4 +84,8 @@ class TagController extends Controller
             abort(404);
         }
     }
+
+    // INSERT INTO user_choices (user_id, tag_id) VALUES (<user_id>, <tag_id>);
+
+    // DELETE FROM user_choices WHERE user_id = <user_id> AND tag_id = <tag_id>;
 }

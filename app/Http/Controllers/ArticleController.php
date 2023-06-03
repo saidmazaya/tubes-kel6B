@@ -257,73 +257,124 @@ class ArticleController extends Controller
 //query sql
 
 // index :
-//  SELECT articles.*, users.name as user_name
-// FROM articles
-// LEFT JOIN users ON articles.author_id = users.id
-// WHERE articles.title LIKE '%keyword%' 
-//     OR articles.status LIKE '%keyword%'
-//     OR users.name LIKE '%keyword%'
-//     OR articles.id IN (
-//         SELECT article_id 
-//         FROM article_tag 
-//         INNER JOIN tags ON article_tag.tag_id = tags.id 
-//         WHERE tags.name LIKE '%keyword%'
+// -- Menampilkan artikel dengan kata kunci dan halaman (pagination)
+// SELECT
+//     articles.*,
+//     tags.*,
+//     users.*
+// FROM
+//     articles
+// LEFT JOIN article_tags ON articles.id = article_tags.article_id
+// LEFT JOIN tags ON article_tags.tag_id = tags.id
+// LEFT JOIN users ON articles.user_id = users.id
+// WHERE
+//     (
+//         articles.title LIKE '%keyword%'
+//         OR articles.status LIKE '%keyword%'
+//         OR users.name LIKE '%keyword%'
+//         OR tags.name LIKE '%keyword%'
 //     )
 //     AND articles.status = 'Published'
-// ORDER BY articles.id ASC
-// LIMIT 10 OFFSET 0;
+// ORDER BY
+//     articles.id ASC
+// LIMIT 10;
 
+// -- Menampilkan semua tag
 // SELECT * FROM tags;
 
-// SELECT * 
-// FROM article_lists
-// WHERE user_id = <user_id>
-//   AND owner_id = <user_id>;
+// -- Menampilkan artikel dengan kata kunci
+// SELECT
+//     articles.*,
+//     tags.*,
+//     users.*
+// FROM
+//     articles
+// LEFT JOIN article_tags ON articles.id = article_tags.article_id
+// LEFT JOIN tags ON article_tags.tag_id = tags.id
+// LEFT JOIN users ON articles.user_id = users.id
+// WHERE
+//     (
+//         articles.title LIKE '%keyword%'
+//         OR articles.status LIKE '%keyword%'
+//         OR users.name LIKE '%keyword%'
+//         OR tags.name LIKE '%keyword%'
+//     )
+//     AND articles.status = 'Published'
+// ORDER BY
+//     articles.id ASC;
 
-//   create :
+
+// create :
 
 //  SELECT id, name
 // FROM tags;
 
 // store :
-//  INSERT INTO articles (title, author_id, slug, image, status)
-// VALUES (
-//     (SELECT request_value FROM requests WHERE request_field = 'title' AND request_id = @request_id),
-//     (SELECT request_value FROM requests WHERE request_field = 'author_id' AND request_id = @request_id),
-//     CONCAT(
-//         (SELECT username FROM users WHERE id = (SELECT request_value FROM requests WHERE request_field = 'author_id' AND request_id = @request_id)),
-//         '_',
-//         REPLACE(LOWER((SELECT request_value FROM requests WHERE request_field = 'title' AND request_id = @request_id)), ' ', '-'),
-//         '-',
-//         FLOOR(RAND() * (9999999 - 1000000 + 1)) + 1000000
-//     ),
-//     (
-//         SELECT CONCAT(
-//             (SELECT username FROM users WHERE id = (SELECT request_value FROM requests WHERE request_field = 'author_id' AND request_id = @request_id)),
-//             '-',
-//             DATE_FORMAT(NOW(), '%d%m%Y_%H%i%s'),
-//             '-',
-//             UNIX_TIMESTAMP(),
-//             '-',
-//             LEFT(UUID(), 10),
-//             '.',
-//             SUBSTRING_INDEX(SUBSTRING_INDEX(request_value, '.', -1), ' ', 1)
-//         )
-//         FROM request_files
-//         WHERE request_field = 'photo'
-//           AND request_id = @request_id
-//     ),
-//     'Draft'
-// );
+// INSERT INTO articles (author_id, title, content, image, slug, status, created_at, updated_at)
+// VALUES ('id_pengguna', 'judul_artikel', 'konten_artikel', 'nama_gambar', 'slug_artikel', 'status_artikel', NOW(), NOW());
 
-// SET @article_id = LAST_INSERT_ID();
+// show :
+// SELECT
+//     articles.*,
+//     users.*,
+//     tags.*,
+//     comments.*,
+// FROM
+//     articles
+// LEFT JOIN users ON articles.user_id = users.id
+// LEFT JOIN article_tags ON articles.id = article_tags.article_id
+// LEFT JOIN tags ON article_tags.tag_id = tags.id
+// LEFT JOIN comments ON comments.article_id = articles.id
+// WHERE
+//     articles.slug = 'slug_artikel'
+// LIMIT 1;
 
-// SET @status = (SELECT status FROM articles WHERE id = @article_id);
+// update :
+// UPDATE articles
+// SET
+//     title = 'judul_baru',
+//     content = 'konten_baru',
+//     image = 'nama_gambar_baru',
+//     slug = 'slug_baru',
+//     status = 'status_baru',
+//     updated_at = NOW()
+// WHERE
+//     id = 'id_artikel';
 
-// SET @message = CASE
-//     WHEN @status = 'Draft' THEN 'Artikel anda masuk ke dalam draft'
-//     WHEN @status = 'Pending' THEN 'Artikel Anda Berhasil di Publish mohon tunggu persetujuan admin'
-//     ELSE 'Status artikel tidak dikenali'
-// END;
+// draft :
+// SELECT articles.*
+// FROM articles
+// JOIN users ON articles.author_id = users.id
+// WHERE users.username = {username}
+//   AND articles.status = 'Draft'
 
-// SELECT '/menuutama' AS redirect_url, @message AS message;
+// destroyDraft :
+// DELETE FROM articles
+// WHERE id = 'id_artikel' AND author_id = 'id_pengguna';
+
+// -- Fungsi published()
+// SELECT
+//     articles.*,
+//     users.*,
+//     tags.*
+// FROM
+//     articles
+// LEFT JOIN users ON articles.author_id = users.id
+// LEFT JOIN article_tags ON articles.id = article_tags.article_id
+// LEFT JOIN tags ON article_tags.tag_id = tags.id
+// WHERE
+//     articles.author_id = 'id_pengguna'
+//     AND articles.status = 'Published';
+
+// -- Fungsi destroyPublished()
+// DELETE FROM articles
+// WHERE
+//     id = 'id_artikel'
+//     AND author_id = 'id_pengguna';
+
+// -- Fungsi destroyArticle()
+// DELETE FROM articles
+// WHERE
+//     id = 'id_artikel'
+//     AND author_id = 'id_pengguna';
+

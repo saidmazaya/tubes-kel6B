@@ -47,4 +47,19 @@ class YourListController extends Controller
             'yourList' => $yourList, // Menambahkan data artikel ke view
         ]);
     }
+
+// -- Mengambil data user yang sedang login
+// SELECT * FROM users WHERE username = '<username>';
+
+// -- Mengambil semua data article_list yang dimiliki oleh user yang sedang login
+// SELECT * FROM article_lists WHERE user_id = <user_id> AND add_id = <id>;
+
+// -- Mengambil semua article_id dari article_lists yang ditemukan
+// SELECT article_id FROM article_lists WHERE user_id = <user_id> AND add_id = <id>;
+
+// -- Mengambil semua detail artikel berdasarkan article_id yang ditemukan
+// SELECT * FROM articles WHERE id IN (<article_ids>);
+
+// -- Mengambil semua data artikel yang dimiliki oleh user yang sedang login
+// SELECT * FROM article_lists WHERE user_id = <user_id> AND owner_id = <user_id>;
 }

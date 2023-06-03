@@ -62,6 +62,14 @@ class AuthController extends Controller
         } else {
             return redirect()->route('signup')->with('message', ['type' => 'danger', 'content' => 'Login Gagal!']);
         }
+
+        // -- Mencari pengguna dengan email yang sama
+        // SELECT * FROM users WHERE email = 'email_pengguna';
+
+        // -- Menambahkan pengguna baru
+        // INSERT INTO users (name, email, username, password, role_id)
+        // VALUES ('nama_pengguna', 'email_pengguna', 'nama_pengguna_tanpa_spasi', 'password_hash', '2');
+
     }
 
 
@@ -85,6 +93,15 @@ class AuthController extends Controller
         } else {
             return redirect('/signin')->with('message', ['type' => 'danger', 'content' => 'Login Gagal, Email atau Password tidak valid !']);
         }
+
+        // -- Memvalidasi kredensial pengguna
+        // SELECT * FROM users WHERE email = 'email_pengguna' AND password = 'password_hash';
+
+        // -- Menentukan arah pengalihan setelah otentikasi
+        // SELECT role_id FROM users WHERE email = 'email_pengguna';
+
+        // -- Mengatur ulang sesi
+        // UPDATE users SET remember_token = 'new_remember_token' WHERE email = 'email_pengguna';
     }
 
     public function signout(Request $request)
@@ -128,4 +145,11 @@ class AuthController extends Controller
 
         return redirect(route('profile', Auth::user()->username))->with('message', 'Password berhasil diperbarui.');
     }
+
+    // -- Memeriksa apakah password lama sesuai dengan password saat ini
+    // SELECT password FROM users WHERE id = 'id_pengguna';
+
+    // -- Memperbarui password pengguna
+    // UPDATE users SET password = 'password_hash' WHERE id = 'id_pengguna';
+
 }

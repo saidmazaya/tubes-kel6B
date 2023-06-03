@@ -23,6 +23,10 @@ class ProfileSetController extends Controller
         $users = auth()->user();
 
         return view('editprofile', compact('users'));
+
+    // SELECT *
+    // FROM users
+    // WHERE username = '<username>' AND id = <user_id>;
     }
 
     public function update(ProfileEditRequest $request, $id)
@@ -73,6 +77,10 @@ class ProfileSetController extends Controller
         $user->update($request->all());
 
         return redirect(route('profile', $request->username))->with('message', 'Profil berhasil diperbarui.');
+
+// UPDATE users
+// SET name = '<name>', bio = '<bio>', image = '<image>', username = '<username>', email = '<email>'
+// WHERE id = <id>;
     }
 
     public function deleteProfile($id)
@@ -93,6 +101,10 @@ class ProfileSetController extends Controller
         $user->save();
 
         return redirect(route('profile', Auth::user()->username))->with('message', 'Profil berhasil diperbarui.');
+
+// UPDATE users
+// SET image = NULL
+// WHERE id = <id>;
     }
 
     public function show($username)
@@ -120,6 +132,19 @@ class ProfileSetController extends Controller
         } else {
             abort(404);
         }
+
+// -- Mengambil data pengguna berdasarkan username
+// SELECT * FROM users WHERE username = <username>;
+
+// -- Mengambil artikel yang dimiliki oleh pengguna dengan status 'Published'
+// SELECT * FROM articles WHERE author_id = <user_id> AND status = 'Published';
+
+// -- Mengambil daftar artikel yang dimiliki oleh pengguna dengan user_id dan owner_id yang sama
+// SELECT * FROM article_lists WHERE user_id = <user_id> AND owner_id = <user_id>;
+
+// -- Mengambil daftar artikel yang dimiliki oleh pengguna dengan user_id dan owner_id yang sama,
+// -- dan memiliki visibility 'Public' jika user_id tidak sama dengan Auth::user()->id
+// SELECT * FROM article_lists WHERE user_id = <user_id> AND owner_id = <user_id> AND visibility = 'Public';
     }
 
     public function updateAbout(Request $request, $id)
@@ -135,4 +160,6 @@ class ProfileSetController extends Controller
 
         return redirect(route('profile', Auth::user()->username))->with('message', 'About berhasil diperbarui.');
     }
+
+    // UPDATE users SET about = <new_about> WHERE id = <user_id>;
 }

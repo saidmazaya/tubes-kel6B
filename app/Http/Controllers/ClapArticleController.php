@@ -25,4 +25,14 @@ class ClapArticleController extends Controller
             return redirect()->back();
         }
     }
+
+// -- Memeriksa apakah pengguna sudah memberikan clap pada artikel
+// SELECT * FROM clap_articles WHERE article_id = 'id_artikel' AND user_id = 'id_pengguna';
+
+// -- Menghapus clap pengguna pada artikel
+// DELETE FROM clap_articles WHERE article_id = 'id_artikel' AND user_id = 'id_pengguna';
+
+// -- Menambah clap pengguna pada artikel
+// INSERT INTO clap_articles (article_id, user_id) VALUES ('id_artikel', 'id_pengguna');
+
 }

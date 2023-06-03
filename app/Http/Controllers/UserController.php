@@ -16,6 +16,7 @@ class UserController extends Controller
         $user->save();
     }
 
-    
+// INSERT INTO users (name, email, password)
+// VALUES ('<name>', '<email>', '<password>');
 }
  
