@@ -27,3 +27,10 @@ return new class extends Migration
         });
     }
 };
+
+
+//query sql 
+
+// ALTER TABLE tags
+// ADD slug VARCHAR(255) AFTER name;
+

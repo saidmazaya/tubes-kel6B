@@ -28,3 +28,9 @@ return new class extends Migration
         });
     }
 };
+
+//query sql 
+
+// ALTER TABLE comment_articles
+// ADD parent_id BIGINT UNSIGNED NULL AFTER article_id,
+// ADD CONSTRAINT comment_articles_parent_id_foreign FOREIGN KEY (parent_id) REFERENCES comment_articles(id) ON DELETE CASCADE;

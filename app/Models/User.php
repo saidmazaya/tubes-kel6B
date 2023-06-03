@@ -133,3 +133,23 @@ class User extends Authenticatable
         return $this->followsTag()->detach($tag);
     }
 }
+
+//query sql
+
+// SELECT users.*,
+//        roles.name AS role_name,
+//        COUNT(articles.id) AS article_count,
+//        COUNT(comment_articles.id) AS comment_article_count,
+//        COUNT(comment_lists.id) AS comment_list_count,
+//        COUNT(article_lists.id) AS article_list_count,
+//        COUNT(clap_articles.id) AS clap_article_count,
+//        COUNT(clap_comment_articles.id) AS clap_comment_article_count
+// FROM users
+// LEFT JOIN roles ON users.role_id = roles.id
+// LEFT JOIN articles ON users.id = articles.author_id
+// LEFT JOIN comment_articles ON users.id = comment_articles.user_id
+// LEFT JOIN comment_lists ON users.id = comment_lists.user_id
+// LEFT JOIN article_lists ON users.id = article_lists.user_id
+// LEFT JOIN clap_articles ON users.id = clap_articles.user_id
+// LEFT JOIN clap_comment_articles ON users.id = clap_comment_articles.user_id
+// GROUP BY users.id, roles.name;

@@ -37,3 +37,11 @@ class CommentArticle extends Model
         return $this->hasMany(ClapCommentArticle::class);
     }
 }
+
+//sql query
+// SELECT comment_articles.*,
+//        users.*
+// FROM comment_articles
+// LEFT JOIN users ON comment_articles.user_id = users.id;
+
+

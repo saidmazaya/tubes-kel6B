@@ -27,3 +27,9 @@ class CommentList extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }
+
+//sql query
+// SELECT comment_lists.*,
+//        users.*
+// FROM comment_lists
+// LEFT JOIN users ON comment_lists.user_id = users.id;

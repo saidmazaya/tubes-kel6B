@@ -24,3 +24,9 @@ class ClapList extends Model
         return $this->belongsTo(User::class);
     }
 }
+
+//sql query
+// SELECT clap_lists.*,
+//        users.*
+// FROM clap_lists
+// LEFT JOIN users ON clap_lists.user_id = users.id;

@@ -29,3 +29,15 @@ return new class extends Migration
         Schema::dropIfExists('mutuals');
     }
 };
+
+//query sql
+
+// CREATE TABLE mutuals (
+//     user_id BIGINT UNSIGNED,
+//     following_user_id BIGINT UNSIGNED,
+//     PRIMARY KEY (user_id, following_user_id),
+//     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+//     FOREIGN KEY (following_user_id) REFERENCES users(id) ON DELETE CASCADE,
+//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+// );

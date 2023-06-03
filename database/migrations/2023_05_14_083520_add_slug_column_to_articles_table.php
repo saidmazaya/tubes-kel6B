@@ -26,3 +26,9 @@ return new class extends Migration
         });
     }
 };
+
+//query sql 
+
+// ALTER TABLE articles
+// ADD slug VARCHAR(255) AFTER duration,
+// ADD UNIQUE INDEX articles_slug_unique (slug);

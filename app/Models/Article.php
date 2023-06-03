@@ -65,3 +65,20 @@ class Article extends Model
     //         ->where('article_id', $articleId);
     // }
 }
+
+
+//query sql
+
+// SELECT articles.*,
+//        users.*,
+//        tags.*,
+//        COUNT(comment_articles.id) AS comment_count,
+//        COUNT(clap_articles.id) AS clap_count,
+//        article_lists.id AS bookmark_id
+// FROM articles
+// LEFT JOIN users ON articles.author_id = users.id
+// LEFT JOIN tags ON articles.tag_id = tags.id
+// LEFT JOIN comment_articles ON articles.id = comment_articles.article_id AND comment_articles.parent_id IS NULL
+// LEFT JOIN clap_articles ON articles.id = clap_articles.article_id
+// LEFT JOIN article_lists ON articles.id = article_lists.article_id
+// GROUP BY articles.id, users.id, tags.id, article_lists.id;

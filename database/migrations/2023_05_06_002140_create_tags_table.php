@@ -26,3 +26,12 @@ return new class extends Migration
         Schema::dropIfExists('tags');
     }
 };
+
+//query sql 
+// CREATE TABLE tags (
+//     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+//     name VARCHAR(60) UNIQUE,
+//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+// );
+
