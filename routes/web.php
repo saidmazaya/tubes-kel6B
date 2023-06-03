@@ -146,6 +146,7 @@ Route::get('/profile/{user}/follower', [FollowingController::class, 'follower'])
 Route::get('/profile/{id}', [ProfileSetController::class, 'show'])->name('profile')->middleware('auth');
 Route::get('/profile/{username}/edit', [ProfileSetController::class, 'edit'])->name('profile.edit')->middleware('auth');
 Route::put('/profile-update/{id}', [ProfileSetController::class, 'update'])->name('profile.update')->middleware('auth');
+Route::delete('/profile/{id}', [ProfileSetController::class, 'deleteProfile'])->name('profile.delete-image');
 
 Route::get('/profile/{username}/about', function () {
     return view('about');
