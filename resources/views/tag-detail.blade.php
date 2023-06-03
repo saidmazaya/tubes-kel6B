@@ -27,7 +27,10 @@
                         <i class="bi bi-tags" style="font-size: 20px; margin-top: 10px"></i>
                         <h1 class="mx-3 mb-4 d-flex" style="font-weight: bolder">{{ request()->slug }}</h1>
                     </div>
-                    <form action="{{ route('tag-follow.store', $tagCheck->id)}}" style="margin-left: 33px" method="POST">
+                    @if (Auth::check())
+
+                    <form action="{{ route('tag-follow.store', $tagCheck->id)}}" style="margin-left: 33px"
+                        method="POST">
                         @csrf
                         @if (Auth::user()->followsTag()->where('tag_id', $tagCheck->id)->first())
                         <button type="submit" class="btn btn-outline-success rounded-5">Unfollow</button>
@@ -35,6 +38,8 @@
                         <button type="submit" class="btn btn-success rounded-5">Follow</button>
                         @endif
                     </form>
+                    @endif
+
                     <hr style="color: black">
 
                     @foreach ($article as $data)
@@ -53,10 +58,12 @@
                         <div class="entry-meta">
                             <ul>
                                 <li class="d-flex align-items-center">
-                                    <a href="{{ route('profile', $data->user->username) }}" class="d-flex align-items-center">
+                                    <a href="{{ route('profile', $data->user->username) }}"
+                                        class="d-flex align-items-center">
                                         <div class="image-container">
                                             @if ($data->user->image != null)
-                                            <img src="{{ asset('storage/photo/'.$data->user->image) }}" alt="profilepicture" class="rounded-image">
+                                            <img src="{{ asset('storage/photo/'.$data->user->image) }}"
+                                                alt="profilepicture" class="rounded-image">
                                             @else
                                             <img src="/images/default-user-image.png" alt="" class="rounded-image">
                                             @endif
@@ -64,10 +71,14 @@
                                         <span style="margin-left: 8px">{{ $data->user->name }}</span>
                                     </a>
                                 </li>
-                                <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a class="nav-link disabled" href="#"><time datetime="2020-01-01">{{ $data->created_at->format('M d, Y') }}</time></a></li>
-                                <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a class="nav-link disabled" href="#">{{ $data->duration.' Minutes' }}</a></li>
+                                <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a
+                                        class="nav-link disabled" href="#"><time datetime="2020-01-01">{{
+                                            $data->created_at->format('M d, Y') }}</time></a></li>
+                                <li class="d-flex align-items-center"><i class="fa-regular fa-hourglass-half"></i><a
+                                        class="nav-link disabled" href="#">{{ $data->duration.' Minutes' }}</a></li>
                                 @if ($data->tags != NULL)
-                                <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="#">{{ $data->tags->name }}</a></li>
+                                <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="#">{{
+                                        $data->tags->name }}</a></li>
                                 @else
                                 <li class="d-flex align-items-center"><i class="bi bi-tags"></i><a href="#">-</a></li>
                                 @endif
