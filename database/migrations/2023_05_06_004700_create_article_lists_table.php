@@ -39,7 +39,7 @@ return new class extends Migration
 //query sql 
 
 // CREATE TABLE article_lists (
-//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 //     add_id INT,
 //     name VARCHAR(70),
 //     description VARCHAR(290) NULL,

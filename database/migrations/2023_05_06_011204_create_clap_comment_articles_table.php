@@ -33,7 +33,7 @@ return new class extends Migration
 //query sql
 
 // CREATE TABLE clap_comment_articles (
-//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 //     user_id BIGINT UNSIGNED,
 //     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
 //     comment_article_id BIGINT UNSIGNED,

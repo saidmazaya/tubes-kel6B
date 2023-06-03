@@ -28,6 +28,7 @@ return new class extends Migration
     }
 };
 
+
 //query sql 
 
 // ALTER TABLE tags

@@ -253,3 +253,77 @@ class ArticleController extends Controller
         return redirect(route('profile', Auth::user()->username))->with('message', 'Article berhasil dihapus.');;
     }
 }
+
+//query sql
+
+// index :
+//  SELECT articles.*, users.name as user_name
+// FROM articles
+// LEFT JOIN users ON articles.author_id = users.id
+// WHERE articles.title LIKE '%keyword%' 
+//     OR articles.status LIKE '%keyword%'
+//     OR users.name LIKE '%keyword%'
+//     OR articles.id IN (
+//         SELECT article_id 
+//         FROM article_tag 
+//         INNER JOIN tags ON article_tag.tag_id = tags.id 
+//         WHERE tags.name LIKE '%keyword%'
+//     )
+//     AND articles.status = 'Published'
+// ORDER BY articles.id ASC
+// LIMIT 10 OFFSET 0;
+
+// SELECT * FROM tags;
+
+// SELECT * 
+// FROM article_lists
+// WHERE user_id = <user_id>
+//   AND owner_id = <user_id>;
+
+//   create :
+
+//  SELECT id, name
+// FROM tags;
+
+// store :
+//  INSERT INTO articles (title, author_id, slug, image, status)
+// VALUES (
+//     (SELECT request_value FROM requests WHERE request_field = 'title' AND request_id = @request_id),
+//     (SELECT request_value FROM requests WHERE request_field = 'author_id' AND request_id = @request_id),
+//     CONCAT(
+//         (SELECT username FROM users WHERE id = (SELECT request_value FROM requests WHERE request_field = 'author_id' AND request_id = @request_id)),
+//         '_',
+//         REPLACE(LOWER((SELECT request_value FROM requests WHERE request_field = 'title' AND request_id = @request_id)), ' ', '-'),
+//         '-',
+//         FLOOR(RAND() * (9999999 - 1000000 + 1)) + 1000000
+//     ),
+//     (
+//         SELECT CONCAT(
+//             (SELECT username FROM users WHERE id = (SELECT request_value FROM requests WHERE request_field = 'author_id' AND request_id = @request_id)),
+//             '-',
+//             DATE_FORMAT(NOW(), '%d%m%Y_%H%i%s'),
+//             '-',
+//             UNIX_TIMESTAMP(),
+//             '-',
+//             LEFT(UUID(), 10),
+//             '.',
+//             SUBSTRING_INDEX(SUBSTRING_INDEX(request_value, '.', -1), ' ', 1)
+//         )
+//         FROM request_files
+//         WHERE request_field = 'photo'
+//           AND request_id = @request_id
+//     ),
+//     'Draft'
+// );
+
+// SET @article_id = LAST_INSERT_ID();
+
+// SET @status = (SELECT status FROM articles WHERE id = @article_id);
+
+// SET @message = CASE
+//     WHEN @status = 'Draft' THEN 'Artikel anda masuk ke dalam draft'
+//     WHEN @status = 'Pending' THEN 'Artikel Anda Berhasil di Publish mohon tunggu persetujuan admin'
+//     ELSE 'Status artikel tidak dikenali'
+// END;
+
+// SELECT '/menuutama' AS redirect_url, @message AS message;

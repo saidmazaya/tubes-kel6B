@@ -109,3 +109,36 @@ class ArticleAdminController extends Controller
         //
     }
 }
+
+
+//query sql
+
+// index :
+// SELECT *
+// FROM articles
+// JOIN users ON articles.user_id = users.id
+// JOIN article_tag ON articles.id = article_tag.article_id
+// JOIN tags ON article_tag.tag_id = tags.id
+// WHERE (articles.title LIKE '%keyword%' OR articles.status LIKE '%keyword%' OR users.name LIKE '%keyword%' OR tags.name LIKE '%keyword%')
+// AND users.role_id != 1
+// AND articles.status NOT IN ('Draft', 'Rejected')
+// ORDER BY articles.id ASC
+// LIMIT 10 OFFSET x
+
+// show :
+// SELECT articles., users., tags.*, COUNT(clap_articles.id) AS clap
+// FROM articles
+// JOIN users ON articles.user_id = users.id
+// JOIN article_tag ON articles.id = article_tag.article_id
+// JOIN tags ON article_tag.tag_id = tags.id
+// LEFT JOIN clap_articles ON articles.id = clap_articles.article_id
+// WHERE articles.slug = 'slug'
+// GROUP BY articles.id, users.id, tags.id
+
+// updateStatus :
+// UPDATE articles
+// SET status = CASE
+//     WHEN status = 'Published' OR status = 'Rejected' THEN :status
+//     ELSE status
+//     END
+// WHERE id = :id;

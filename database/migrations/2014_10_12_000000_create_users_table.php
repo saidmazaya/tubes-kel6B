@@ -37,7 +37,7 @@ return new class extends Migration
 
 //sql query 
 // CREATE TABLE users (
-//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 //     username VARCHAR(30) UNIQUE,
 //     name VARCHAR(50),
 //     password VARCHAR(255),

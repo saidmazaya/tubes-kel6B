@@ -35,7 +35,7 @@ return new class extends Migration
 //query sql
 
 // CREATE TABLE comment_articles (
-//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 //     content TEXT,
 //     status ENUM('Published', 'Rejected') DEFAULT 'Published',
 //     user_id BIGINT UNSIGNED,
