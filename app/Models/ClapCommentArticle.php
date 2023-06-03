@@ -24,3 +24,9 @@ class ClapCommentArticle extends Model
         return $this->belongsTo(User::class);
     }
 }
+
+//sql query
+// SELECT clap_comment_articles.*,
+//        users.*
+// FROM clap_comment_articles
+// LEFT JOIN users ON clap_comment_articles.user_id = users.id;

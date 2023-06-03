@@ -73,6 +73,15 @@ Route::post('/forgot-password', function (Request $request) {
         : back()->withErrors(['email' => __($status)]);
 })->middleware('guest')->name('password.email');
 
+// -- Route /forgot-password
+// INSERT INTO password_resets (email, token, created_at)
+// VALUES (:email, :token, NOW());
+
+// -- Route /reset-password
+// UPDATE users
+// SET password = :password, remember_token = :remember_token
+// WHERE email = :email;
+
 Route::get('/reset-password/{token}', function (string $token) {
     return view('auth.reset-password', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
@@ -146,6 +155,7 @@ Route::get('/profile/{user}/follower', [FollowingController::class, 'follower'])
 Route::get('/profile/{id}', [ProfileSetController::class, 'show'])->name('profile')->middleware('auth');
 Route::get('/profile/{username}/edit', [ProfileSetController::class, 'edit'])->name('profile.edit')->middleware('auth');
 Route::put('/profile-update/{id}', [ProfileSetController::class, 'update'])->name('profile.update')->middleware('auth');
+Route::delete('/profile/{id}', [ProfileSetController::class, 'deleteProfile'])->name('profile.delete-image');
 
 Route::get('/profile/{username}/about', function () {
     return view('about');

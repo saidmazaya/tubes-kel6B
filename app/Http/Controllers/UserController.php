@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function create(Request $request){
+    public function create(Request $request)
+    {
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
@@ -16,6 +17,6 @@ class UserController extends Controller
         $user->save();
     }
 
-    
+    // INSERT INTO users (name, email, password)
+    // VALUES ('<name>', '<email>', '<password>');
 }
- 

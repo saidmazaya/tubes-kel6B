@@ -40,11 +40,31 @@ class ArticleController extends Controller
         $tag = Tag::all();
 
         if (Auth::check()) {
-            $yourList = ArticleList::where('user_id', Auth::user()->id)->get();
+            $yourList = ArticleList::where('user_id', Auth::user()->id)
+                ->where('owner_id', Auth::user()->id)
+                ->get();
             return view('menuutama', compact('article', 'keyword', 'tag', 'yourList'));
         } else {
             return view('menuutama', compact('article', 'keyword', 'tag'));
         }
+
+        // -- Get articles with matching keyword
+        // SELECT articles.*, users.name AS author_name
+        // FROM articles
+        // JOIN users ON articles.author_id = users.id
+        // LEFT JOIN tags ON articles.tag_id = tags.id
+        // WHERE (articles.title LIKE '%<keyword>%' OR articles.status LIKE '%<keyword>%'
+        //     OR users.name LIKE '%<keyword>%' OR tags.name LIKE '%<keyword>%')
+        //     AND articles.status = 'Published'
+        // ORDER BY articles.id ASC
+        // LIMIT 10 OFFSET <offset>;
+
+        // -- Get all tags
+        // SELECT * FROM tags;
+
+        // -- If the user is authenticated, get the user's article lists
+        // SELECT * FROM article_lists
+        // WHERE user_id = <user_id> AND owner_id = <user_id>;
     }
 
     /**
@@ -106,7 +126,9 @@ class ArticleController extends Controller
             // dd($publishedComments->toArray());
             $clap = ClapArticle::where('article_id', $article->id)->count();
             if (Auth::check()) {
-                $yourList = ArticleList::where('user_id', Auth::user()->id)->get();
+                $yourList = ArticleList::where('user_id', Auth::user()->id)
+                    ->where('owner_id', Auth::user()->id)
+                    ->get();
                 return view('article-detail', compact('article', 'publishedComments', 'clap', 'yourList'));
             } else {
                 return view('article-detail', compact('article', 'publishedComments', 'clap'));
@@ -129,6 +151,19 @@ class ArticleController extends Controller
             abort(403, 'Unauthorized');
         }
         return view('main.write-edit', compact('article', 'tag'));
+
+        // -- Mengambil data artikel dengan pengguna dan tag terkait
+        // SELECT articles.*, users.*, tags.*
+        // FROM articles
+        // JOIN users ON users.id = articles.author_id
+        // JOIN tags ON tags.article_id = articles.id
+        // WHERE articles.slug = '<slug>';
+
+        // -- Mengambil data tag yang tidak sama dengan tag artikel
+        // SELECT id, name
+        // FROM tags
+        // WHERE id != <tag_id>;
+
     }
 
     /**
@@ -249,3 +284,80 @@ class ArticleController extends Controller
         return redirect(route('profile', Auth::user()->username))->with('message', 'Article berhasil dihapus.');;
     }
 }
+
+//query sql
+
+// create :
+
+//  SELECT id, name
+// FROM tags;
+
+// store :
+// INSERT INTO articles (author_id, title, content, image, slug, status, created_at, updated_at)
+// VALUES ('id_pengguna', 'judul_artikel', 'konten_artikel', 'nama_gambar', 'slug_artikel', 'status_artikel', NOW(), NOW());
+
+// show :
+// -- Mengambil data artikel berdasarkan slug
+// SELECT * FROM articles WHERE slug = '<slug>';
+
+// -- Mengambil komentar yang dipublikasikan untuk artikel
+// SELECT * FROM comment_articles
+// JOIN articles ON articles.id = comment_articles.article_id
+// JOIN users ON users.id = comment_articles.user_id
+// WHERE comment_articles.status != 'Rejected' AND comment_articles.article_id = <article_id>;
+
+// -- Menghitung total clap untuk artikel
+// SELECT COUNT(*) FROM clap_articles WHERE article_id = <article_id>;
+
+// -- Mengambil daftar artikel pengguna
+// SELECT * FROM article_lists WHERE user_id = <user_id> AND owner_id = <user_id>;
+
+
+// update :
+// UPDATE articles
+// SET
+//     title = 'judul_baru',
+//     content = 'konten_baru',
+//     image = 'nama_gambar_baru',
+//     slug = 'slug_baru',
+//     status = 'status_baru',
+//     updated_at = NOW()
+// WHERE
+//     id = 'id_artikel';
+
+// draft :
+// SELECT articles.*
+// FROM articles
+// JOIN users ON articles.author_id = users.id
+// WHERE users.username = {username}
+//   AND articles.status = 'Draft'
+
+// destroyDraft :
+// DELETE FROM articles
+// WHERE id = 'id_artikel' AND author_id = 'id_pengguna';
+
+// -- Fungsi published()
+// SELECT
+//     articles.*,
+//     users.*,
+//     tags.*
+// FROM
+//     articles
+// LEFT JOIN users ON articles.author_id = users.id
+// LEFT JOIN tags ON articles.id = tags.article_id
+// LEFT JOIN tags ON tags.tag_id = tags.id
+// WHERE
+//     articles.author_id = 'id_pengguna'
+//     AND articles.status = 'Published';
+
+// -- Fungsi destroyPublished()
+// DELETE FROM articles
+// WHERE
+//     id = 'id_artikel'
+//     AND author_id = 'id_pengguna';
+
+// -- Fungsi destroyArticle()
+// DELETE FROM articles
+// WHERE
+//     id = 'id_artikel'
+//     AND author_id = 'id_pengguna';

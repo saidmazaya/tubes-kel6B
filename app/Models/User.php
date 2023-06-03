@@ -91,45 +91,107 @@ class User extends Authenticatable
     public function follows()
     {
         return $this->belongsToMany(User::class, 'mutuals', 'user_id', 'following_user_id')->withTimestamps();
+
+        // SELECT users.*
+        // FROM users
+        // INNER JOIN mutuals ON users.id = mutuals.following_user_id
+        // WHERE mutuals.user_id = :user_id;
     }
 
     public function followers()
     {
         return $this->belongsToMany(User::class, 'mutuals', 'following_user_id', 'user_id')->withTimestamps();
+
+        // SELECT users.*
+        // FROM users
+        // INNER JOIN mutuals ON users.id = mutuals.user_id
+        // WHERE mutuals.following_user_id = :user_id;
     }
 
     public function follow(User $user)
     {
         return $this->follows()->save($user);
+
+        // INSERT INTO mutuals (user_id, following_user_id, created_at, updated_at)
+        // VALUES (:user_id, :following_user_id, NOW(), NOW());
     }
 
     public function hasFollow(User $user)
     {
         return $this->follows()->where('following_user_id', $user->id)->exists();
+
+        // SELECT EXISTS(
+        //     SELECT 1
+        //     FROM mutuals
+        //     WHERE user_id = :user_id
+        //     AND following_user_id = :following_user_id
+        // );
     }
 
     public function unfollow(User $user)
     {
         return $this->follows()->detach($user);
+
+        // DELETE FROM mutuals
+        // WHERE user_id = :user_id AND following_user_id = :following_user_id;
     }
 
     public function followsTag()
     {
         return $this->belongsToMany(Tag::class, 'user_choices', 'user_id', 'tag_id')->withTimestamps();
+
+        //         SELECT tags.*
+        // FROM tags
+        // INNER JOIN user_choices ON tags.id = user_choices.tag_id
+        // WHERE user_choices.user_id = :user_id;
     }
 
     public function followTag(Tag $tag)
     {
         return $this->followsTag()->save($tag);
+
+        //         INSERT INTO user_choices (user_id, tag_id, created_at, updated_at)
+        // VALUES (:user_id, :tag_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
     }
 
     public function hasFollowTag(Tag $tag)
     {
         return $this->followsTag()->where('tag_id', $tag->id)->exists();
+
+        // SELECT EXISTS(
+        //     SELECT 1
+        //     FROM user_choices
+        //     WHERE user_id = :user_id
+        //     AND tag_id = :tag_id
+        // );
     }
 
     public function unfollowTag(Tag $tag)
     {
         return $this->followsTag()->detach($tag);
+
+        //         DELETE FROM user_choices
+        // WHERE user_id = :user_id
+        // AND tag_id = :tag_id;
     }
 }
+
+//query sql
+
+// SELECT users.*,
+//        roles.name AS role_name,
+//        COUNT(articles.id) AS article_count,
+//        COUNT(comment_articles.id) AS comment_article_count,
+//        COUNT(comment_lists.id) AS comment_list_count,
+//        COUNT(article_lists.id) AS article_list_count,
+//        COUNT(clap_articles.id) AS clap_article_count,
+//        COUNT(clap_comment_articles.id) AS clap_comment_article_count
+// FROM users
+// LEFT JOIN roles ON users.role_id = roles.id
+// LEFT JOIN articles ON users.id = articles.author_id
+// LEFT JOIN comment_articles ON users.id = comment_articles.user_id
+// LEFT JOIN comment_lists ON users.id = comment_lists.user_id
+// LEFT JOIN article_lists ON users.id = article_lists.user_id
+// LEFT JOIN clap_articles ON users.id = clap_articles.user_id
+// LEFT JOIN clap_comment_articles ON users.id = clap_comment_articles.user_id
+// GROUP BY users.id, roles.name;

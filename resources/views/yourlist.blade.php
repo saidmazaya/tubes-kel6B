@@ -32,7 +32,7 @@
                             <article class="entry">
                                 @if ($data->image != null)
                                 <div class="entry-img">
-                                    <img src="{{ asset('storage/photo/' . $data->image) }}" alt="" class="img-fluid">
+                                    <img src="{{ asset('storage/photo/' . $data->image) }}" alt="" class="img-fluid" width="100%">
                                 </div>
                                 @endif
                                 <h2 class="entry-title">
@@ -150,7 +150,7 @@
 
                                             @if ($data->image != null)
                                             <div class="entry-img">
-                                                <img src="{{ asset('storage/photo/' . $data->image) }}" alt="" class="img-fluid">
+                                                <img src="{{ asset('storage/photo/' . $data->image) }}" alt="" class="img-fluid" width="100%">
                                             </div>
                                             @endif
 

@@ -32,6 +32,17 @@ class ArticleAdminController extends Controller
             ->orderBy('id', 'asc')
             ->paginate(10);
         return view('admin.article.article', compact('article', 'keyword'));
+
+        // -- Mengambil data artikel dengan pengguna dan tag terkait yang sesuai dengan kata kunci
+        // SELECT articles.*, users.*, tags.*
+        // FROM articles
+        // JOIN users ON users.id = articles.author_id
+        // JOIN tags ON tags.article_id = articles.id
+        // WHERE (articles.title LIKE '%' || <keyword> || '%' OR articles.status LIKE '%' || <keyword> || '%' OR users.name LIKE '%' || <keyword> || '%' OR tags.name LIKE '%' || <keyword> || '%')
+        //     AND users.role_id != 1
+        //     AND articles.status NOT IN ('Draft', 'Rejected')
+        // ORDER BY articles.id ASC
+        // LIMIT 10;
     }
 
     /**
@@ -65,6 +76,18 @@ class ArticleAdminController extends Controller
         }
 
         return view('admin.article.article-detail', compact('article', 'clap'));
+
+        // -- Mengambil data artikel dengan pengguna dan tag terkait berdasarkan slug
+        // SELECT articles.*, users.*, tags.*
+        // FROM articles
+        // JOIN users ON users.id = articles.author_id
+        // JOIN tags ON tags.article_id = articles.id
+        // WHERE articles.slug = <slug>;
+
+        // -- Menghitung jumlah tepuk tangan (clap) untuk artikel dengan id yang sesuai
+        // SELECT COUNT(*) AS total_clap
+        // FROM clap_articles
+        // WHERE article_id = <article_id>;
     }
 
     /**
@@ -98,6 +121,11 @@ class ArticleAdminController extends Controller
         // Redirect ke halaman atau tindakan yang sesuai setelah pembaruan status
 
         return redirect(route('article.index'))->with('message', 'Status Berhasil Diupdate');
+
+        // -- Memperbarui status artikel dengan id yang sesuai
+        // UPDATE articles
+        // SET status = <status>
+        // WHERE id = <id>;
     }
 
 
@@ -109,3 +137,14 @@ class ArticleAdminController extends Controller
         //
     }
 }
+
+
+//query sql
+
+// updateStatus :
+// UPDATE articles
+// SET status = CASE
+//     WHEN status = 'Published' OR status = 'Rejected' THEN :status
+//     ELSE status
+//     END
+// WHERE id = :id;

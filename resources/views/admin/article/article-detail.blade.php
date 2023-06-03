@@ -21,7 +21,7 @@
                                             <article class="entry entry-single">
                                                 @if ($article->image != NULL)
                                                 <div class="entry-img">
-                                                    <img src="{{ asset('storage/photo/'.$article->image)}}" alt="" class="img-fluid">
+                                                    <img src="{{ asset('storage/photo/'.$article->image)}}" alt="" class="img-fluid" width="100%">
                                                 </div>
                                                 @endif
                                                 <h2 class="entry-title">

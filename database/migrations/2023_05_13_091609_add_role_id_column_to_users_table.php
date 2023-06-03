@@ -28,3 +28,9 @@ return new class extends Migration
         });
     }
 };
+
+//query sql
+
+// ALTER TABLE users
+// ADD role_id BIGINT UNSIGNED AFTER about,
+// ADD CONSTRAINT users_role_id_foreign FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE RESTRICT;

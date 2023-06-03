@@ -31,3 +31,17 @@ return new class extends Migration
         Schema::dropIfExists('comment_articles');
     }
 };
+
+//query sql
+
+// CREATE TABLE comment_articles (
+//     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+//     content TEXT,
+//     status ENUM('Published', 'Rejected') DEFAULT 'Published',
+//     user_id BIGINT UNSIGNED,
+//     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT,
+//     article_id BIGINT UNSIGNED,
+//     FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE,
+//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+// );

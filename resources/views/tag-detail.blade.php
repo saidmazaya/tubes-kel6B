@@ -25,8 +25,9 @@
                 <div class="col-lg-8 entries">
                     <div class="d-flex flex-row">
                         <i class="bi bi-tags" style="font-size: 20px; margin-top: 10px"></i>
-                        <h1 class="mx-3 mb-4 d-flex" style="font-weight: bolder">{{ request()->slug }}</h1>
+                        <h1 class="mx-3 mb-4 d-flex text-capitalize" style="font-weight: bolder">{{ request()->slug }}</h1>
                     </div>
+                    @if (Auth::check())
                     <form action="{{ route('tag-follow.store', $tagCheck->id)}}" style="margin-left: 33px" method="POST">
                         @csrf
                         @if (Auth::user()->followsTag()->where('tag_id', $tagCheck->id)->first())
@@ -35,6 +36,7 @@
                         <button type="submit" class="btn btn-success rounded-5">Follow</button>
                         @endif
                     </form>
+                    @endif
                     <hr style="color: black">
 
                     @foreach ($article as $data)
@@ -42,7 +44,7 @@
 
                         @if ($data->image != NULL)
                         <div class="entry-img">
-                            <img src="{{ asset('storage/photo/'.$data->image)}}" alt="" class="img-fluid">
+                            <img src="{{ asset('storage/photo/'.$data->image)}}" alt="" class="img-fluid" width="100%">
                         </div>
                         @endif
 

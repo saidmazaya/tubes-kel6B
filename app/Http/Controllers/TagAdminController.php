@@ -23,6 +23,12 @@ class TagAdminController extends Controller
             })
             ->paginate(10);
         return view('admin.tag.tag', compact('tag', 'keyword'));
+
+        // SELECT *
+        // FROM tags
+        // INNER JOIN articles ON tags.id = articles.tag_id
+        // WHERE tags.name LIKE '%<keyword>%'
+        // LIMIT 10;
     }
 
     /**
@@ -42,6 +48,9 @@ class TagAdminController extends Controller
         $tag = Tag::create($request->all());
 
         return redirect(route('tag.index'))->with('message', 'Penambahan Data Perhasil');
+
+        // INSERT INTO tags (name, slug, created_at, updated_at)
+        // VALUES ('<name>', '<slug>', 'NOW()', 'NOW()');
     }
 
     /**
@@ -59,6 +68,8 @@ class TagAdminController extends Controller
     {
         $tag = Tag::where('slug', $slug)->first();
         return view('admin.tag.tag-edit', compact('tag'));
+
+        // SELECT * FROM tags WHERE slug = '<slug>' LIMIT 1;
     }
 
     /**
@@ -76,6 +87,8 @@ class TagAdminController extends Controller
         $tag->update($request->all());
 
         return redirect(route('tag.index'))->with('message', 'Perubahan Data Tag Berhasil');
+
+        // UPDATE tags SET name = '<name>', slug = '<slug>', updated_at = 'NOW()' WHERE id = '<id>';
     }
 
     /**
@@ -90,4 +103,6 @@ class TagAdminController extends Controller
 
         return redirect(route('tag.index'))->with('message', 'Tag berhasil dihapus.');
     }
+
+    // DELETE FROM tags WHERE id = '<id>';
 }

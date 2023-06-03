@@ -34,7 +34,7 @@
                         @foreach ($article as $data)
                         @if ($data->image != NULL)
                         <div class="entry-img mt-3">
-                            <img src="{{ asset('storage/photo/'.$data->image)}}" alt="" class="img-fluid">
+                            <img src="{{ asset('storage/photo/'.$data->image)}}" alt="" class="img-fluid" width="100%">
                         </div>
                         @endif
                         <h2 class="entry-title mt-3" style="font-size: 20px;">

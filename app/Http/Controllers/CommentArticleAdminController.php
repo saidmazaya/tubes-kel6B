@@ -31,6 +31,20 @@ class CommentArticleAdminController extends Controller
             ->orderBy('id', 'asc')
             ->paginate(10);
         return view('admin.comment.article.comment-article', compact('commentArticle', 'keyword'));
+
+        // SELECT *
+        // FROM comment_articles
+        // JOIN users ON comment_articles.user_id = users.id
+        // JOIN articles ON comment_articles.article_id = articles.id
+        // WHERE (comment_articles.content LIKE '%kata_kunci%'
+        //        OR comment_articles.status LIKE '%kata_kunci%'
+        //        OR users.name LIKE '%kata_kunci%'
+        //        OR articles.title LIKE '%kata_kunci%')
+        //   AND users.role_id != 1
+        //   AND comment_articles.status != 'Rejected'
+        // ORDER BY comment_articles.id ASC
+        // LIMIT 10;
+
     }
 
     /**
@@ -62,6 +76,13 @@ class CommentArticleAdminController extends Controller
         } else {
             abort(404);
         }
+
+        // SELECT *
+        // FROM comment_articles
+        // JOIN users ON comment_articles.user_id = users.id
+        // JOIN articles ON comment_articles.article_id = articles.id
+        // WHERE comment_articles.id = id;
+
     }
 
     /**
@@ -95,6 +116,11 @@ class CommentArticleAdminController extends Controller
         // Redirect ke halaman atau tindakan yang sesuai setelah pembaruan status
 
         return redirect(route('comment.index'))->with('message', 'Status Berhasil Diupdate');
+
+        // UPDATE comment_articles
+        // SET status = 'Published' -- atau 'Rejected' tergantung nilai status yang diterima
+        // WHERE id = <id>;
+
     }
 
     /**

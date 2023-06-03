@@ -48,7 +48,7 @@
                 <nav id="navbar" class="navbar">
                     <ul>
                         <li><a class="nav-link scrollto" href="/menuutama">Home</a></li>
-                        <li><a class="nav-link scrollto" href="/notif">Notification</a></li>
+                        {{-- <li><a class="nav-link scrollto" href="/notif">Notification</a></li> --}}
                         @if (Auth::user()->image != null)
                         <li class="dropdown"><a href="#" class="nav-link scrollto">{{ Auth::user()->name }}<i class="bi bi-chevron-down"></i></a>
                             @else
