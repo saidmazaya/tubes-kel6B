@@ -42,7 +42,7 @@
 
                         @if ($data->image != NULL)
                         <div class="entry-img">
-                            <img src="{{ asset('storage/photo/'.$data->image)}}" alt="" class="img-fluid">
+                            <img src="{{ asset('storage/photo/'.$data->image)}}" alt="" class="img-fluid" width="100%">
                         </div>
                         @endif
 
