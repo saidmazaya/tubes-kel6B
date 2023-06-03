@@ -149,3 +149,54 @@ class ArticleAdminEditController extends Controller
         return redirect(route('administrator.index'))->with('message', 'Article berhasil dihapus.');
     }
 }
+
+//query sql
+// index :
+// SELECT * FROM articles
+// JOIN users ON articles.user_id = users.id
+// JOIN article_tags ON articles.id = article_tags.article_id
+// JOIN tags ON article_tags.tag_id = tags.id
+// WHERE (articles.title LIKE '%keyword%' OR articles.status LIKE '%keyword%' OR users.name LIKE '%keyword%' OR tags.name LIKE '%keyword%')
+// AND users.role_id != 2
+// ORDER BY articles.id ASC
+// LIMIT 10 OFFSET 0;
+
+// create :
+// SELECT id, name FROM tags;
+
+// store :
+// INSERT INTO articles (author_id, title, slug, image, content, created_at, updated_at)
+// VALUES (:author_id, :title, :slug, :image, :content, :created_at, :updated_at);
+
+// show :
+// SELECT articles.*, users.*, tags.*, COUNT(clap_articles.id) AS clap_count
+// FROM articles
+// JOIN users ON articles.user_id = users.id
+// JOIN article_tags ON articles.id = article_tags.article_id
+// JOIN tags ON article_tags.tag_id = tags.id
+// LEFT JOIN clap_articles ON articles.id = clap_articles.article_id
+// WHERE articles.slug = :slug
+// GROUP BY articles.id, users.id, tags.id;
+
+// edit :
+// SELECT articles.*, users.*, tags.*
+// FROM articles
+// JOIN users ON articles.user_id = users.id
+// JOIN article_tags ON articles.id = article_tags.article_id
+// JOIN tags ON article_tags.tag_id = tags.id
+// WHERE articles.slug = :slug;
+
+// update :
+// UPDATE articles
+// SET
+//     title = :title,
+//     slug = :slug,
+//     image = :image,
+//     content = :content,
+//     author_id = :author_id,
+//     updated_at = :updated_at
+// WHERE id = :id;
+
+// destroy :
+// DELETE FROM articles
+// WHERE id = :id;
