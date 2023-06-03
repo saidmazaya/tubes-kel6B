@@ -16,43 +16,28 @@ class ArticleIndexController extends Controller
             ->paginate(10);
         $tag = Tag::all();
         $articles = Article::with(['tags', 'user'])
-        ->where('status', 'Published')
-        ->orderBy('id', 'asc')
-        ->get();
+            ->where('status', 'Published')
+            ->orderBy('id', 'asc')
+            ->get();
         return view('index', compact('article', 'tag', 'articles'));
     }
 
-// -- Menampilkan artikel dengan halaman (pagination)
-// SELECT
-//     articles.*,
-//     tags.*,
-//     users.*
-// FROM
-//     articles
-// LEFT JOIN article_tags ON articles.id = article_tags.article_id
-// LEFT JOIN tags ON article_tags.tag_id = tags.id
-// LEFT JOIN users ON articles.user_id = users.id
-// WHERE
-//     articles.status = 'Published'
-// ORDER BY
-//     articles.id ASC
-// LIMIT 10;
+    // -- Mengambil data artikel dengan tag dan pengguna terkait
+    // SELECT * FROM articles
+    // JOIN tags ON tags.article_id = articles.id
+    // JOIN users ON users.id = articles.author_id
+    // WHERE articles.status = 'Published'
+    // ORDER BY articles.id ASC
+    // LIMIT 10;
 
-// -- Menampilkan semua tag
-// SELECT * FROM tags;
+    // -- Mengambil semua data tag
+    // SELECT * FROM tags;
 
-// -- Menampilkan semua artikel
-// SELECT
-//     articles.*,
-//     tags.*,
-//     users.*
-// FROM
-//     articles
-// LEFT JOIN article_tags ON articles.id = article_tags.article_id
-// LEFT JOIN tags ON article_tags.tag_id = tags.id
-// LEFT JOIN users ON articles.user_id = users.id
-// WHERE
-//     articles.status = 'Published'
-// ORDER BY
-//     articles.id ASC;
+    // -- Mengambil semua data artikel dengan tag dan pengguna terkait
+    // SELECT * FROM articles
+    // JOIN tags ON tags.article_id = articles.id
+    // JOIN users ON users.id = articles.author_id
+    // WHERE articles.status = 'Published'
+    // ORDER BY articles.id ASC;
+
 }

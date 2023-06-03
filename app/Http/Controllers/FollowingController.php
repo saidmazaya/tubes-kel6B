@@ -22,10 +22,10 @@ class FollowingController extends Controller
             abort(404);
         }
 
-// SELECT u.*
-// FROM users u
-// JOIN mutuals m ON u.id = m.following_user_id
-// WHERE m.user_id = <user_id>;
+        // SELECT u.*
+        // FROM users u
+        // JOIN mutuals m ON u.id = m.following_user_id
+        // WHERE m.user_id = <user_id>;
     }
 
     public function follower($username)
@@ -42,10 +42,10 @@ class FollowingController extends Controller
             abort(404);
         }
 
-// SELECT u.*
-// FROM users u
-// JOIN mutuals m ON u.id = m.user_id
-// WHERE m.following_user_id = <user_id>;
+        // SELECT u.*
+        // FROM users u
+        // JOIN mutuals m ON u.id = m.user_id
+        // WHERE m.following_user_id = <user_id>;
     }
 
     public function store(Request $request, User $user)
@@ -60,12 +60,12 @@ class FollowingController extends Controller
         }
     }
 
-// Folow 
-// INSERT INTO mutuals (user_id, following_user_id)
-// VALUES (<user_id>, <following_user_id>);
+    // Follow 
+    // INSERT INTO mutuals (user_id, following_user_id)
+    // VALUES (<user_id>, <following_user_id>);
 
-// Unfollow
-// DELETE FROM mutuals
-// WHERE user_id = <user_id> AND following_user_id = <following_user_id>;
+    // Unfollow
+    // DELETE FROM mutuals
+    // WHERE user_id = <user_id> AND following_user_id = <following_user_id>;
 
 }

@@ -56,11 +56,11 @@ class ListController extends Controller
         // -- Menghapus artikel dari daftar (bookmark)
         // DELETE FROM article_lists
         // WHERE article_id = <article_id> AND user_id = <user_id> AND add_id = <add_id>;
-        
+
         // -- Menambahkan artikel ke daftar (bookmark)
         // INSERT INTO article_lists (add_id, name, description, visibility, user_id, article_id, owner_id)
         // VALUES (<add_id>, '<name>', '<description>', '<visibility>', <user_id>, <article_id>, <owner_id>);
-        
+
     }
 
     public function showLibrary($username)
@@ -87,11 +87,11 @@ class ListController extends Controller
 
         return view('library', compact('userList'));
 
-// -- Mengambil data user berdasarkan username
-// SELECT * FROM users WHERE username = '<username>';
+        // -- Mengambil data user berdasarkan username
+        // SELECT * FROM users WHERE username = '<username>';
 
-// -- Mengambil semua data article_list yang dimiliki oleh user
-// SELECT * FROM article_lists WHERE user_id = <user_id> AND owner_id = <user_id>;
+        // -- Mengambil semua data article_list yang dimiliki oleh user
+        // SELECT * FROM article_lists WHERE user_id = <user_id> AND owner_id = <user_id>;
     }
 
     public function editList(Request $request, $id)
@@ -112,15 +112,15 @@ class ListController extends Controller
 
         return redirect()->back()->with('message', 'List berhasil diupdate');
 
-// -- Mengambil data article_list berdasarkan add_id
-// SELECT * FROM article_lists WHERE add_id = <add_id>;
+        // -- Mengambil data article_list berdasarkan add_id
+        // SELECT * FROM article_lists WHERE add_id = <add_id>;
 
-// -- Mengubah data article_list
-// UPDATE article_lists SET
-//     name = '<nama_baru>',
-//     description = '<deskripsi_baru>',
-//     visibility = '<visibilitas_baru>'
-// WHERE add_id = <add_id>;
+        // -- Mengubah data article_list
+        // UPDATE article_lists SET
+        //     name = '<nama_baru>',
+        //     description = '<deskripsi_baru>',
+        //     visibility = '<visibilitas_baru>'
+        // WHERE add_id = <add_id>;
 
     }
 
@@ -139,11 +139,11 @@ class ListController extends Controller
 
         return redirect()->back()->with('message', 'List berhasil dihapus');
 
-// -- Mengambil data article_list berdasarkan add_id
-// SELECT * FROM article_lists WHERE add_id = <add_id>;
+        // -- Mengambil data article_list berdasarkan add_id
+        // SELECT * FROM article_lists WHERE add_id = <add_id>;
 
-// -- Menghapus data article_list
-// DELETE FROM article_lists WHERE add_id = <add_id>;
+        // -- Menghapus data article_list
+        // DELETE FROM article_lists WHERE add_id = <add_id>;
     }
 
     public function destroyListYour($id)
@@ -161,11 +161,11 @@ class ListController extends Controller
 
         return redirect(route('library', Auth::user()->username))->with('message', 'List berhasil dihapus');
 
-// -- Mengambil data article_list berdasarkan add_id
-// SELECT * FROM article_lists WHERE add_id = <add_id>;
+        // -- Mengambil data article_list berdasarkan add_id
+        // SELECT * FROM article_lists WHERE add_id = <add_id>;
 
-// -- Menghapus data article_list
-// DELETE FROM article_lists WHERE add_id = <add_id>;
+        // -- Menghapus data article_list
+        // DELETE FROM article_lists WHERE add_id = <add_id>;
     }
 
     public function addOtherList(Request $request, $id, $add_id)
@@ -189,10 +189,10 @@ class ListController extends Controller
         return redirect()->back()->with('message', 'Anda berhasil menambah List, Lihat di Saved List');
         // dd($articleLists->toArray());
 
-// INSERT INTO article_lists (add_id, name, description, visibility, user_id, article_id, owner_id)
-// SELECT add_id, name, description, visibility, <user_id>, article_id, owner_id
-// FROM article_lists
-// WHERE owner_id = <id> AND add_id = <add_id>;
+        // INSERT INTO article_lists (add_id, name, description, visibility, user_id, article_id, owner_id)
+        // SELECT add_id, name, description, visibility, <user_id>, article_id, owner_id
+        // FROM article_lists
+        // WHERE owner_id = <id> AND add_id = <add_id>;
     }
 
     public function deleteOtherList(Request $request, $id, $add_id)
@@ -206,8 +206,8 @@ class ListController extends Controller
             return redirect()->back()->with('message', 'Anda berhasil menghapus Saved List');
         }
 
-// DELETE FROM article_lists
-// WHERE owner_id = <id> AND add_id = <add_id> AND user_id = <user_id>;
+        // DELETE FROM article_lists
+        // WHERE owner_id = <id> AND add_id = <add_id> AND user_id = <user_id>;
     }
 
     public function showLibrarySaved($username)
@@ -238,9 +238,9 @@ class ListController extends Controller
         return view('saved-list', compact('userList'));
     }
 
-// SELECT *
-// FROM article_lists
-// WHERE user_id = (SELECT id FROM users WHERE username = '<username>')
-//     AND owner_id != (SELECT id FROM users WHERE username = '<username>')
-//     AND visibility = 'Public';
+    // SELECT *
+    // FROM article_lists
+    // WHERE user_id = (SELECT id FROM users WHERE username = '<username>')
+    //     AND owner_id != (SELECT id FROM users WHERE username = '<username>')
+    //     AND visibility = 'Public';
 }

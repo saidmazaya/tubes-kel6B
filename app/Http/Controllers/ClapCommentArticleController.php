@@ -21,18 +21,18 @@ class ClapCommentArticleController extends Controller
                 'comment_article_id' => $comment_article_id,
                 'user_id' => Auth::user()->id,
             ]);
-            
+
             return redirect()->back();
         }
     }
 
-// -- Memeriksa apakah pengguna sudah memberikan clap pada komentar artikel
-// SELECT * FROM clap_comment_articles WHERE comment_article_id = 'id_komentar' AND user_id = 'id_pengguna';
+    // -- Memeriksa apakah pengguna sudah memberikan clap pada komentar artikel
+    // SELECT * FROM clap_comment_articles WHERE comment_article_id = 'id_komentar' AND user_id = 'id_pengguna';
 
-// -- Menghapus clap pengguna pada komentar artikel
-// DELETE FROM clap_comment_articles WHERE comment_article_id = 'id_komentar' AND user_id = 'id_pengguna';
+    // -- Menghapus clap pengguna pada komentar artikel
+    // DELETE FROM clap_comment_articles WHERE comment_article_id = 'id_komentar' AND user_id = 'id_pengguna';
 
-// -- Menambah clap pengguna pada komentar artikel
-// INSERT INTO clap_comment_articles (comment_article_id, user_id) VALUES ('id_komentar', 'id_pengguna');
+    // -- Menambah clap pengguna pada komentar artikel
+    // INSERT INTO clap_comment_articles (comment_article_id, user_id) VALUES ('id_komentar', 'id_pengguna');
 
 }

@@ -36,6 +36,16 @@ class ArticleAdminEditController extends Controller
             ->orderBy('id', 'asc')
             ->paginate(10);
         return view('admin.article.article-admin', compact('article', 'keyword'));
+
+        // -- Menampilkan artikel berdasarkan kata kunci
+        // SELECT *
+        // FROM articles
+        // JOIN tags ON articles.tag_id = tags.id
+        // JOIN users ON articles.author_id = users.id
+        // WHERE (articles.title LIKE '%<keyword>%' OR articles.status LIKE '%<keyword>%' OR users.name LIKE '%<keyword>%' OR tags.name LIKE '%<keyword>%')
+        // AND users.role_id != 2
+        // ORDER BY articles.id ASC
+        // LIMIT 10;
     }
 
     /**
@@ -88,6 +98,20 @@ class ArticleAdminEditController extends Controller
             abort(404);
         }
         return view('admin.article.article-admin-detail', compact('article', 'clap'));
+
+        // -- Mendapatkan data artikel berdasarkan slug
+        // SELECT articles.*, users.*, tags.*
+        // FROM articles
+        // JOIN users ON articles.author_id = users.id
+        // JOIN tags ON articles.tag_id = tags.id
+        // WHERE articles.slug = '<slug>'
+        // LIMIT 1;
+
+        // -- Menghitung jumlah clap pada artikel
+        // SELECT COUNT(*) AS total_clap
+        // FROM clap_articles
+        // WHERE article_id = <article_id>;
+
     }
 
     /**
@@ -99,6 +123,19 @@ class ArticleAdminEditController extends Controller
             ->where('slug', $slug)->first();
         $tag = Tag::where('id', '!=', $article->tag_id)->select('id', 'name')->get();
         return view('admin.article.article-admin-edit', compact('article', 'tag'));
+
+        // -- Mendapatkan data artikel berdasarkan slug
+        // SELECT articles.*, users.*, tags.*
+        // FROM articles
+        // JOIN users ON articles.author_id = users.id
+        // JOIN tags ON articles.tag_id = tags.id
+        // WHERE articles.slug = '<slug>'
+        // LIMIT 1;
+
+        // -- Mendapatkan data tag yang tidak sama dengan tag artikel
+        // SELECT id, name
+        // FROM tags
+        // WHERE id != <tag_id>;
     }
 
     /**
@@ -150,41 +187,12 @@ class ArticleAdminEditController extends Controller
     }
 }
 
-//query sql
-// index :
-// SELECT * FROM articles
-// JOIN users ON articles.user_id = users.id
-// JOIN article_tags ON articles.id = article_tags.article_id
-// JOIN tags ON article_tags.tag_id = tags.id
-// WHERE (articles.title LIKE '%keyword%' OR articles.status LIKE '%keyword%' OR users.name LIKE '%keyword%' OR tags.name LIKE '%keyword%')
-// AND users.role_id != 2
-// ORDER BY articles.id ASC
-// LIMIT 10 OFFSET 0;
-
 // create :
 // SELECT id, name FROM tags;
 
 // store :
 // INSERT INTO articles (author_id, title, slug, image, content, created_at, updated_at)
 // VALUES (:author_id, :title, :slug, :image, :content, :created_at, :updated_at);
-
-// show :
-// SELECT articles.*, users.*, tags.*, COUNT(clap_articles.id) AS clap_count
-// FROM articles
-// JOIN users ON articles.user_id = users.id
-// JOIN article_tags ON articles.id = article_tags.article_id
-// JOIN tags ON article_tags.tag_id = tags.id
-// LEFT JOIN clap_articles ON articles.id = clap_articles.article_id
-// WHERE articles.slug = :slug
-// GROUP BY articles.id, users.id, tags.id;
-
-// edit :
-// SELECT articles.*, users.*, tags.*
-// FROM articles
-// JOIN users ON articles.user_id = users.id
-// JOIN article_tags ON articles.id = article_tags.article_id
-// JOIN tags ON article_tags.tag_id = tags.id
-// WHERE articles.slug = :slug;
 
 // update :
 // UPDATE articles

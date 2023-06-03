@@ -91,46 +91,88 @@ class User extends Authenticatable
     public function follows()
     {
         return $this->belongsToMany(User::class, 'mutuals', 'user_id', 'following_user_id')->withTimestamps();
+
+        // SELECT users.*
+        // FROM users
+        // INNER JOIN mutuals ON users.id = mutuals.following_user_id
+        // WHERE mutuals.user_id = :user_id;
     }
 
     public function followers()
     {
         return $this->belongsToMany(User::class, 'mutuals', 'following_user_id', 'user_id')->withTimestamps();
+
+        // SELECT users.*
+        // FROM users
+        // INNER JOIN mutuals ON users.id = mutuals.user_id
+        // WHERE mutuals.following_user_id = :user_id;
     }
 
     public function follow(User $user)
     {
         return $this->follows()->save($user);
+
+        // INSERT INTO mutuals (user_id, following_user_id, created_at, updated_at)
+        // VALUES (:user_id, :following_user_id, NOW(), NOW());
     }
 
     public function hasFollow(User $user)
     {
         return $this->follows()->where('following_user_id', $user->id)->exists();
+
+        // SELECT EXISTS(
+        //     SELECT 1
+        //     FROM mutuals
+        //     WHERE user_id = :user_id
+        //     AND following_user_id = :following_user_id
+        // );
     }
 
     public function unfollow(User $user)
     {
         return $this->follows()->detach($user);
+
+        // DELETE FROM mutuals
+        // WHERE user_id = :user_id AND following_user_id = :following_user_id;
     }
 
     public function followsTag()
     {
         return $this->belongsToMany(Tag::class, 'user_choices', 'user_id', 'tag_id')->withTimestamps();
+
+        //         SELECT tags.*
+        // FROM tags
+        // INNER JOIN user_choices ON tags.id = user_choices.tag_id
+        // WHERE user_choices.user_id = :user_id;
     }
 
     public function followTag(Tag $tag)
     {
         return $this->followsTag()->save($tag);
+
+        //         INSERT INTO user_choices (user_id, tag_id, created_at, updated_at)
+        // VALUES (:user_id, :tag_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
     }
 
     public function hasFollowTag(Tag $tag)
     {
         return $this->followsTag()->where('tag_id', $tag->id)->exists();
+
+        // SELECT EXISTS(
+        //     SELECT 1
+        //     FROM user_choices
+        //     WHERE user_id = :user_id
+        //     AND tag_id = :tag_id
+        // );
     }
 
     public function unfollowTag(Tag $tag)
     {
         return $this->followsTag()->detach($tag);
+
+        //         DELETE FROM user_choices
+        // WHERE user_id = :user_id
+        // AND tag_id = :tag_id;
     }
 }
 

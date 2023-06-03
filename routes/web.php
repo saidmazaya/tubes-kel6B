@@ -73,6 +73,15 @@ Route::post('/forgot-password', function (Request $request) {
         : back()->withErrors(['email' => __($status)]);
 })->middleware('guest')->name('password.email');
 
+// -- Route /forgot-password
+// INSERT INTO password_resets (email, token, created_at)
+// VALUES (:email, :token, NOW());
+
+// -- Route /reset-password
+// UPDATE users
+// SET password = :password, remember_token = :remember_token
+// WHERE email = :email;
+
 Route::get('/reset-password/{token}', function (string $token) {
     return view('auth.reset-password', ['token' => $token]);
 })->middleware('guest')->name('password.reset');

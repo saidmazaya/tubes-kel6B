@@ -32,11 +32,11 @@ class CommentArticleController extends Controller
         $comment = CommentArticle::create($request->all());
         return redirect()->back()->with('message', 'Comment Berhasil di Post');
 
-    // INSERT INTO comment_articles (content, user_id, article_id)
-    // VALUES ('<content>', <user_id>, <article_id>);
+        // INSERT INTO comment_articles (content, user_id, article_id)
+        // VALUES ('<content>', <user_id>, <article_id>);
 
-    // INSERT INTO comment_articles (content, parent_id, status, article_id, user_id)
-    // VALUES ('<content>', <parent_id>, 'Published', <article_id>, <user_id>);
+        // INSERT INTO comment_articles (content, parent_id, status, article_id, user_id)
+        // VALUES ('<content>', <parent_id>, 'Published', <article_id>, <user_id>);
 
     }
 
@@ -72,9 +72,9 @@ class CommentArticleController extends Controller
 
         return redirect()->back()->with('message', 'Comment Berhasil di Update');
 
-// UPDATE comment_articles
-// SET content = '<content>'
-// WHERE id = <id>;
+        // UPDATE comment_articles
+        // SET content = '<content>'
+        // WHERE id = <id>;
     }
 
     /**
@@ -93,7 +93,7 @@ class CommentArticleController extends Controller
         return redirect()->back()->with('message', 'Comment Berhasil di Hapus');
     }
 
-// DELETE FROM comment_articles
-// WHERE id = <id>;
+    // DELETE FROM comment_articles
+    // WHERE id = <id>;
 
 }

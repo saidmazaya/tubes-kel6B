@@ -47,6 +47,24 @@ class ArticleController extends Controller
         } else {
             return view('menuutama', compact('article', 'keyword', 'tag'));
         }
+
+        // -- Get articles with matching keyword
+        // SELECT articles.*, users.name AS author_name
+        // FROM articles
+        // JOIN users ON articles.author_id = users.id
+        // LEFT JOIN tags ON articles.tag_id = tags.id
+        // WHERE (articles.title LIKE '%<keyword>%' OR articles.status LIKE '%<keyword>%'
+        //     OR users.name LIKE '%<keyword>%' OR tags.name LIKE '%<keyword>%')
+        //     AND articles.status = 'Published'
+        // ORDER BY articles.id ASC
+        // LIMIT 10 OFFSET <offset>;
+
+        // -- Get all tags
+        // SELECT * FROM tags;
+
+        // -- If the user is authenticated, get the user's article lists
+        // SELECT * FROM article_lists
+        // WHERE user_id = <user_id> AND owner_id = <user_id>;
     }
 
     /**
@@ -133,6 +151,19 @@ class ArticleController extends Controller
             abort(403, 'Unauthorized');
         }
         return view('main.write-edit', compact('article', 'tag'));
+
+        // -- Mengambil data artikel dengan pengguna dan tag terkait
+        // SELECT articles.*, users.*, tags.*
+        // FROM articles
+        // JOIN users ON users.id = articles.author_id
+        // JOIN tags ON tags.article_id = articles.id
+        // WHERE articles.slug = '<slug>';
+
+        // -- Mengambil data tag yang tidak sama dengan tag artikel
+        // SELECT id, name
+        // FROM tags
+        // WHERE id != <tag_id>;
+
     }
 
     /**
@@ -256,54 +287,6 @@ class ArticleController extends Controller
 
 //query sql
 
-// index :
-// -- Menampilkan artikel dengan kata kunci dan halaman (pagination)
-// SELECT
-//     articles.*,
-//     tags.*,
-//     users.*
-// FROM
-//     articles
-// LEFT JOIN article_tags ON articles.id = article_tags.article_id
-// LEFT JOIN tags ON article_tags.tag_id = tags.id
-// LEFT JOIN users ON articles.user_id = users.id
-// WHERE
-//     (
-//         articles.title LIKE '%keyword%'
-//         OR articles.status LIKE '%keyword%'
-//         OR users.name LIKE '%keyword%'
-//         OR tags.name LIKE '%keyword%'
-//     )
-//     AND articles.status = 'Published'
-// ORDER BY
-//     articles.id ASC
-// LIMIT 10;
-
-// -- Menampilkan semua tag
-// SELECT * FROM tags;
-
-// -- Menampilkan artikel dengan kata kunci
-// SELECT
-//     articles.*,
-//     tags.*,
-//     users.*
-// FROM
-//     articles
-// LEFT JOIN article_tags ON articles.id = article_tags.article_id
-// LEFT JOIN tags ON article_tags.tag_id = tags.id
-// LEFT JOIN users ON articles.user_id = users.id
-// WHERE
-//     (
-//         articles.title LIKE '%keyword%'
-//         OR articles.status LIKE '%keyword%'
-//         OR users.name LIKE '%keyword%'
-//         OR tags.name LIKE '%keyword%'
-//     )
-//     AND articles.status = 'Published'
-// ORDER BY
-//     articles.id ASC;
-
-
 // create :
 
 //  SELECT id, name
@@ -314,20 +297,21 @@ class ArticleController extends Controller
 // VALUES ('id_pengguna', 'judul_artikel', 'konten_artikel', 'nama_gambar', 'slug_artikel', 'status_artikel', NOW(), NOW());
 
 // show :
-// SELECT
-//     articles.*,
-//     users.*,
-//     tags.*,
-//     comments.*,
-// FROM
-//     articles
-// LEFT JOIN users ON articles.user_id = users.id
-// LEFT JOIN article_tags ON articles.id = article_tags.article_id
-// LEFT JOIN tags ON article_tags.tag_id = tags.id
-// LEFT JOIN comments ON comments.article_id = articles.id
-// WHERE
-//     articles.slug = 'slug_artikel'
-// LIMIT 1;
+// -- Mengambil data artikel berdasarkan slug
+// SELECT * FROM articles WHERE slug = '<slug>';
+
+// -- Mengambil komentar yang dipublikasikan untuk artikel
+// SELECT * FROM comment_articles
+// JOIN articles ON articles.id = comment_articles.article_id
+// JOIN users ON users.id = comment_articles.user_id
+// WHERE comment_articles.status != 'Rejected' AND comment_articles.article_id = <article_id>;
+
+// -- Menghitung total clap untuk artikel
+// SELECT COUNT(*) FROM clap_articles WHERE article_id = <article_id>;
+
+// -- Mengambil daftar artikel pengguna
+// SELECT * FROM article_lists WHERE user_id = <user_id> AND owner_id = <user_id>;
+
 
 // update :
 // UPDATE articles
@@ -360,8 +344,8 @@ class ArticleController extends Controller
 // FROM
 //     articles
 // LEFT JOIN users ON articles.author_id = users.id
-// LEFT JOIN article_tags ON articles.id = article_tags.article_id
-// LEFT JOIN tags ON article_tags.tag_id = tags.id
+// LEFT JOIN tags ON articles.id = tags.article_id
+// LEFT JOIN tags ON tags.tag_id = tags.id
 // WHERE
 //     articles.author_id = 'id_pengguna'
 //     AND articles.status = 'Published';
@@ -377,4 +361,3 @@ class ArticleController extends Controller
 // WHERE
 //     id = 'id_artikel'
 //     AND author_id = 'id_pengguna';
-

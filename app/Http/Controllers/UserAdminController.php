@@ -24,11 +24,11 @@ class UserAdminController extends Controller
             ->paginate(10);
         return view('admin.account', compact('user', 'keyword'));
 
-// SELECT *
-// FROM users
-// WHERE (name LIKE '%<keyword>%' OR username LIKE '%<keyword>%' OR email LIKE '%<keyword>%')
-//   AND role_id != 1
-// LIMIT 10 OFFSET <offset>;
+        // SELECT *
+        // FROM users
+        // WHERE (name LIKE '%<keyword>%' OR username LIKE '%<keyword>%' OR email LIKE '%<keyword>%')
+        //   AND role_id != 1
+        // LIMIT 10 OFFSET <offset>;
     }
 
     /**

@@ -24,11 +24,11 @@ class TagAdminController extends Controller
             ->paginate(10);
         return view('admin.tag.tag', compact('tag', 'keyword'));
 
-// SELECT *
-// FROM tags
-// INNER JOIN articles ON tags.id = articles.tag_id
-// WHERE tags.name LIKE '%<keyword>%'
-// LIMIT 10;
+        // SELECT *
+        // FROM tags
+        // INNER JOIN articles ON tags.id = articles.tag_id
+        // WHERE tags.name LIKE '%<keyword>%'
+        // LIMIT 10;
     }
 
     /**
@@ -49,8 +49,8 @@ class TagAdminController extends Controller
 
         return redirect(route('tag.index'))->with('message', 'Penambahan Data Perhasil');
 
-// INSERT INTO tags (name, slug, created_at, updated_at)
-// VALUES ('<name>', '<slug>', 'NOW()', 'NOW()');
+        // INSERT INTO tags (name, slug, created_at, updated_at)
+        // VALUES ('<name>', '<slug>', 'NOW()', 'NOW()');
     }
 
     /**
