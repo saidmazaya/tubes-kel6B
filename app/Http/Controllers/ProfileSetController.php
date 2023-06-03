@@ -61,18 +61,38 @@ class ProfileSetController extends Controller
             $request['image'] = $newName;
         }
 
-        if ($request->photo == '') {
-            $oldPhotoPath = $user->image; // Path foto lama yang disimpan dalam database
+        // if ($request->photo == '') {
+        //     $oldPhotoPath = $user->image; // Path foto lama yang disimpan dalam database
 
-            if ($oldPhotoPath != '') {
-                // Hapus foto lama dari sistem file menggunakan Storage::delete()
-                Storage::disk('public')->delete('photo/' . $oldPhotoPath);
-            }
-        }
+        //     if ($oldPhotoPath != '') {
+        //         // Hapus foto lama dari sistem file menggunakan Storage::delete()
+        //         Storage::disk('public')->delete('photo/' . $oldPhotoPath);
+        //     }
+        // }
 
         $user->update($request->all());
 
         return redirect(route('profile', $request->username))->with('message', 'Profil berhasil diperbarui.');
+    }
+
+    public function deleteProfile($id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->id !== auth()->user()->id) {
+            abort(403, 'Unauthorized');
+        }
+
+        // Hapus foto lama jika ada
+        if ($user->image != '') {
+            Storage::disk('public')->delete('photo/' . $user->image);
+        }
+
+        $user->image = NULL;
+
+        $user->save();
+
+        return redirect(route('profile', Auth::user()->username))->with('message', 'Profil berhasil diperbarui.');
     }
 
     public function show($username)
