@@ -39,9 +39,9 @@
                 -
                 @endif
                 <input type="file" class="form-control mt-2" name="photo" id="photo">
-                <input type="text" hidden="hidden" name="image" value="">
+                {{-- <input type="text" hidden="hidden" name="image" value=""> --}}
                 <button class="btn btn-success mt-3" type="submit">Update</button>
-                <button class="btn btn-danger mt-3" type="delete">Remove</button>
+                <button class="btn btn-danger mt-3" type="submit" form="_delete">Remove</button>
                 @if ($errors->has('photo'))
                 <div class="text-danger mt-2">
                     @foreach ($errors->get('photo') as $error)
@@ -106,6 +106,10 @@
 
         </form>
     </div>
+    <form id="_delete" action="{{ route('profile.delete-image', Auth::user()->id) }}" method="post">
+        @csrf
+        @method('DELETE')
+    </form>
 
     <script>
         document.getElementById("username").addEventListener("input", function(event) {
