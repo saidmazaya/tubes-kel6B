@@ -175,7 +175,7 @@ Route::post('/other-bookmark/add/{id}/{add_id}', [ListController::class, 'addOth
 Route::delete('/other-bookmark/delete/{id}/{add_id}', [ListController::class, 'deleteOtherList'])->name('other-list.destroy')->middleware('auth');
 Route::get('/library-other/{id}', [ListController::class, 'showLibrarySaved'])->name('library.saved')->middleware('auth');
 
-Route::get('/claplist/{id}', [ClapListController::class, 'claplist'])->middleware('auth');
+// Route::get('/claplist/{id}', [ClapListController::class, 'claplist'])->middleware('auth');
 
 Route::get('/stories/draft/{id}', [ArticleController::class, 'draft'])->name('stories.draft')->middleware('auth');
 Route::get('/stories/public/{id}', [ArticleController::class, 'published'])->name('stories.published')->middleware('auth');
@@ -210,8 +210,8 @@ Route::middleware(['auth', 'must-admin'])->group(function () {
 
 Route::put('/comment/{id}/update-status', [CommentArticleAdminController::class, 'updateStatus'])->name('comment.update-status')->middleware(['auth', 'must-admin']);
 
-Route::middleware(['auth', 'must-admin'])->group(function () {
-    Route::resource('/admin/list', CommentListAdminController::class);
-});
+// Route::middleware(['auth', 'must-admin'])->group(function () {
+//     Route::resource('/admin/list', CommentListAdminController::class);
+// });
 
-Route::put('/comment-list/{id}/update-status', [CommentListAdminController::class, 'updateStatus'])->name('list.update-status')->middleware(['auth', 'must-admin']);
+// Route::put('/comment-list/{id}/update-status', [CommentListAdminController::class, 'updateStatus'])->name('list.update-status')->middleware(['auth', 'must-admin']);
