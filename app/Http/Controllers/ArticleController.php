@@ -351,7 +351,6 @@ class ArticleController extends Controller
 //     articles
 // LEFT JOIN users ON articles.author_id = users.id
 // LEFT JOIN tags ON articles.id = tags.article_id
-// LEFT JOIN tags ON tags.tag_id = tags.id
 // WHERE
 //     articles.author_id = 'id_pengguna'
 //     AND articles.status = 'Published';
