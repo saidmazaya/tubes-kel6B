@@ -29,7 +29,7 @@ class TagController extends Controller
             $authorCount = Article::whereHas('tags', function ($query) use ($slug) {
                 $query->where('slug', $slug);
             })
-                ->where('status', 'published')
+                ->where('status', 'Published')
                 ->distinct('author_id')
                 ->count('author_id');
 
@@ -48,13 +48,13 @@ class TagController extends Controller
         // SELECT COUNT(DISTINCT author_id) AS authorCount
         // FROM articles
         // INNER JOIN tags ON articles.tag_id = tags.id
-        // WHERE tags.slug = '<slug>' AND articles.status = 'published';
+        // WHERE tags.slug = '<slug>' AND articles.status = 'Published';
 
         // articleCount
         // SELECT COUNT(*) AS articleCount
         // FROM articles
         // INNER JOIN tags ON articles.tag_id = tags.id
-        // WHERE tags.slug = '<slug>' AND articles.status = 'published';
+        // WHERE tags.slug = '<slug>' AND articles.status = 'Published';
     }
 
     public function explore(Request $request)
