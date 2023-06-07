@@ -36,17 +36,6 @@ class ProfileSetController extends Controller
         if ($user->id !== auth()->user()->id) {
             abort(403, 'Unauthorized');
         }
-        // $request->validate([
-        //     'name' => 'required|string|max:50',
-        //     'bio' => 'nullable|string',
-        //     'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1000',
-        // ]);
-
-        // dd($request->all());
-        // if ($request->hasFile('image')) {
-        //     $imagePath = $request->file('image')->store('images/profile_photos', 'public');
-        //     $user->image = $imagePath;
-        // }
 
         if ($request->hasFile('photo')) {
             $oldPhotoPath = $user->image; // Path foto lama yang disimpan dalam database
@@ -64,15 +53,6 @@ class ProfileSetController extends Controller
 
             $request['image'] = $newName;
         }
-
-        // if ($request->photo == '') {
-        //     $oldPhotoPath = $user->image; // Path foto lama yang disimpan dalam database
-
-        //     if ($oldPhotoPath != '') {
-        //         // Hapus foto lama dari sistem file menggunakan Storage::delete()
-        //         Storage::disk('public')->delete('photo/' . $oldPhotoPath);
-        //     }
-        // }
 
         $user->update($request->all());
 

@@ -27,6 +27,8 @@ class ArticleAdminController extends Controller
             })
             ->whereHas('user', function ($query) {
                 $query->where('role_id', '!=', 1);
+
+                // AND users.role_id != 1
             })
             ->whereNotIn('status', ['Draft', 'Rejected'])
             ->orderBy('id', 'asc')

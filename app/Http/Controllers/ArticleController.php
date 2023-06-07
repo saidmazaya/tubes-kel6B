@@ -48,7 +48,7 @@ class ArticleController extends Controller
             return view('menuutama', compact('article', 'keyword', 'tag'));
         }
 
-        // -- Get articles with matching keyword
+        // -- Mengambil data artikel dengan matching keyword
         // SELECT articles.*, users.name AS author_name
         // FROM articles
         // JOIN users ON articles.author_id = users.id
@@ -59,10 +59,10 @@ class ArticleController extends Controller
         // ORDER BY articles.id ASC
         // LIMIT 10 OFFSET <offset>;
 
-        // -- Get all tags
+        // -- Mengambil seluruh tags
         // SELECT * FROM tags;
 
-        // -- If the user is authenticated, get the user's article lists
+        // -- Jika user terautentikasi, mengambil data users article lists
         // SELECT * FROM article_lists
         // WHERE user_id = <user_id> AND owner_id = <user_id>;
     }
@@ -106,6 +106,10 @@ class ArticleController extends Controller
         }
 
         return redirect('/menuutama')->with('message', $message);
+
+        // store :
+        // INSERT INTO articles (author_id, title, content, image, slug, status, created_at, updated_at)
+        // VALUES ('id_pengguna', 'judul_artikel', 'konten_artikel', 'nama_gambar', 'slug_artikel', 'status_artikel', NOW(), NOW());
     }
 
     /**
@@ -136,6 +140,22 @@ class ArticleController extends Controller
         } else {
             abort(404);
         }
+
+        // show :
+        // -- Mengambil data artikel berdasarkan slug
+        // SELECT * FROM articles WHERE slug = '<slug>';
+
+        // -- Mengambil komentar yang dipublikasikan untuk artikel
+        // SELECT * FROM comment_articles
+        // JOIN articles ON articles.id = comment_articles.article_id
+        // JOIN users ON users.id = comment_articles.user_id
+        // WHERE comment_articles.status != 'Rejected' AND comment_articles.article_id = <article_id>;
+
+        // -- Menghitung total clap untuk artikel
+        // SELECT COUNT(*) FROM clap_articles WHERE article_id = <article_id>;
+
+        // -- Mengambil daftar artikel pengguna
+        // SELECT * FROM article_lists WHERE user_id = <user_id> AND owner_id = <user_id>;
     }
 
     /**
@@ -208,6 +228,18 @@ class ArticleController extends Controller
         } else {
             return redirect(route('article.detail', $article->slug))->with('message', 'Perubahan Data Artikel Berhasil');
         }
+
+        // update :
+        // UPDATE articles
+        // SET
+        //     title = 'judul_baru',
+        //     content = 'konten_baru',
+        //     image = 'nama_gambar_baru',
+        //     slug = 'slug_baru',
+        //     status = 'status_baru',
+        //     updated_at = NOW()
+        // WHERE
+        //     id = 'id_artikel';
     }
 
     /**
@@ -292,38 +324,10 @@ class ArticleController extends Controller
 //  SELECT id, name
 // FROM tags;
 
-// store :
-// INSERT INTO articles (author_id, title, content, image, slug, status, created_at, updated_at)
-// VALUES ('id_pengguna', 'judul_artikel', 'konten_artikel', 'nama_gambar', 'slug_artikel', 'status_artikel', NOW(), NOW());
-
-// show :
-// -- Mengambil data artikel berdasarkan slug
-// SELECT * FROM articles WHERE slug = '<slug>';
-
-// -- Mengambil komentar yang dipublikasikan untuk artikel
-// SELECT * FROM comment_articles
-// JOIN articles ON articles.id = comment_articles.article_id
-// JOIN users ON users.id = comment_articles.user_id
-// WHERE comment_articles.status != 'Rejected' AND comment_articles.article_id = <article_id>;
-
-// -- Menghitung total clap untuk artikel
-// SELECT COUNT(*) FROM clap_articles WHERE article_id = <article_id>;
-
-// -- Mengambil daftar artikel pengguna
-// SELECT * FROM article_lists WHERE user_id = <user_id> AND owner_id = <user_id>;
 
 
-// update :
-// UPDATE articles
-// SET
-//     title = 'judul_baru',
-//     content = 'konten_baru',
-//     image = 'nama_gambar_baru',
-//     slug = 'slug_baru',
-//     status = 'status_baru',
-//     updated_at = NOW()
-// WHERE
-//     id = 'id_artikel';
+
+
 
 // draft :
 // SELECT articles.*

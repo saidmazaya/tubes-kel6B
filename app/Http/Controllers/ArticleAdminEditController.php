@@ -32,6 +32,8 @@ class ArticleAdminEditController extends Controller
             })
             ->whereHas('user', function ($query) {
                 $query->where('role_id', '!=', 2);
+
+                // AND users.role_id != 2
             })
             ->orderBy('id', 'asc')
             ->paginate(10);

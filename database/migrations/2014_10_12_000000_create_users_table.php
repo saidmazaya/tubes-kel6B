@@ -25,6 +25,21 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+    //sql query 
+    // CREATE TABLE users (
+    //     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    //     username VARCHAR(30) UNIQUE,
+    //     name VARCHAR(50),
+    //     password VARCHAR(255),
+    //     email VARCHAR(255) UNIQUE,
+    //     email_verified_at TIMESTAMP NULL,
+    //     image VARCHAR(255) NULL,
+    //     bio VARCHAR(255) NULL,
+    //     about TEXT NULL,
+    //     remember_token VARCHAR(100),
+    //     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    //     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    // );
 
     /**
      * Reverse the migrations.
@@ -34,19 +49,3 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
-
-//sql query 
-// CREATE TABLE users (
-//     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-//     username VARCHAR(30) UNIQUE,
-//     name VARCHAR(50),
-//     password VARCHAR(255),
-//     email VARCHAR(255) UNIQUE,
-//     email_verified_at TIMESTAMP NULL,
-//     image VARCHAR(255) NULL,
-//     bio VARCHAR(255) NULL,
-//     about TEXT NULL,
-//     remember_token VARCHAR(100),
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );

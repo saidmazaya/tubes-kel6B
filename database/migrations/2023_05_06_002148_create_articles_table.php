@@ -27,6 +27,24 @@ return new class extends Migration
         });
     }
 
+    //query sql
+
+    // CREATE TABLE articles (
+    //     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    //     title VARCHAR(255),
+    //     description VARCHAR(255),
+    //     content TEXT,
+    //     image VARCHAR(255) NULL,
+    //     duration INT,
+    //     author_id BIGINT UNSIGNED,
+    //     FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE RESTRICT,
+    //     tag_id BIGINT UNSIGNED NULL,
+    //     FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE RESTRICT,
+    //     status ENUM('Draft', 'Pending', 'Published', 'Rejected') DEFAULT 'Draft',
+    //     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    //     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    // );
+
     /**
      * Reverse the migrations.
      */
@@ -35,21 +53,3 @@ return new class extends Migration
         Schema::dropIfExists('articles');
     }
 };
-
-//query sql
-
-// CREATE TABLE articles (
-//     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-//     title VARCHAR(255),
-//     description VARCHAR(255),
-//     content TEXT,
-//     image VARCHAR(255) NULL,
-//     duration INT,
-//     author_id BIGINT UNSIGNED,
-//     FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE RESTRICT,
-//     tag_id BIGINT UNSIGNED NULL,
-//     FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE RESTRICT,
-//     status ENUM('Draft', 'Pending', 'Published', 'Rejected') DEFAULT 'Draft',
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );

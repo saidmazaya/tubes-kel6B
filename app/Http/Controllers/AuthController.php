@@ -22,21 +22,6 @@ class AuthController extends Controller
     {
         $user = User::where('email', $request->email)->first();
 
-        // if ($user) {
-        //     return redirect()->back()->withInput()->withErrors(['email' => 'Email has already been taken']);
-        // }
-
-        // $this->validate($request, [
-        //     'password' => 'required|min:8|max:16',
-        //     'email' => 'required|unique'
-        // ], [
-        //     'password.required' => 'Password is required',
-        //     'password.min' => 'Password must be at least 8 characters',
-        //     'password.max' => 'Password can not exceed 16 characters',
-        //     'email.required' => 'Password is required',
-        //     'email.unique' => 'Email must be unique'
-        // ]);
-
         $newUser = new User;
         $newUser->name = $request->name;
         $newUser->email = $request->email;
