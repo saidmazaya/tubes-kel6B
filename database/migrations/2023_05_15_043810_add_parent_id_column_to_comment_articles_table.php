@@ -15,6 +15,12 @@ return new class extends Migration
             $table->unsignedBigInteger('parent_id')->nullable()->after('article_id');
             $table->foreign('parent_id')->references('id')->on('comment_articles')->onDelete('cascade');
         });
+
+        //query sql 
+
+        // ALTER TABLE comment_articles
+        // ADD parent_id BIGINT UNSIGNED NULL AFTER article_id,
+        // ADD CONSTRAINT comment_articles_parent_id_foreign FOREIGN KEY (parent_id) REFERENCES comment_articles(id) ON DELETE CASCADE;
     }
 
     /**
@@ -28,9 +34,3 @@ return new class extends Migration
         });
     }
 };
-
-//query sql 
-
-// ALTER TABLE comment_articles
-// ADD parent_id BIGINT UNSIGNED NULL AFTER article_id,
-// ADD CONSTRAINT comment_articles_parent_id_foreign FOREIGN KEY (parent_id) REFERENCES comment_articles(id) ON DELETE CASCADE;

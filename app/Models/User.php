@@ -63,10 +63,10 @@ class User extends Authenticatable
         return $this->hasMany(CommentArticle::class, 'user_id', 'id');
     }
 
-    public function commentList()
-    {
-        return $this->hasMany(CommentList::class, 'user_id', 'id');
-    }
+    // public function commentList()
+    // {
+    //     return $this->hasMany(CommentList::class, 'user_id', 'id');
+    // }
 
     public function list()
     {
@@ -190,7 +190,6 @@ class User extends Authenticatable
 // LEFT JOIN roles ON users.role_id = roles.id
 // LEFT JOIN articles ON users.id = articles.author_id
 // LEFT JOIN comment_articles ON users.id = comment_articles.user_id
-// LEFT JOIN comment_lists ON users.id = comment_lists.user_id
 // LEFT JOIN article_lists ON users.id = article_lists.user_id
 // LEFT JOIN clap_articles ON users.id = clap_articles.user_id
 // LEFT JOIN clap_comment_articles ON users.id = clap_comment_articles.user_id

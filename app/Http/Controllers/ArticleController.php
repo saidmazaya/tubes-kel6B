@@ -73,6 +73,7 @@ class ArticleController extends Controller
     public function create()
     {
         $tag = Tag::select('id', 'name')->get();
+        //  SELECT id, name FROM tags;
         return view('main.write', compact('tag'));
     }
 
@@ -167,6 +168,7 @@ class ArticleController extends Controller
         $article = Article::with(['user', 'tags'])
             ->where('slug', $slug)->first();
         $tag = Tag::where('id', '!=', $article->tag_id)->select('id', 'name')->get();
+        // SELECT id, name FROM tags WHERE id != <tag_id>;
         if ($article->author_id !== auth()->user()->id) {
             abort(403, 'Unauthorized');
         }

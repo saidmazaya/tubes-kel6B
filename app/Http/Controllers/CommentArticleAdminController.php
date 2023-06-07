@@ -44,7 +44,6 @@ class CommentArticleAdminController extends Controller
         //   AND comment_articles.status != 'Rejected'
         // ORDER BY comment_articles.id ASC
         // LIMIT 10;
-
     }
 
     /**
