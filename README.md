@@ -1,4 +1,4 @@
-# Tubes SBD Kel 6
+# Tubes Kel 6
 ---
 Tugas Besar Sistem Basis Data Kelompok 6 Kom B
 
