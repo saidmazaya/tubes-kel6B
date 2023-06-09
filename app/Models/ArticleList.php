@@ -24,10 +24,10 @@ class ArticleList extends Model
         return $this->hasMany(Article::class, 'id', 'article_id');
     }
 
-    public function comments()
-    {
-        return $this->hasMany(CommentList::class, 'article_list_id', 'id');
-    }
+    // public function comments()
+    // {
+    //     return $this->hasMany(CommentList::class, 'article_list_id', 'id');
+    // }
 
     public function user()
     {

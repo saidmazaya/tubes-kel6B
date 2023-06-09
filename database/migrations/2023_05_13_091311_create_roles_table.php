@@ -16,6 +16,15 @@ return new class extends Migration
             $table->string('name', 50);
             $table->timestamps();
         });
+
+        //query sql
+
+        // CREATE TABLE roles (
+        //     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        //     name VARCHAR(50),
+        //     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        //     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        // );
     }
 
     /**
@@ -26,13 +35,3 @@ return new class extends Migration
         Schema::dropIfExists('roles');
     }
 };
-
-//query sql
-
-// CREATE TABLE roles (
-//     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-//     name VARCHAR(50),
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );
-

@@ -19,6 +19,18 @@ return new class extends Migration
             $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
             $table->timestamps();
         });
+
+        //query sql
+
+        // CREATE TABLE clap_articles (
+        //     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        //     user_id BIGINT UNSIGNED,
+        //     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT,
+        //     article_id BIGINT UNSIGNED,
+        //     FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE,
+        //     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        //     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        // );
     }
 
     /**
@@ -29,15 +41,3 @@ return new class extends Migration
         Schema::dropIfExists('clap_articles');
     }
 };
-
-//query sql
-
-// CREATE TABLE clap_articles (
-//     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-//     user_id BIGINT UNSIGNED,
-//     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT,
-//     article_id BIGINT UNSIGNED,
-//     FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE,
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );

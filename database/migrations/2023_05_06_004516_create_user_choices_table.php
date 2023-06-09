@@ -19,6 +19,18 @@ return new class extends Migration
             $table->primary(['user_id', 'tag_id']);
             $table->timestamps();
         });
+
+        //query sql
+
+        // CREATE TABLE user_choices (
+        //     user_id BIGINT UNSIGNED,
+        //     tag_id BIGINT UNSIGNED,
+        //     PRIMARY KEY (user_id, tag_id),
+        //     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        //     FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
+        //     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        //     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        // );
     }
 
     /**
@@ -29,16 +41,3 @@ return new class extends Migration
         Schema::dropIfExists('user_choices');
     }
 };
-
-//query sql
-
-// CREATE TABLE user_choices (
-//     user_id BIGINT UNSIGNED,
-//     tag_id BIGINT UNSIGNED,
-//     PRIMARY KEY (user_id, tag_id),
-//     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-//     FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );
-

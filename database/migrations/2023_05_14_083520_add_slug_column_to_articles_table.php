@@ -14,6 +14,12 @@ return new class extends Migration
         Schema::table('articles', function (Blueprint $table) {
             $table->string('slug', 255)->after('duration')->unique();
         });
+
+        //query sql 
+
+        // ALTER TABLE articles
+        // ADD slug VARCHAR(255) AFTER duration,
+        // ADD UNIQUE INDEX articles_slug_unique (slug);
     }
 
     /**
@@ -26,9 +32,3 @@ return new class extends Migration
         });
     }
 };
-
-//query sql 
-
-// ALTER TABLE articles
-// ADD slug VARCHAR(255) AFTER duration,
-// ADD UNIQUE INDEX articles_slug_unique (slug);

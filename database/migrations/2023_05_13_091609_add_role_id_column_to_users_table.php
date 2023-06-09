@@ -15,6 +15,12 @@ return new class extends Migration
             $table->unsignedBigInteger('role_id')->after('about');
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('restrict');
         });
+
+        //query sql
+
+        // ALTER TABLE users
+        // ADD role_id BIGINT UNSIGNED AFTER about,
+        // ADD CONSTRAINT users_role_id_foreign FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE RESTRICT;
     }
 
     /**
@@ -28,9 +34,3 @@ return new class extends Migration
         });
     }
 };
-
-//query sql
-
-// ALTER TABLE users
-// ADD role_id BIGINT UNSIGNED AFTER about,
-// ADD CONSTRAINT users_role_id_foreign FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE RESTRICT;

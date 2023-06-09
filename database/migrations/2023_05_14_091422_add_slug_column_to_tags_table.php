@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::table('tags', function (Blueprint $table) {
             $table->string('slug', 255)->after('name');
-            
         });
+
+        //query sql 
+
+        // ALTER TABLE tags
+        // ADD slug VARCHAR(255) AFTER name;
     }
 
     /**
@@ -27,10 +31,3 @@ return new class extends Migration
         });
     }
 };
-
-
-//query sql 
-
-// ALTER TABLE tags
-// ADD slug VARCHAR(255) AFTER name;
-

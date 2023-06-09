@@ -25,6 +25,24 @@ return new class extends Migration
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
             $table->timestamps();
         });
+
+        //query sql 
+
+        // CREATE TABLE article_lists (
+        //     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        //     add_id INT,
+        //     name VARCHAR(70),
+        //     description VARCHAR(290) NULL,
+        //     visibility ENUM('Private', 'Public') DEFAULT 'Public',
+        //     user_id BIGINT UNSIGNED,
+        //     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+        //     article_id BIGINT UNSIGNED,
+        //     FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        //     owner_id BIGINT UNSIGNED,
+        //     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+        //     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        //     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        // );
     }
 
     /**
@@ -35,21 +53,3 @@ return new class extends Migration
         Schema::dropIfExists('article_lists');
     }
 };
-
-//query sql 
-
-// CREATE TABLE article_lists (
-//     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-//     add_id INT,
-//     name VARCHAR(70),
-//     description VARCHAR(290) NULL,
-//     visibility ENUM('Private', 'Public') DEFAULT 'Public',
-//     user_id BIGINT UNSIGNED,
-//     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-//     article_id BIGINT UNSIGNED,
-//     FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE ON UPDATE CASCADE,
-//     owner_id BIGINT UNSIGNED,
-//     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );
