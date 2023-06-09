@@ -1,6 +1,6 @@
 # Tubes Kel 6
 ---
-Tugas Besar Sistem Basis Data Kelompok 6 Kom B
+Tugas Besar Sistem Basis Data dan Pemrograman Web Lanjutan Kelompok 6 Kom B
 
 ## Installation
 
