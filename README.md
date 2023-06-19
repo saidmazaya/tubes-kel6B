@@ -6,7 +6,7 @@ Tugas Besar Sistem Basis Data Kelompok 6 Kom B
 
 ### 1. Clone the Repo
 ```shell
-git clone https://github.com/saidmazaya/tubes-sbd-kel6.git
+git clone https://github.com/saidmazaya/tubes-kel6B.git
 ```
 
 ### 2. Composer Install
